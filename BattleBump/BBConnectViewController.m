@@ -96,7 +96,7 @@ static NSString * const reuseIdentifier = @"inviteeCell";
 }
 
 
-#pragma mark - NetworkManager Method -
+#pragma mark - NetworkManager Protocol Method -
 
 - (void)receivedInviteeMessage:(Invitee *) invitee {
 

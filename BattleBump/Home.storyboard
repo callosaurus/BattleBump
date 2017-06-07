@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Home View Controller-->
+        <scene sceneID="TNL-aD-nTQ">
+            <objects>
+                <viewController id="hH9-Rs-3U1" customClass="HomeViewController" customModule="BattleBump" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="eD0-gP-xEj"/>
+                        <viewControllerLayoutGuide type="bottom" id="tLs-HQ-MIm"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="qfP-ZW-UOj">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cnJ-fs-mxj">
+                                <rect key="frame" x="24" y="355" width="327" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="xKA-4w-byS"/>
+                                </constraints>
+                                <state key="normal" title="START"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="startButtonPressed:" destination="hH9-Rs-3U1" eventType="touchUpInside" id="9SY-Av-4R6"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c6x-XV-yzp">
+                                <rect key="frame" x="24" y="421" width="327" height="50"/>
+                                <state key="normal" title="JOIN"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="joinButtonPressed:" destination="hH9-Rs-3U1" eventType="touchUpInside" id="SbI-Sh-79L"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="playerNameAndEmojiLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5ct-a0-MpV">
+                                <rect key="frame" x="80" y="65" width="215" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="215" id="swR-a9-W2l"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="8S9-Ed-w0E">
+                                <rect key="frame" x="8" y="135" width="359" height="120"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wrc-6e-Kun">
+                                        <rect key="frame" x="0.0" y="0.0" width="119.5" height="119.5"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="wrc-6e-Kun" secondAttribute="height" multiplier="100:100" id="a0p-y8-sFy"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="10"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
+                                    </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="rbb-aC-uDu">
+                                        <rect key="frame" x="119.5" y="0.0" width="120" height="120"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="rbb-aC-uDu" secondAttribute="height" multiplier="100:100" id="leb-m9-kim"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="10"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
+                                    </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="grC-kD-iTv">
+                                        <rect key="frame" x="239.5" y="0.0" width="119.5" height="119.5"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="grC-kD-iTv" secondAttribute="height" multiplier="100:100" id="fNd-Y3-Mn4"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="10"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
+                                    </imageView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="rbb-aC-uDu" firstAttribute="width" secondItem="wrc-6e-Kun" secondAttribute="width" id="eCs-fo-6Dc"/>
+                                    <constraint firstItem="grC-kD-iTv" firstAttribute="width" secondItem="wrc-6e-Kun" secondAttribute="width" id="wc3-0e-Grw"/>
+                                </constraints>
+                            </stackView>
+                            <button opaque="NO" alpha="0.5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uze-TB-nJ7">
+                                <rect key="frame" x="305" y="45" width="30" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="gmX-KM-6Nn"/>
+                                    <constraint firstAttribute="width" constant="30" id="nbI-JS-Is0"/>
+                                </constraints>
+                                <state key="normal" image="Rename"/>
+                                <connections>
+                                    <action selector="editPlayerNameEmojiButtonPressed:" destination="hH9-Rs-3U1" eventType="touchUpInside" id="Yib-DQ-Zih"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="8S9-Ed-w0E" firstAttribute="centerX" secondItem="qfP-ZW-UOj" secondAttribute="centerX" id="18n-cx-6eJ"/>
+                            <constraint firstItem="c6x-XV-yzp" firstAttribute="height" secondItem="cnJ-fs-mxj" secondAttribute="height" id="2hj-cu-755"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="c6x-XV-yzp" secondAttribute="trailing" constant="8" id="AKb-Oh-BEm"/>
+                            <constraint firstItem="5ct-a0-MpV" firstAttribute="centerX" secondItem="qfP-ZW-UOj" secondAttribute="centerX" id="Amy-bg-SEe"/>
+                            <constraint firstItem="Uze-TB-nJ7" firstAttribute="centerY" secondItem="5ct-a0-MpV" secondAttribute="centerY" multiplier="0.75" id="CaU-Hs-qJI"/>
+                            <constraint firstItem="cnJ-fs-mxj" firstAttribute="top" secondItem="8S9-Ed-w0E" secondAttribute="bottom" constant="100" id="LX5-Zp-eVI"/>
+                            <constraint firstItem="8S9-Ed-w0E" firstAttribute="top" secondItem="5ct-a0-MpV" secondAttribute="bottom" constant="40" id="MS0-4v-gmS"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="cnJ-fs-mxj" secondAttribute="trailing" constant="8" id="O74-n9-Z50"/>
+                            <constraint firstItem="Uze-TB-nJ7" firstAttribute="leading" secondItem="5ct-a0-MpV" secondAttribute="trailing" constant="10" id="Pi3-Mr-Ial"/>
+                            <constraint firstItem="cnJ-fs-mxj" firstAttribute="centerX" secondItem="qfP-ZW-UOj" secondAttribute="centerX" id="RhF-qJ-g1o"/>
+                            <constraint firstItem="c6x-XV-yzp" firstAttribute="centerX" secondItem="qfP-ZW-UOj" secondAttribute="centerX" id="UiO-Wa-vIc"/>
+                            <constraint firstItem="c6x-XV-yzp" firstAttribute="top" secondItem="cnJ-fs-mxj" secondAttribute="bottom" constant="16" id="Vch-P6-eik"/>
+                            <constraint firstItem="cnJ-fs-mxj" firstAttribute="leading" secondItem="qfP-ZW-UOj" secondAttribute="leadingMargin" constant="8" id="cBI-5n-5Yn"/>
+                            <constraint firstItem="5ct-a0-MpV" firstAttribute="top" secondItem="eD0-gP-xEj" secondAttribute="bottom" constant="45" id="eiD-nR-Noc"/>
+                            <constraint firstAttribute="trailing" secondItem="8S9-Ed-w0E" secondAttribute="trailing" constant="8" id="inZ-14-QC7"/>
+                            <constraint firstItem="Uze-TB-nJ7" firstAttribute="height" secondItem="5ct-a0-MpV" secondAttribute="height" id="isY-gL-UGo"/>
+                            <constraint firstItem="c6x-XV-yzp" firstAttribute="leading" secondItem="qfP-ZW-UOj" secondAttribute="leadingMargin" constant="8" id="sDk-Zy-zaa"/>
+                            <constraint firstItem="8S9-Ed-w0E" firstAttribute="leading" secondItem="qfP-ZW-UOj" secondAttribute="leading" constant="8" id="uW8-n5-zv0"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="imageViewOne" destination="wrc-6e-Kun" id="K8L-Jl-YbT"/>
+                        <outlet property="imageViewThree" destination="grC-kD-iTv" id="QXJ-w8-o3O"/>
+                        <outlet property="imageViewTwo" destination="rbb-aC-uDu" id="RSR-Fa-oth"/>
+                        <outlet property="playerNameAndEmojiLabel" destination="5ct-a0-MpV" id="cLL-we-aFx"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ITz-xA-HbD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-186" y="-134"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="Rename" width="80" height="80"/>
+    </resources>
+</document>

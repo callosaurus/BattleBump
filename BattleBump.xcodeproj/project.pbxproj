@@ -11,6 +11,9 @@
 		3F3526601E6E4F5E00D84F2C /* UICircularProgressRingDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F35265F1E6E4F5E00D84F2C /* UICircularProgressRingDelegate.swift */; };
 		3F3526621E6E4FC400D84F2C /* UICircularProgressRingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3526611E6E4FC400D84F2C /* UICircularProgressRingView.swift */; };
 		3F6EA18A1EE6186500385F6D /* EmojiChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6EA1891EE6186500385F6D /* EmojiChecker.swift */; };
+		3F8491F61EE761D0000AECF0 /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F8491F51EE761D0000AECF0 /* Home.storyboard */; };
+		3F8491F81EE77D24000AECF0 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8491F71EE77D24000AECF0 /* HomeViewController.swift */; };
+		3F8491FA1EE78AEA000AECF0 /* MPCManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8491F91EE78AEA000AECF0 /* MPCManager.swift */; };
 		3FE23B491EB57389007DB657 /* GameLogicManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE23B481EB57389007DB657 /* GameLogicManager.swift */; };
 		A22C50D71E6E162300A476F0 /* BBConnectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A22C50D61E6E162300A476F0 /* BBConnectViewController.m */; };
 		A22C50DA1E6E163100A476F0 /* BBGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A22C50D91E6E163100A476F0 /* BBGameViewController.m */; };
@@ -46,6 +49,9 @@
 		3F35265F1E6E4F5E00D84F2C /* UICircularProgressRingDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UICircularProgressRingDelegate.swift; sourceTree = "<group>"; };
 		3F3526611E6E4FC400D84F2C /* UICircularProgressRingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UICircularProgressRingView.swift; sourceTree = "<group>"; };
 		3F6EA1891EE6186500385F6D /* EmojiChecker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmojiChecker.swift; sourceTree = "<group>"; };
+		3F8491F51EE761D0000AECF0 /* Home.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Home.storyboard; sourceTree = "<group>"; };
+		3F8491F71EE77D24000AECF0 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		3F8491F91EE78AEA000AECF0 /* MPCManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MPCManager.swift; sourceTree = "<group>"; };
 		3FE23B481EB57389007DB657 /* GameLogicManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameLogicManager.swift; sourceTree = "<group>"; };
 		A22C50D51E6E162300A476F0 /* BBConnectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBConnectViewController.h; sourceTree = "<group>"; };
 		A22C50D61E6E162300A476F0 /* BBConnectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBConnectViewController.m; sourceTree = "<group>"; };
@@ -175,6 +181,7 @@
 				3FE23B481EB57389007DB657 /* GameLogicManager.swift */,
 				A2BDFEBC1E723A140098A967 /* BBNetworkManager.h */,
 				A2BDFEBD1E723A140098A967 /* BBNetworkManager.m */,
+				3F8491F91EE78AEA000AECF0 /* MPCManager.swift */,
 				A260C35A1E6DF1A600F5F84F /* AppDelegate.h */,
 				A260C35B1E6DF1A600F5F84F /* AppDelegate.m */,
 			);
@@ -188,6 +195,7 @@
 				A2A182551E6E127B006F5DA8 /* BBRootViewController.m */,
 				A22C50D51E6E162300A476F0 /* BBConnectViewController.h */,
 				A22C50D61E6E162300A476F0 /* BBConnectViewController.m */,
+				3F8491F71EE77D24000AECF0 /* HomeViewController.swift */,
 				A22C50D81E6E163100A476F0 /* BBGameViewController.h */,
 				A22C50D91E6E163100A476F0 /* BBGameViewController.m */,
 			);
@@ -200,6 +208,7 @@
 				A260C3651E6DF1A600F5F84F /* LaunchScreen.storyboard */,
 				A260C3601E6DF1A600F5F84F /* Main.storyboard */,
 				A2A182501E6E0613006F5DA8 /* Connect.storyboard */,
+				3F8491F51EE761D0000AECF0 /* Home.storyboard */,
 				A2A182521E6E061E006F5DA8 /* Game.storyboard */,
 				3F35265E1E6E4F2E00D84F2C /* UICircularProgress */,
 			);
@@ -294,6 +303,7 @@
 				A260C3671E6DF1A600F5F84F /* LaunchScreen.storyboard in Resources */,
 				A260C3641E6DF1A600F5F84F /* Assets.xcassets in Resources */,
 				A260C3621E6DF1A600F5F84F /* Main.storyboard in Resources */,
+				3F8491F61EE761D0000AECF0 /* Home.storyboard in Resources */,
 				A2A182531E6E061E006F5DA8 /* Game.storyboard in Resources */,
 				A2A182511E6E0613006F5DA8 /* Connect.storyboard in Resources */,
 			);
@@ -315,7 +325,9 @@
 			files = (
 				A25D7B201E6F74050090BC65 /* Invitee.swift in Sources */,
 				A25D7B191E6F60A50090BC65 /* Player.swift in Sources */,
+				3F8491FA1EE78AEA000AECF0 /* MPCManager.swift in Sources */,
 				A2A76BAA1E732F450046268D /* BBCheckMark.swift in Sources */,
+				3F8491F81EE77D24000AECF0 /* HomeViewController.swift in Sources */,
 				A260C35C1E6DF1A600F5F84F /* AppDelegate.m in Sources */,
 				A2BDFEBE1E723A140098A967 /* BBNetworkManager.m in Sources */,
 				A22C50D71E6E162300A476F0 /* BBConnectViewController.m in Sources */,

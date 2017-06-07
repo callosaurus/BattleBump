@@ -22,67 +22,75 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Create Game" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QHM-An-Gi6">
-                                <rect key="frame" x="126" y="28" width="123" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create Game" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QHM-An-Gi6">
+                                <rect key="frame" x="137.5" y="29" width="100.5" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Player Name:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6f1-e1-B6A">
-                                <rect key="frame" x="16" y="68" width="109" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Game Name:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vfr-vm-JdC">
-                                <rect key="frame" x="16" y="143" width="109" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Player Emoji:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EQT-Pa-W6L">
-                                <rect key="frame" x="16" y="106" width="109" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="enter your display name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="EzF-ic-Bkz">
-                                <rect key="frame" x="144" y="63" width="215" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
-                                <connections>
-                                    <action selector="nameTextFieldDidEndEditing:" destination="zyP-Ou-JCF" eventType="editingDidEnd" id="Xta-pF-j5Q"/>
-                                    <outlet property="delegate" destination="zyP-Ou-JCF" id="DtS-Os-6aA"/>
-                                </connections>
-                            </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="enter emoji" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Tzk-WQ-saJ">
-                                <rect key="frame" x="144" y="101" width="93" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
-                                <connections>
-                                    <action selector="emojiTextFieldDidEndEditing:" destination="zyP-Ou-JCF" eventType="editingDidEnd" id="apr-44-GTt"/>
-                                    <outlet property="delegate" destination="zyP-Ou-JCF" id="Su6-sB-iFq"/>
-                                </connections>
-                            </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="enter shared game name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bhi-fU-llY">
-                                <rect key="frame" x="144" y="138" width="215" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
-                                <connections>
-                                    <action selector="gameNameTextFieldDidEndEditing:" destination="zyP-Ou-JCF" eventType="editingDidEnd" id="Woq-9W-ndc"/>
-                                    <outlet property="delegate" destination="zyP-Ou-JCF" id="j91-4k-Eh8"/>
-                                </connections>
-                            </textField>
+                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bB3-La-DOE">
+                                <rect key="frame" x="24" y="69.5" width="327" height="30"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Player Name:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6f1-e1-B6A">
+                                        <rect key="frame" x="0.0" y="0.0" width="101" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="enter your display name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="EzF-ic-Bkz">
+                                        <rect key="frame" x="101" y="0.0" width="226" height="30"/>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                                        <connections>
+                                            <action selector="nameTextFieldDidEndEditing:" destination="zyP-Ou-JCF" eventType="editingDidEnd" id="Xta-pF-j5Q"/>
+                                            <outlet property="delegate" destination="zyP-Ou-JCF" id="DtS-Os-6aA"/>
+                                        </connections>
+                                    </textField>
+                                </subviews>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hMb-Wu-lhX">
+                                <rect key="frame" x="24" y="145.5" width="327" height="30"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Game Name:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vfr-vm-JdC">
+                                        <rect key="frame" x="0.0" y="0.0" width="99.5" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="enter shared game name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bhi-fU-llY">
+                                        <rect key="frame" x="99.5" y="0.0" width="227.5" height="30"/>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                                        <connections>
+                                            <action selector="gameNameTextFieldDidEndEditing:" destination="zyP-Ou-JCF" eventType="editingDidEnd" id="Woq-9W-ndc"/>
+                                            <outlet property="delegate" destination="zyP-Ou-JCF" id="j91-4k-Eh8"/>
+                                        </connections>
+                                    </textField>
+                                </subviews>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wwM-LN-GfD">
+                                <rect key="frame" x="24" y="107.5" width="327" height="30"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Player Emoji:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EQT-Pa-W6L">
+                                        <rect key="frame" x="0.0" y="0.0" width="97.5" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="enter emoji" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Tzk-WQ-saJ">
+                                        <rect key="frame" x="97.5" y="0.0" width="229.5" height="30"/>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                                        <connections>
+                                            <action selector="emojiTextFieldDidEndEditing:" destination="zyP-Ou-JCF" eventType="editingDidEnd" id="apr-44-GTt"/>
+                                            <outlet property="delegate" destination="zyP-Ou-JCF" id="Su6-sB-iFq"/>
+                                        </connections>
+                                    </textField>
+                                </subviews>
+                            </stackView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QJw-h8-QBe">
                                 <rect key="frame" x="124" y="229" width="107" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -192,6 +200,19 @@
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="bB3-La-DOE" firstAttribute="leading" secondItem="kXD-Em-SUE" secondAttribute="leadingMargin" constant="8" id="AyA-dM-Wgc"/>
+                            <constraint firstItem="QHM-An-Gi6" firstAttribute="top" secondItem="U9F-Bx-xkL" secondAttribute="bottom" constant="9" id="Bhe-yF-nhb"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="bB3-La-DOE" secondAttribute="trailing" constant="8" id="Mu1-su-RRy"/>
+                            <constraint firstItem="wwM-LN-GfD" firstAttribute="leading" secondItem="kXD-Em-SUE" secondAttribute="leadingMargin" constant="8" id="T8H-lj-HRF"/>
+                            <constraint firstItem="bB3-La-DOE" firstAttribute="top" secondItem="QHM-An-Gi6" secondAttribute="bottom" constant="20" id="bQl-Ay-p2Z"/>
+                            <constraint firstItem="QHM-An-Gi6" firstAttribute="centerX" secondItem="kXD-Em-SUE" secondAttribute="centerX" id="c0A-67-7Q0"/>
+                            <constraint firstItem="wwM-LN-GfD" firstAttribute="top" secondItem="bB3-La-DOE" secondAttribute="bottom" constant="8" id="c15-G5-uNr"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="wwM-LN-GfD" secondAttribute="trailing" constant="8" id="dbs-rb-UZl"/>
+                            <constraint firstItem="hMb-Wu-lhX" firstAttribute="top" secondItem="wwM-LN-GfD" secondAttribute="bottom" constant="8" id="jmg-TX-1ZM"/>
+                            <constraint firstItem="hMb-Wu-lhX" firstAttribute="leading" secondItem="kXD-Em-SUE" secondAttribute="leadingMargin" constant="8" id="o0b-gS-tMd"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="hMb-Wu-lhX" secondAttribute="trailing" constant="8" id="rAK-jn-fiG"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="chooseInviteesLabel" destination="FlT-td-wJH" id="mHB-Iv-AOM"/>
