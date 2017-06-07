@@ -77,7 +77,7 @@ class MPCManager: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegate, M
     //MARK: - BBNetwork Manager Client Methods
     
     func findPeers() {
-        let myPeerID = MCPeerID(displayName: <#T##String#>)
+//        let myPeerID = MCPeerID(displayName: <#T##String#>)
         
     }
     
