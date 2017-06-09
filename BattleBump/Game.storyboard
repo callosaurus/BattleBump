@@ -13,7 +13,7 @@
         <!--Game View Controller-->
         <scene sceneID="roy-GL-pYh">
             <objects>
-                <viewController storyboardIdentifier="Game" id="IQO-lq-MNe" customClass="BBGameViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Game" id="IQO-lq-MNe" customClass="GameViewController" customModule="BattleBump" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Hv7-zb-vUh"/>
                         <viewControllerLayoutGuide type="bottom" id="RMQ-iU-oe5"/>

@@ -80,7 +80,6 @@ static NSString * const BBRPSServiceType = @"BBRPS-game";
     NSLog(@"Received data over stream with name %@ from peer %@", streamName, peerID.displayName);
 }
 
-
 #pragma mark - MCNearbyServiceAdvertiserDelegate -
 
 - (void)advertiser:(MCNearbyServiceAdvertiser *)advertiser didReceiveInvitationFromPeer:(MCPeerID *)peerID withContext:(NSData *)context invitationHandler:(void(^)(BOOL accept, MCSession *session))invitationHandler
@@ -88,7 +87,6 @@ static NSString * const BBRPSServiceType = @"BBRPS-game";
     
     invitationHandler(YES, self.mySession);
 }
-
 
 #pragma mark - MCNearbyServiceBrowserDelegate -
 
@@ -107,8 +105,7 @@ static NSString * const BBRPSServiceType = @"BBRPS-game";
     NSLog(@"Peer lost: %@", peerID.displayName);
 }
 
-
-#pragma mark - BBNetwork Manager Client Methods
+#pragma mark - BBNetwork Manager Client Methods -
 
 - (void)joinWithInvitee:(Invitee *)invitee {
     

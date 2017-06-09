@@ -7,13 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3F252AB61EE8A0FF000ADFD9 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F252AB51EE8A0FF000ADFD9 /* GameViewController.swift */; };
 		3F35265D1E6E4EF800D84F2C /* UICircularProgressRingLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F35265C1E6E4EF800D84F2C /* UICircularProgressRingLayer.swift */; };
 		3F3526601E6E4F5E00D84F2C /* UICircularProgressRingDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F35265F1E6E4F5E00D84F2C /* UICircularProgressRingDelegate.swift */; };
 		3F3526621E6E4FC400D84F2C /* UICircularProgressRingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3526611E6E4FC400D84F2C /* UICircularProgressRingView.swift */; };
+		3F3956541EE8C240004F27D7 /* Loader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3956531EE8C240004F27D7 /* Loader.swift */; };
+		3F3956561EE8C33E004F27D7 /* hostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3956551EE8C33E004F27D7 /* hostCell.swift */; };
 		3F6EA18A1EE6186500385F6D /* EmojiChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6EA1891EE6186500385F6D /* EmojiChecker.swift */; };
 		3F8491F61EE761D0000AECF0 /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F8491F51EE761D0000AECF0 /* Home.storyboard */; };
 		3F8491F81EE77D24000AECF0 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8491F71EE77D24000AECF0 /* HomeViewController.swift */; };
 		3F8491FA1EE78AEA000AECF0 /* MPCManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8491F91EE78AEA000AECF0 /* MPCManager.swift */; };
+		3FD254F81EEA5E1000438B16 /* Host.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD254F71EEA5E1000438B16 /* Host.swift */; };
 		3FE23B491EB57389007DB657 /* GameLogicManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE23B481EB57389007DB657 /* GameLogicManager.swift */; };
 		A22C50D71E6E162300A476F0 /* BBConnectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A22C50D61E6E162300A476F0 /* BBConnectViewController.m */; };
 		A22C50DA1E6E163100A476F0 /* BBGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A22C50D91E6E163100A476F0 /* BBGameViewController.m */; };
@@ -45,13 +49,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3F252AB51EE8A0FF000ADFD9 /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		3F35265C1E6E4EF800D84F2C /* UICircularProgressRingLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UICircularProgressRingLayer.swift; sourceTree = "<group>"; };
 		3F35265F1E6E4F5E00D84F2C /* UICircularProgressRingDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UICircularProgressRingDelegate.swift; sourceTree = "<group>"; };
 		3F3526611E6E4FC400D84F2C /* UICircularProgressRingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UICircularProgressRingView.swift; sourceTree = "<group>"; };
+		3F3956531EE8C240004F27D7 /* Loader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Loader.swift; sourceTree = "<group>"; };
+		3F3956551EE8C33E004F27D7 /* hostCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = hostCell.swift; sourceTree = "<group>"; };
 		3F6EA1891EE6186500385F6D /* EmojiChecker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmojiChecker.swift; sourceTree = "<group>"; };
 		3F8491F51EE761D0000AECF0 /* Home.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Home.storyboard; sourceTree = "<group>"; };
 		3F8491F71EE77D24000AECF0 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		3F8491F91EE78AEA000AECF0 /* MPCManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MPCManager.swift; sourceTree = "<group>"; };
+		3FD254F71EEA5E1000438B16 /* Host.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Host.swift; sourceTree = "<group>"; };
 		3FE23B481EB57389007DB657 /* GameLogicManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameLogicManager.swift; sourceTree = "<group>"; };
 		A22C50D51E6E162300A476F0 /* BBConnectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBConnectViewController.h; sourceTree = "<group>"; };
 		A22C50D61E6E162300A476F0 /* BBConnectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBConnectViewController.m; sourceTree = "<group>"; };
@@ -168,6 +176,7 @@
 				A25D7B1C1E6F66EF0090BC65 /* BBConnectCollectionViewCell.h */,
 				A25D7B1D1E6F66EF0090BC65 /* BBConnectCollectionViewCell.m */,
 				A2A76BA91E732F450046268D /* BBCheckMark.swift */,
+				3F3956551EE8C33E004F27D7 /* hostCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -175,6 +184,7 @@
 		A260C37D1E6DF4C700F5F84F /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				3F3956531EE8C240004F27D7 /* Loader.swift */,
 				A25D7B181E6F60A50090BC65 /* Player.swift */,
 				A25D7B1A1E6F60B70090BC65 /* Game.swift */,
 				A25D7B1F1E6F74050090BC65 /* Invitee.swift */,
@@ -182,6 +192,7 @@
 				A2BDFEBC1E723A140098A967 /* BBNetworkManager.h */,
 				A2BDFEBD1E723A140098A967 /* BBNetworkManager.m */,
 				3F8491F91EE78AEA000AECF0 /* MPCManager.swift */,
+				3FD254F71EEA5E1000438B16 /* Host.swift */,
 				A260C35A1E6DF1A600F5F84F /* AppDelegate.h */,
 				A260C35B1E6DF1A600F5F84F /* AppDelegate.m */,
 			);
@@ -198,6 +209,7 @@
 				3F8491F71EE77D24000AECF0 /* HomeViewController.swift */,
 				A22C50D81E6E163100A476F0 /* BBGameViewController.h */,
 				A22C50D91E6E163100A476F0 /* BBGameViewController.m */,
+				3F252AB51EE8A0FF000ADFD9 /* GameViewController.swift */,
 			);
 			name = Control;
 			sourceTree = "<group>";
@@ -326,16 +338,20 @@
 				A25D7B201E6F74050090BC65 /* Invitee.swift in Sources */,
 				A25D7B191E6F60A50090BC65 /* Player.swift in Sources */,
 				3F8491FA1EE78AEA000AECF0 /* MPCManager.swift in Sources */,
+				3F3956561EE8C33E004F27D7 /* hostCell.swift in Sources */,
 				A2A76BAA1E732F450046268D /* BBCheckMark.swift in Sources */,
 				3F8491F81EE77D24000AECF0 /* HomeViewController.swift in Sources */,
 				A260C35C1E6DF1A600F5F84F /* AppDelegate.m in Sources */,
 				A2BDFEBE1E723A140098A967 /* BBNetworkManager.m in Sources */,
 				A22C50D71E6E162300A476F0 /* BBConnectViewController.m in Sources */,
+				3F252AB61EE8A0FF000ADFD9 /* GameViewController.swift in Sources */,
 				3F6EA18A1EE6186500385F6D /* EmojiChecker.swift in Sources */,
 				A2A182561E6E127B006F5DA8 /* BBRootViewController.m in Sources */,
 				3F35265D1E6E4EF800D84F2C /* UICircularProgressRingLayer.swift in Sources */,
 				3F3526621E6E4FC400D84F2C /* UICircularProgressRingView.swift in Sources */,
 				3F3526601E6E4F5E00D84F2C /* UICircularProgressRingDelegate.swift in Sources */,
+				3FD254F81EEA5E1000438B16 /* Host.swift in Sources */,
+				3F3956541EE8C240004F27D7 /* Loader.swift in Sources */,
 				3FE23B491EB57389007DB657 /* GameLogicManager.swift in Sources */,
 				A25D7B1B1E6F60B70090BC65 /* Game.swift in Sources */,
 				A22C50DA1E6E163100A476F0 /* BBGameViewController.m in Sources */,
