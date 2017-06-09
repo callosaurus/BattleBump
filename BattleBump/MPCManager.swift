@@ -16,6 +16,7 @@ protocol MPCManagerProtocol: NSObjectProtocol {
 
 protocol MPCJoiningProtocol: NSObjectProtocol {
     func didChangeFoundHosts()
+    func didConnectSuccessfully(to invitee: Invitee)
 }
 
 class MPCManager: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegate, MCNearbyServiceAdvertiserDelegate {
@@ -29,16 +30,30 @@ class MPCManager: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegate, M
     var mySession : MCSession?
     
     var foundHostsArray = [Host]()
+    var state : String?
     
     func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
         print("Peer [\(peerID.displayName)] changed state to \(string(forPeerConnectionState: state))")
         
-        if (state == .notConnected) {
+        if (state == .connected) {
+//            let opponent = session.connectedPeers[1]
+            
+//            let invitee = Invitee(player: <#T##Player#>, game: <#T##Game#>)
+//            
+//            let player = Player(name: <#T##String#>, emoji: <#T##String#>, move: "join")
+//            let game = Game(name: "theGame", state: "join")
+//            
+//            self.me = [[Invitee alloc]initWithPlayer:player game:game];
+//            
+//            self.joinDelegate?.didConnectSuccessfully(to: invitee)
+            
+            print(String(format: "I am %@. I am connected to %@", (myPeerID?.displayName)!, peerID.displayName))
+                
+            print(session.connectedPeers)
+        } else if (state == .notConnected) {
+            self.state = "notConnected"
             self.delegate?.session(session: session, wasInterruptedByState: state)
         }
-        //        else if (state == .connected) {
-        //            self.delegate?.didConnectSuccessfully()
-        //        }
     }
     
     func string(forPeerConnectionState state: MCSessionState) -> String {
@@ -78,20 +93,28 @@ class MPCManager: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegate, M
     // MARK: - MCNearbyServiceAdvertiserDelegate -
     
     func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didReceiveInvitationFromPeer peerID: MCPeerID, withContext context: Data?, invitationHandler: @escaping (Bool, MCSession?) -> Void) {
-        invitationHandler(true, mySession)
+        
+        if (self.mySession == nil) {
+            self.state = "connected"
+            self.mySession = MCSession(peer: self.myPeerID!, securityIdentity: nil, encryptionPreference: .none)
+            self.mySession?.delegate = self
+            invitationHandler(true, mySession)
+            
+        }
     }
     
     // MARK: - MCNearbyServiceBrowserDelegate -
     
     func browser(_ browser: MCNearbyServiceBrowser, foundPeer peerID: MCPeerID, withDiscoveryInfo info: [String: String]?) {
         print("Found peer: \(peerID.displayName)")
+        print("Found peer: \(peerID)")
         
-        let hostFound = Host(name: peerID.displayName, emoji: (info?["emoji"])!)
+        let hostFound = Host(hostPeerID: peerID, emoji: (info?["emoji"])!)
         
         if (!self.foundHostsArray.contains(hostFound)) {
             self.foundHostsArray.append(hostFound)
         }
-        //eventually have moveset in discoveryInfo
+        //eventually have moveset in discoveryInfo, decode
         
         self.joinDelegate?.didChangeFoundHosts()
         
@@ -104,7 +127,7 @@ class MPCManager: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegate, M
         print("Peer lost: \(peerID.displayName)")
         
         //removes lost Host
-        if let lostHost = self.foundHostsArray.first(where: { $0.name == peerID.displayName }) {
+        if let lostHost = self.foundHostsArray.first(where: { $0.hostPeerID == peerID }) {
             if let index = self.foundHostsArray.index(of: lostHost) {
                 self.foundHostsArray.remove(at: index)
             }
@@ -124,7 +147,7 @@ class MPCManager: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegate, M
         }
         
         let dict = ["emoji": invitee.player.emoji]
-        // eventually have discoveryInfo containing moveset name and moves
+        // eventually encode discoveryInfo containing moveset name and moves
         
         self.myAdvertiser = MCNearbyServiceAdvertiser(peer: myPeerID!, discoveryInfo: dict, serviceType: "RPSgame")
         print("Advertising for \(String(describing: myPeerID))")
@@ -147,12 +170,13 @@ class MPCManager: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegate, M
     }
     
     func joinPeer(peerID: MCPeerID) {
-        self.myBrowser?.invitePeer(peerID, to: self.mySession!, withContext: nil, timeout: 10)
+        if (self.myPeerID != nil && self.myBrowser != nil) {
+            print("connecting to: \(peerID)")
+            self.mySession = MCSession(peer: self.myPeerID!, securityIdentity: nil, encryptionPreference: .none)
+            self.mySession?.delegate = self
+            self.myBrowser?.invitePeer(peerID, to: self.mySession!, withContext: nil, timeout: 10)
+        }
     }
-    
-    //    func checkConnectedPeers() {
-    //
-    //    }
     
     func send(_ invitee: Invitee) {
         

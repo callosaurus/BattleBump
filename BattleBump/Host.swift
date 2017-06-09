@@ -7,16 +7,19 @@
 //
 
 import UIKit
+import MultipeerConnectivity
 
 class Host: NSObject {
 
-    let name: String
-    let emoji: String
+    var hostPeerID: MCPeerID
+    var name: String
+    var emoji: String
 //    let moveset: [String : [String: String]]
     
-    init(name: String, emoji: String) {
+    init(hostPeerID: MCPeerID, emoji: String) {
         
-        self.name = name
+        self.hostPeerID = hostPeerID
+        self.name = hostPeerID.displayName
         self.emoji = emoji
         super.init()
     }
@@ -25,16 +28,16 @@ class Host: NSObject {
     
     required convenience init?(coder decoder: NSCoder) {
         
-        guard let name = decoder.decodeObject(forKey:"name") as? String,
+        guard let hostPeerID = decoder.decodeObject(forKey:"hostPeerID") as? MCPeerID,
             let emoji = decoder.decodeObject(forKey:"emoji") as? String
             else { return nil }
         
-        self.init(name: name, emoji: emoji)
+        self.init(hostPeerID: hostPeerID, emoji: emoji)
     }
     
     func encode(with aCoder: NSCoder) {
         
-        aCoder.encode(self.name, forKey: "name")
+        aCoder.encode(self.hostPeerID, forKey: "hostPeerID")
         aCoder.encode(self.emoji, forKey: "emoji")
     }
     

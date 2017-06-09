@@ -11,7 +11,7 @@ import MultipeerConnectivity
 
 class HomeViewController: UIViewController, MPCJoiningProtocol, UITableViewDelegate, UITableViewDataSource {
     
-    @IBOutlet weak var playerNameAndEmojiLabel: UILabel!
+    @IBOutlet weak var playerNameLabel: UILabel!
     @IBOutlet weak var imageViewOne: UIImageView!
     @IBOutlet weak var imageViewTwo: UIImageView!
     @IBOutlet weak var imageViewThree: UIImageView!
@@ -22,7 +22,6 @@ class HomeViewController: UIViewController, MPCJoiningProtocol, UITableViewDeleg
     var playerName : String?
     var playerEmoji : String?
     var me: Invitee?
-    var state : String?
     var foundHostsArray = [Host]()
     
     override func viewDidLoad() {
@@ -32,7 +31,7 @@ class HomeViewController: UIViewController, MPCJoiningProtocol, UITableViewDeleg
         
         playerName = "testPlayer"
         playerEmoji = "😎"
-        self.playerNameAndEmojiLabel.text = String(format: "%@ %@", self.playerName!, self.playerEmoji!)
+        self.playerNameLabel.text = String(format: "%@ %@", self.playerName!, self.playerEmoji!)
         self.imageViewOne.image = UIImage(named: "confirmationTick")
         self.imageViewTwo.image = UIImage(named: "confirmationTick")
         self.imageViewThree.image = UIImage(named: "confirmationTick")
@@ -80,61 +79,61 @@ class HomeViewController: UIViewController, MPCJoiningProtocol, UITableViewDeleg
     
     //MARK: - Functions
     func loadUserDefaults() {
-        self.playerNameAndEmojiLabel.text = "Player😎"
+        self.playerNameLabel.text = "Player😎"
         let defaults = UserDefaults.standard
         
         if(defaults.dictionaryRepresentation().keys.contains("playerName")) {
             self.playerName = defaults.string(forKey: "playerName")
             self.playerEmoji = defaults.string(forKey:"playerEmoji")
-            self.playerNameAndEmojiLabel.text = String(format: "%@ %@", self.playerName!, self.playerEmoji!)
+            self.playerNameLabel.text = String(format: "%@ %@", self.playerName!, self.playerEmoji!)
         }
     }
     
-    // MARK: - NetworkManager Protocol Method -
+    // MARK: - MPCJoining Protocol Method -
     
     //update to remove received InviteeMessage
-    func receivedInviteeMessage(_ invitee: Invitee) {
-        
-        if self.playerInviteesArray.count == 0 {
-            self.playerInviteesArray.append(invitee)
-        }
-        
-        if (invitee.game.state == "join" && self.state == "starting") {
-            
-            let subViews = self.view.subviews
-            for subview in subViews{
-                if subview.tag == 1000 {
-                    subview.removeFromSuperview()
-                }
-            }
-            self.performSegue(withIdentifier: "startGame", sender: self)
-            
-        } else if (self.state == "joining") {
-            
-            if self.playerInviteesArray.count == 0 {
-                self.playerInviteesArray.append(invitee)
-            } else {
-                
-                for myInvitee: Invitee in self.playerInviteesArray {
-                    if (myInvitee.player.name != invitee.player.name) {
-                        self.playerInviteesArray.append(invitee)
-                    }
-                }
-            }
-            
-            OperationQueue.main.addOperation { () in
-                self.tableView.reloadData()
-            }
-        }
-    }
+//    func receivedInviteeMessage(_ invitee: Invitee) {
+//        
+//        if self.playerInviteesArray.count == 0 {
+//            self.playerInviteesArray.append(invitee)
+//        }
+//        
+//        if (invitee.game.state == "join" && self.state == "starting") {
+//            
+//            let subViews = self.view.subviews
+//            for subview in subViews{
+//                if subview.tag == 1000 {
+//                    subview.removeFromSuperview()
+//                }
+//            }
+//            self.performSegue(withIdentifier: "startGame", sender: self)
+//            
+//        } else if (self.state == "joining") {
+//            
+//            if self.playerInviteesArray.count == 0 {
+//                self.playerInviteesArray.append(invitee)
+//            } else {
+//                
+//                for myInvitee: Invitee in self.playerInviteesArray {
+//                    if (myInvitee.player.name != invitee.player.name) {
+//                        self.playerInviteesArray.append(invitee)
+//                    }
+//                }
+//            }
+//            
+//            OperationQueue.main.addOperation { () in
+//                self.tableView.reloadData()
+//            }
+//        }
+//    }
     
     func didChangeFoundHosts() {
         self.foundHostsArray = self.mpcManager.foundHostsArray
         self.tableView.reloadData()
     }
     
-    func session(session: MCSession, wasInterruptedByState state: MCSessionState) {
-        //reloadData
+    func didConnectSuccessfully(to invitee: Invitee) {
+        //do the thing
     }
     
     // MARK: - Navigation -
@@ -148,7 +147,8 @@ class HomeViewController: UIViewController, MPCJoiningProtocol, UITableViewDeleg
     // MARK: - UITableView Methods -
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //START ZE GAME
+        let selectedHostPeerID = self.foundHostsArray[indexPath.row].hostPeerID
+        self.mpcManager.joinPeer(peerID: selectedHostPeerID)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
