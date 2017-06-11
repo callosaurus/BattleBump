@@ -12,7 +12,7 @@
 		3F3526601E6E4F5E00D84F2C /* UICircularProgressRingDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F35265F1E6E4F5E00D84F2C /* UICircularProgressRingDelegate.swift */; };
 		3F3526621E6E4FC400D84F2C /* UICircularProgressRingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3526611E6E4FC400D84F2C /* UICircularProgressRingView.swift */; };
 		3F3956541EE8C240004F27D7 /* Loader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3956531EE8C240004F27D7 /* Loader.swift */; };
-		3F3956561EE8C33E004F27D7 /* hostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3956551EE8C33E004F27D7 /* hostCell.swift */; };
+		3F3956561EE8C33E004F27D7 /* HostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3956551EE8C33E004F27D7 /* HostCell.swift */; };
 		3F6EA18A1EE6186500385F6D /* EmojiChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6EA1891EE6186500385F6D /* EmojiChecker.swift */; };
 		3F8491F61EE761D0000AECF0 /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F8491F51EE761D0000AECF0 /* Home.storyboard */; };
 		3F8491F81EE77D24000AECF0 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8491F71EE77D24000AECF0 /* HomeViewController.swift */; };
@@ -54,7 +54,7 @@
 		3F35265F1E6E4F5E00D84F2C /* UICircularProgressRingDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UICircularProgressRingDelegate.swift; sourceTree = "<group>"; };
 		3F3526611E6E4FC400D84F2C /* UICircularProgressRingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UICircularProgressRingView.swift; sourceTree = "<group>"; };
 		3F3956531EE8C240004F27D7 /* Loader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Loader.swift; sourceTree = "<group>"; };
-		3F3956551EE8C33E004F27D7 /* hostCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = hostCell.swift; sourceTree = "<group>"; };
+		3F3956551EE8C33E004F27D7 /* HostCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HostCell.swift; sourceTree = "<group>"; };
 		3F6EA1891EE6186500385F6D /* EmojiChecker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmojiChecker.swift; sourceTree = "<group>"; };
 		3F8491F51EE761D0000AECF0 /* Home.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Home.storyboard; sourceTree = "<group>"; };
 		3F8491F71EE77D24000AECF0 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -176,7 +176,7 @@
 				A25D7B1C1E6F66EF0090BC65 /* BBConnectCollectionViewCell.h */,
 				A25D7B1D1E6F66EF0090BC65 /* BBConnectCollectionViewCell.m */,
 				A2A76BA91E732F450046268D /* BBCheckMark.swift */,
-				3F3956551EE8C33E004F27D7 /* hostCell.swift */,
+				3F3956551EE8C33E004F27D7 /* HostCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -338,7 +338,7 @@
 				A25D7B201E6F74050090BC65 /* Invitee.swift in Sources */,
 				A25D7B191E6F60A50090BC65 /* Player.swift in Sources */,
 				3F8491FA1EE78AEA000AECF0 /* MPCManager.swift in Sources */,
-				3F3956561EE8C33E004F27D7 /* hostCell.swift in Sources */,
+				3F3956561EE8C33E004F27D7 /* HostCell.swift in Sources */,
 				A2A76BAA1E732F450046268D /* BBCheckMark.swift in Sources */,
 				3F8491F81EE77D24000AECF0 /* HomeViewController.swift in Sources */,
 				A260C35C1E6DF1A600F5F84F /* AppDelegate.m in Sources */,
@@ -494,9 +494,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = L73BUW34SZ;
 				INFOPLIST_FILE = BattleBump/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.caldavies.BattleBump;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -511,9 +512,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = L73BUW34SZ;
 				INFOPLIST_FILE = BattleBump/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.caldavies.BattleBump;
 				PRODUCT_NAME = "$(TARGET_NAME)";

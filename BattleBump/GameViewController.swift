@@ -9,7 +9,7 @@
 import UIKit
 import MultipeerConnectivity
 
-class GameViewController: UIViewController, MPCManagerProtocol, BBNetworkManagerProtocol {
+class GameViewController: UIViewController, MPCGameplayProtocol, BBNetworkManagerProtocol {
     
     var playerInviteesArray = [Invitee]()
     var networkManager = BBNetworkManager()
@@ -27,24 +27,20 @@ class GameViewController: UIViewController, MPCManagerProtocol, BBNetworkManager
     var rockConfirmationIcon: UIImageView?
     var paperConfirmationIcon: UIImageView?
     var scissorsConfirmationIcon: UIImageView?
-    var gameLogicManager = GameLogicManager()
+    let gameLogicManager = GameLogicManager()
     var opponent: Invitee?
     var me: Invitee?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.winsAndRoundsLabel.text = "- / -"
-        
+        self.me = self.playerInviteesArray[0]
+        self.opponent = self.playerInviteesArray[1]
+        self.mpcManager.gameplayDelegate = self
+
         configureViews()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        self.me = self.playerInviteesArray[0]
-        self.opponent = self.playerInviteesArray[1]
-        self.currentPlayGameLabel.text = String(format: "You are playing %@", (self.opponent?.player.name)!)
-        self.networkManager.delegate = self
-    }
     
     @IBAction func readyButtonPressed(_ sender: UIButton) {
         if (self.me?.game.state == "ready" && self.opponent?.game.state == "ready") {
@@ -77,9 +73,13 @@ class GameViewController: UIViewController, MPCManagerProtocol, BBNetworkManager
                 
                 //reset UI
                 self.drawGiantMoveLabel()
-                self.disableMoveChoice()
+
+                self.rockLabel.isUserInteractionEnabled = false
+                self.paperLabel.isUserInteractionEnabled = false
+                self.scissorsLabel.isUserInteractionEnabled = false
+                
                 self.progressRing.alpha = 0.0
-                self.progressRing.setProgress(value: 5.0, animationDuration: 0.1)
+                self.progressRing.setProgress(value: 5.0, animationDuration: 0.1, completion: nil)
                 
                 //set round over
                 self.me?.game.state = "roundOver"
@@ -87,7 +87,7 @@ class GameViewController: UIViewController, MPCManagerProtocol, BBNetworkManager
                 
                 //notify opponent
                 print("Did Send")
-                self.networkManager.send(self.me)
+                self.mpcManager.send(self.me!)
                 
             })
             
@@ -95,8 +95,9 @@ class GameViewController: UIViewController, MPCManagerProtocol, BBNetworkManager
     }
     
     func drawGiantMoveLabel() {
-        OperationQueue.main.addOperation({ () in
+        DispatchQueue.main.async {
             self.giantMoveLabel.alpha = 1.0
+            self.giantMoveLabel.font.withSize(175)
             
             switch (self.gameLogicManager.myConfirmedMove) {
             case "Rock":
@@ -111,27 +112,22 @@ class GameViewController: UIViewController, MPCManagerProtocol, BBNetworkManager
             default:
                 break;
             }
-            self.giantMoveLabel.font.withSize(175)
             
-        })
-    }
-    
-    func disableMoveChoice() {
-        self.rockLabel.isUserInteractionEnabled = false
-        self.paperLabel.isUserInteractionEnabled = false
-        self.scissorsLabel.isUserInteractionEnabled = false
+        }
     }
     
     func configureViews() {
+        
+        self.currentPlayGameLabel.text = String(format: "You are playing %@", (self.opponent?.player.name)!)
         
         let confirmRock = UITapGestureRecognizer(target: self, action: #selector(didConfirmRock(_:)))
         self.rockLabel.addGestureRecognizer(confirmRock)
         
         let confirmPaper = UITapGestureRecognizer(target: self, action: #selector(didConfirmPaper(_:)))
-        self.rockLabel.addGestureRecognizer(confirmPaper)
+        self.paperLabel.addGestureRecognizer(confirmPaper)
         
         let confirmScissors = UITapGestureRecognizer(target: self, action: #selector(didConfirmScissors(_:)))
-        self.rockLabel.addGestureRecognizer(confirmScissors)
+        self.scissorsLabel.addGestureRecognizer(confirmScissors)
     }
     
     //MARK: - Confirmations -
@@ -192,24 +188,23 @@ class GameViewController: UIViewController, MPCManagerProtocol, BBNetworkManager
         
         //Check if Game Over
         if (self.gameLogicManager.myWinsNumber == 3 || self.gameLogicManager.opponentWinsNumber == 3) {
-            self.networkManager.send(self.me)
+            self.mpcManager.send(self.me!)
             presentGameOverAlert()
         } else {
-            self.networkManager.send(self.me)
+            self.mpcManager.send(self.me!)
             self.me?.game.state = "ready"
             self.opponent?.game.state = "ready"
-        }
-        
-        //Update UI
-        OperationQueue.main.addOperation { () in
             
-            self.theirLastMoveLabel.text = String(format: "%@ played: %@", (self.opponent?.player.name)!, (self.opponent?.player.move)!)
-            self.resultLabel.text = resultLabelString
-            self.winsAndRoundsLabel.text = String(format: "%@ / %@", self.gameLogicManager.myWinsNumber, self.gameLogicManager.roundsPlayedNumber)
+            //Update UI
+            DispatchQueue.main.async {
+                
+                self.theirLastMoveLabel.text = String(format: "%@ played: %@", (self.opponent?.player.name)!, (self.opponent?.player.move)!)
+                self.resultLabel.text = resultLabelString
+                self.winsAndRoundsLabel.text = String(format: "%i / %i", self.gameLogicManager.myWinsNumber, self.gameLogicManager.roundsPlayedNumber)
+            }
         }
-        
     }
-    
+  
     func presentGameOverAlert() {
         var titleString = ""
         if (self.gameLogicManager.myWinsNumber == 3) {
@@ -220,6 +215,7 @@ class GameViewController: UIViewController, MPCManagerProtocol, BBNetworkManager
         
         let alertController = UIAlertController(title: titleString, message: nil, preferredStyle: .alert)
         let alertAction = UIAlertAction(title: "OK", style: .default, handler: {(alert: UIAlertAction!) in
+            self.mpcManager.mySession = nil
             self.dismiss(animated: true, completion: nil)
         })
         
@@ -230,6 +226,7 @@ class GameViewController: UIViewController, MPCManagerProtocol, BBNetworkManager
     //MARK: - Networking -
     
     func receivedInviteeMessage(_ invitee: Invitee) {
+        print("Received Invitee Message")
         self.opponent?.player.move = invitee.player.move;
         self.gameLogicManager.theirConfirmedMove = (self.opponent?.player.move)!;
         

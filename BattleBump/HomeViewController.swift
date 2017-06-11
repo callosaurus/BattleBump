@@ -12,30 +12,73 @@ import MultipeerConnectivity
 class HomeViewController: UIViewController, MPCJoiningProtocol, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var playerNameLabel: UILabel!
+    @IBOutlet weak var playerEmojiLabel: UILabel!
+    @IBOutlet weak var playerNameTextField: UITextField!
+    @IBOutlet weak var playerEmojiTextField: UITextField!
     @IBOutlet weak var imageViewOne: UIImageView!
     @IBOutlet weak var imageViewTwo: UIImageView!
     @IBOutlet weak var imageViewThree: UIImageView!
+    @IBOutlet weak var tableViewLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     
     var mpcManager = MPCManager()
     var playerInviteesArray = [Invitee]()
-    var playerName : String?
-    var playerEmoji : String?
+    var playerName: String?
+    var playerEmoji: String?
     var me: Invitee?
     var foundHostsArray = [Host]()
+    lazy var refreshControl = UIRefreshControl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //        loadUserDefaults()
-        
-        playerName = "testPlayer"
+        playerName = "Player"
         playerEmoji = "😎"
-        self.playerNameLabel.text = String(format: "%@ %@", self.playerName!, self.playerEmoji!)
-        self.imageViewOne.image = UIImage(named: "confirmationTick")
-        self.imageViewTwo.image = UIImage(named: "confirmationTick")
-        self.imageViewThree.image = UIImage(named: "confirmationTick")
-
+        
+        loadUserDefaults()
+        prepareTableView()
+        setupMPCManager()
+    }
+    
+    //MARK: - IBActions -
+    
+    @IBAction func startButtonPressed(_ sender: UIButton) {
+        self.mpcManager.advertiseToPeers(invitee: self.me!)
+    
+    }
+    
+    //MARK: - Functions -
+    
+    func loadUserDefaults() {
+        
+        
+        let defaults = UserDefaults.standard
+        if(defaults.dictionaryRepresentation().keys.contains("playerName")) {
+            self.playerName = defaults.string(forKey: "playerName")
+            self.playerEmoji = defaults.string(forKey:"playerEmoji")
+        }
+        self.playerNameLabel.text = "Name"
+        self.playerEmojiLabel.text = "Emoji"
+        self.playerNameTextField.text = playerName
+        self.playerEmojiTextField.text = playerEmoji
+        
+        //eventually load movesets from userdefaults. display visually
+        let imageViews = [imageViewOne, imageViewTwo, imageViewThree]
+        for i in imageViews {
+            i?.image = UIImage(named: "confirmationTick")
+        }
+ 
+    }
+    
+    func prepareTableView() {
+        self.tableViewLabel.text = "Joinable Players"
+        refreshControl = UIRefreshControl()
+        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refreshControl.addTarget(self, action: #selector(refresh(_ :)), for: UIControlEvents.valueChanged)
+        tableView.addSubview(refreshControl)
+    }
+    
+    func setupMPCManager() {
         self.mpcManager.joinDelegate = self
         
         let thisPlayer = Player(name: playerName!, emoji: playerEmoji!, move: "join")
@@ -45,103 +88,44 @@ class HomeViewController: UIViewController, MPCJoiningProtocol, UITableViewDeleg
         self.mpcManager.findPeers(invitee: self.me!)
     }
     
-    //MARK: - IBActions -
-    @IBAction func editPlayerNameEmojiButtonPressed(_ sender: UIButton) {
-        // new 'editing' view over name
-    }
-    
-    @IBAction func startButtonPressed(_ sender: UIButton) {
-        self.mpcManager.advertiseToPeers(invitee: self.me!)
+    func refresh(_ sender: UIRefreshControl) {
+        self.mpcManager.findPeers(invitee: self.me!)
         
-//        self.state = "starting"
-//        
-//        let loadingView = UIView(frame: CGRect(x: Int(self.view.bounds.origin.x), y: Int(self.view.bounds.origin.y), width: Int(self.view.bounds.width/2), height: Int(self.view.bounds.height/2)))
-//        loadingView.center = self.view.center
-//        loadingView.backgroundColor = UIColor.lightGray
-//        loadingView.tag = 1000
-//        
-//        let activityView = UIActivityIndicatorView(frame: loadingView.frame)
-//        activityView.startAnimating()
-//        
-//        loadingView.addSubview(activityView)
-//        
-//        self.view.addSubview(loadingView)
     }
-    
-    @IBAction func joinButtonPressed(_ sender: UIButton) {
-//        self.mpcManager.findPeers(invitee: self.me!)
-//        
-//        self.state = "joining"
-        
-        //Loader.addLoaderTo(self.tableView)
-        //  when found, add to tableview below
-    }
-    
-    //MARK: - Functions
-    func loadUserDefaults() {
-        self.playerNameLabel.text = "Player😎"
-        let defaults = UserDefaults.standard
-        
-        if(defaults.dictionaryRepresentation().keys.contains("playerName")) {
-            self.playerName = defaults.string(forKey: "playerName")
-            self.playerEmoji = defaults.string(forKey:"playerEmoji")
-            self.playerNameLabel.text = String(format: "%@ %@", self.playerName!, self.playerEmoji!)
-        }
-    }
-    
     // MARK: - MPCJoining Protocol Method -
-    
-    //update to remove received InviteeMessage
-//    func receivedInviteeMessage(_ invitee: Invitee) {
-//        
-//        if self.playerInviteesArray.count == 0 {
-//            self.playerInviteesArray.append(invitee)
-//        }
-//        
-//        if (invitee.game.state == "join" && self.state == "starting") {
-//            
-//            let subViews = self.view.subviews
-//            for subview in subViews{
-//                if subview.tag == 1000 {
-//                    subview.removeFromSuperview()
-//                }
-//            }
-//            self.performSegue(withIdentifier: "startGame", sender: self)
-//            
-//        } else if (self.state == "joining") {
-//            
-//            if self.playerInviteesArray.count == 0 {
-//                self.playerInviteesArray.append(invitee)
-//            } else {
-//                
-//                for myInvitee: Invitee in self.playerInviteesArray {
-//                    if (myInvitee.player.name != invitee.player.name) {
-//                        self.playerInviteesArray.append(invitee)
-//                    }
-//                }
-//            }
-//            
-//            OperationQueue.main.addOperation { () in
-//                self.tableView.reloadData()
-//            }
-//        }
-//    }
     
     func didChangeFoundHosts() {
         self.foundHostsArray = self.mpcManager.foundHostsArray
+        self.refreshControl.endRefreshing()
+
         self.tableView.reloadData()
+        
     }
     
     func didConnectSuccessfully(to invitee: Invitee) {
-        //do the thing
+        
+        self.me!.game.state = "ready"
+        invitee.game.state = "ready"
+        
+        self.playerInviteesArray.append(self.me!)
+        self.playerInviteesArray.append(invitee)
+        
+        DispatchQueue.main.async {
+            self.performSegue(withIdentifier: "startGame", sender: self)
+        }
     }
     
     // MARK: - Navigation -
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        var bbGameVC = GameViewController()
-        bbGameVC.playerInviteesArray = self.playerInviteesArray
-        bbGameVC.mpcManager = self.mpcManager
-        bbGameVC = segue.destination as! GameViewController
+        
+        if let gameVC = segue.destination as? GameViewController {
+            gameVC.playerInviteesArray = self.playerInviteesArray
+            gameVC.mpcManager = self.mpcManager
+            
+        }
+//        var gameVC = GameViewController()
+//        gameVC = segue.destination as! GameViewController
     }
     
     // MARK: - UITableView Methods -
@@ -152,10 +136,10 @@ class HomeViewController: UIViewController, MPCJoiningProtocol, UITableViewDeleg
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "hostCell", for: indexPath) as! hostCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "hostCell", for: indexPath) as! HostCell
         cell.playerNameLabel.text = foundHostsArray[indexPath.row].name
         cell.emojiLabel.text = foundHostsArray[indexPath.row].emoji
-//        cell.movesetName.text = foundHostsArray[indexPath.row].moveset["name"]
+        //        cell.movesetName.text = foundHostsArray[indexPath.row].moveset["name"]
         return cell
     }
     

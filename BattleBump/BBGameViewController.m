@@ -42,6 +42,7 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     self.me = self.playerInviteesArray[0];
     self.opponent = self.playerInviteesArray[1];
     self.currentPlayGameLabel.text = [NSString stringWithFormat:@"You are playing %@", self.opponent.player.name];

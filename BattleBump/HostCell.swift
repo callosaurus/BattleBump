@@ -1,5 +1,5 @@
 //
-//  hostCell.swift
+//  HostCell.swift
 //  BattleBump
 //
 //  Created by Callum Davies on 2017-06-07.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class hostCell: UITableViewCell {
+class HostCell: UITableViewCell {
 
     @IBOutlet weak var playerNameLabel: UILabel!
     @IBOutlet weak var emojiLabel: UILabel!
