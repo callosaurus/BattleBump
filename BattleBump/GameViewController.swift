@@ -86,7 +86,6 @@ class GameViewController: UIViewController, MPCGameplayProtocol, BBNetworkManage
                 self.me?.player.move = self.gameLogicManager.myConfirmedMove
                 
                 //notify opponent
-                print("Did Send")
                 self.mpcManager.send(self.me!)
                 
             })
@@ -97,7 +96,7 @@ class GameViewController: UIViewController, MPCGameplayProtocol, BBNetworkManage
     func drawGiantMoveLabel() {
         DispatchQueue.main.async {
             self.giantMoveLabel.alpha = 1.0
-            self.giantMoveLabel.font.withSize(175)
+            self.giantMoveLabel.font.withSize(175.0)
             
             switch (self.gameLogicManager.myConfirmedMove) {
             case "Rock":

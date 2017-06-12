@@ -31,7 +31,7 @@ protocol MPCJoiningProtocol: NSObjectProtocol {
     var foundHostsArray = [Host]()
     var state : String?
     
-    internal func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
+    func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
         print("Peer [\(peerID.displayName)] changed state to \(string(forPeerConnectionState: state))")
         
         if (state == .connected) {
@@ -51,7 +51,7 @@ protocol MPCJoiningProtocol: NSObjectProtocol {
         }
     }
     
-    internal func string(forPeerConnectionState state: MCSessionState) -> String {
+    func string(forPeerConnectionState state: MCSessionState) -> String {
         switch state {
         case .connected:
             return "Connected"
@@ -62,7 +62,7 @@ protocol MPCJoiningProtocol: NSObjectProtocol {
         }
     }
     
-    internal func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
+    func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
         // MCSession Delegate callback when receiving data from a peer in a given session
         print("Received data from \(peerID.displayName)")
 //        let dictionary: [AnyHashable: Any]? = NSKeyedUnarchiver.unarchiveObject(with: data) as? [AnyHashable : Any]
@@ -75,17 +75,17 @@ protocol MPCJoiningProtocol: NSObjectProtocol {
         gameplayDelegate?.receivedInviteeMessage(invitee)
     }
     
-    internal func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) {
+    func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) {
         // MCSession delegate callback when we start to receive a resource from a peer in a given session
         print("Start receiving resource [\(resourceName)] from peer \(peerID.displayName) with progress [\(progress)]")
     }
     
-    internal func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL, withError error: Error?) {
+    func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL, withError error: Error?) {
         // MCSession delegate callback when a incoming resource transfer ends (possibly with error)
         print("Received data over resource with name \(resourceName) from peer \(peerID.displayName)")
     }
     
-    internal func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
+    func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
         // Streaming API not utilized in this sample code
         print("Received data over stream with name \(streamName) from peer \(peerID.displayName)")
     }
