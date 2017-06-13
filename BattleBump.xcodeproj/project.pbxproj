@@ -275,7 +275,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0820;
-				ORGANIZATIONNAME = "Dave Augerinos";
+				ORGANIZATIONNAME = "Callum Davies & Dave Augerinos";
 				TargetAttributes = {
 					A260C3531E6DF1A600F5F84F = {
 						CreatedOnToolsVersion = 8.2.1;

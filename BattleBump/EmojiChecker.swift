@@ -3,7 +3,7 @@
 //  BattleBump
 //
 //  Created by Callum Davies on 2017-06-05.
-//  Copyright © 2017 Dave Augerinos. All rights reserved.
+//  Copyright © 2017 Callum Davies & Dave Augerinos. All rights reserved.
 //
 //  Source:
 //  stackoverflow.com/questions/30757193/find-out-if-character-in-string-is-emoji
@@ -13,11 +13,6 @@ import UIKit
 
 class EmojiChecker: NSObject {
     
-//    func checkContainsOnlyEmoji(string: NSString) -> Bool {
-//        
-//        let stringToCheck = string as String
-//        return stringToCheck.containsOnlyEmoji
-//    }
 }
 
 extension UnicodeScalar {
