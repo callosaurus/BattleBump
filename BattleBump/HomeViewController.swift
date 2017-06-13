@@ -9,7 +9,7 @@
 import UIKit
 import MultipeerConnectivity
 
-class HomeViewController: UIViewController, MPCJoiningProtocol, UITableViewDelegate, UITableViewDataSource {
+class HomeViewController: UIViewController, MPCJoiningProtocol, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
     
     @IBOutlet weak var playerNameLabel: UILabel!
     @IBOutlet weak var playerEmojiLabel: UILabel!
@@ -35,10 +35,18 @@ class HomeViewController: UIViewController, MPCJoiningProtocol, UITableViewDeleg
         playerName = "Player"
         playerEmoji = "😎"
         
+        self.playerNameTextField.delegate = self
+        self.playerEmojiTextField.delegate = self
+        
         loadUserDefaults()
         prepareTableView()
         setupMPCManager()
     }
+    
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//        self.tableView.reloadData()
+//    }
     
     //MARK: - IBActions -
     
@@ -47,10 +55,42 @@ class HomeViewController: UIViewController, MPCJoiningProtocol, UITableViewDeleg
     
     }
     
+    @IBAction func playerNameTextFieldDidEndEditing(_ sender: UITextField) {
+        
+        guard let text = sender.text, !text.isEmpty else {
+            return
+        }
+        
+        let defaults = UserDefaults.standard
+        defaults.set(sender.text, forKey: "playerName")
+        self.playerNameTextField.resignFirstResponder()
+    }
+    
+    @IBAction func playerEmojiTextFieldDidEndEditing(_ sender: UITextField) {
+        
+        guard let text = sender.text, !text.isEmpty else {
+            return
+        }
+        
+        if ((sender.text?.containsOnlyEmoji)! && (sender.text?.isSingleEmoji)!) {
+            let defaults = UserDefaults.standard
+            defaults.set(sender.text, forKey: "playerEmoji")
+        } else {
+            let alert = UIAlertController(title: "One emoji at a time 💩", message: nil, preferredStyle: .alert)
+            let defaultAction = UIAlertAction(title: "OK", style: .default, handler: {(alert: UIAlertAction!) in
+                sender.text = "🙃"
+                self.playerEmojiTextField.resignFirstResponder()
+            })
+        
+            alert.addAction(defaultAction)
+            present(alert, animated: true, completion: nil)
+            
+        }
+    }
+    
     //MARK: - Functions -
     
     func loadUserDefaults() {
-        
         
         let defaults = UserDefaults.standard
         if(defaults.dictionaryRepresentation().keys.contains("playerName")) {
@@ -92,6 +132,20 @@ class HomeViewController: UIViewController, MPCJoiningProtocol, UITableViewDeleg
         self.mpcManager.findPeers(invitee: self.me!)
         
     }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        playerNameTextField.resignFirstResponder()
+        playerEmojiTextField.resignFirstResponder()
+    }
+    
+    //MARK: - UITextFieldDelegate Methods -
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        playerNameTextField.resignFirstResponder()
+        playerEmojiTextField.resignFirstResponder()
+        return true
+    }
+    
     // MARK: - MPCJoining Protocol Method -
     
     func didChangeFoundHosts() {
@@ -124,8 +178,6 @@ class HomeViewController: UIViewController, MPCJoiningProtocol, UITableViewDeleg
             gameVC.mpcManager = self.mpcManager
             
         }
-//        var gameVC = GameViewController()
-//        gameVC = segue.destination as! GameViewController
     }
     
     // MARK: - UITableView Methods -

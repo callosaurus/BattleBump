@@ -13,11 +13,11 @@ import UIKit
 
 class EmojiChecker: NSObject {
     
-    func checkContainsOnlyEmoji(string: NSString) -> Bool {
-        
-        let stringToCheck = string as String
-        return stringToCheck.containsOnlyEmoji
-    }
+//    func checkContainsOnlyEmoji(string: NSString) -> Bool {
+//        
+//        let stringToCheck = string as String
+//        return stringToCheck.containsOnlyEmoji
+//    }
 }
 
 extension UnicodeScalar {

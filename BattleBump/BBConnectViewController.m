@@ -162,45 +162,6 @@ static NSString * const reuseIdentifier = @"inviteeCell";
     }
 }
 
-- (IBAction)nameTextFieldDidEndEditing:(UITextField *)sender {
-    
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setValue:sender.text forKey:@"playerName"];
-    [self.playerNameTextField resignFirstResponder];
-}
-
-- (IBAction)emojiTextFieldDidEndEditing:(UITextField *)sender {
-    
-    if ([[[EmojiChecker alloc] init] checkContainsOnlyEmojiWithString:sender.text]) {
-        
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        [defaults setValue:sender.text forKey:@"playerEmoji"];
-        
-    } else {
-        
-        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Emoji field is for emojis 💩"
-                                                                       message:nil
-                                                                preferredStyle:UIAlertControllerStyleAlert];
-        
-        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-                                                              handler:^(UIAlertAction * action) {
-                                                                  sender.text = @"🙃";
-                                                                  [self.playerEmojiTextField resignFirstResponder];
-                                                              }];
-        [alert addAction:defaultAction];
-        [self presentViewController:alert animated:YES completion:nil];
-        
-    }
-}
-
-- (IBAction)gameNameTextFieldDidEndEditing:(UITextField *)sender {
-    
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setValue:sender.text forKey:@"playerGameName"];
-    [self.gameNameTextField resignFirstResponder];
-}
-
-
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
 
     BBGameViewController *bbGameVC = segue.destinationViewController;

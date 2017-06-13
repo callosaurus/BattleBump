@@ -65,8 +65,6 @@ protocol MPCJoiningProtocol: NSObjectProtocol {
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
         // MCSession Delegate callback when receiving data from a peer in a given session
         print("Received data from \(peerID.displayName)")
-//        let dictionary: [AnyHashable: Any]? = NSKeyedUnarchiver.unarchiveObject(with: data) as? [AnyHashable : Any]
-        //        let invitee = dictionary?["invitee"]
         
         guard let invitee = NSKeyedUnarchiver.unarchiveObject(with: data) as? Invitee else {
             print("Could not decode invitee properly")
