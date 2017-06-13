@@ -17,6 +17,7 @@
 		3F8491F61EE761D0000AECF0 /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F8491F51EE761D0000AECF0 /* Home.storyboard */; };
 		3F8491F81EE77D24000AECF0 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8491F71EE77D24000AECF0 /* HomeViewController.swift */; };
 		3F8491FA1EE78AEA000AECF0 /* MPCManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8491F91EE78AEA000AECF0 /* MPCManager.swift */; };
+		3FB2EEC01EF0444300C4044C /* Moveset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB2EEBF1EF0444300C4044C /* Moveset.swift */; };
 		3FD254F81EEA5E1000438B16 /* Host.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD254F71EEA5E1000438B16 /* Host.swift */; };
 		3FE23B491EB57389007DB657 /* GameLogicManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE23B481EB57389007DB657 /* GameLogicManager.swift */; };
 		A22C50D71E6E162300A476F0 /* BBConnectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A22C50D61E6E162300A476F0 /* BBConnectViewController.m */; };
@@ -59,6 +60,7 @@
 		3F8491F51EE761D0000AECF0 /* Home.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Home.storyboard; sourceTree = "<group>"; };
 		3F8491F71EE77D24000AECF0 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		3F8491F91EE78AEA000AECF0 /* MPCManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MPCManager.swift; sourceTree = "<group>"; };
+		3FB2EEBF1EF0444300C4044C /* Moveset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Moveset.swift; sourceTree = "<group>"; };
 		3FD254F71EEA5E1000438B16 /* Host.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Host.swift; sourceTree = "<group>"; };
 		3FE23B481EB57389007DB657 /* GameLogicManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameLogicManager.swift; sourceTree = "<group>"; };
 		A22C50D51E6E162300A476F0 /* BBConnectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBConnectViewController.h; sourceTree = "<group>"; };
@@ -195,6 +197,7 @@
 				3FD254F71EEA5E1000438B16 /* Host.swift */,
 				A260C35A1E6DF1A600F5F84F /* AppDelegate.h */,
 				A260C35B1E6DF1A600F5F84F /* AppDelegate.m */,
+				3FB2EEBF1EF0444300C4044C /* Moveset.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -345,6 +348,7 @@
 				A2BDFEBE1E723A140098A967 /* BBNetworkManager.m in Sources */,
 				A22C50D71E6E162300A476F0 /* BBConnectViewController.m in Sources */,
 				3F252AB61EE8A0FF000ADFD9 /* GameViewController.swift in Sources */,
+				3FB2EEC01EF0444300C4044C /* Moveset.swift in Sources */,
 				3F6EA18A1EE6186500385F6D /* EmojiChecker.swift in Sources */,
 				A2A182561E6E127B006F5DA8 /* BBRootViewController.m in Sources */,
 				3F35265D1E6E4EF800D84F2C /* UICircularProgressRingLayer.swift in Sources */,
