@@ -7,29 +7,48 @@
 //
 
 import UIKit
+import PocketSVG
 
 class MovesetViewController: UIViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
+  
+  
+  @IBOutlet weak var movesetView: UIView!
+  @IBOutlet weak var numberOfOutcomesLabel: UILabel!
+  
+  
+  //MARK: - IBActions -
+  
+  @IBAction func minus2MovesButtonPressed(_ sender: UIButton) {
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+  }
+  @IBAction func plus2MovesButtonPressed(_ sender: UIButton) {
+    
+  }
+  
+  @IBAction func pickVerbsButtonPressed(_ sender: UIButton) {
+    
+  }
+  
+  @IBAction func cancelButtonPressed(_ sender: UIBarButtonItem) {
+    
+  }
+  
+  @IBAction func doneButtonPressed(_ sender: UIBarButtonItem) {
+    
+  }
+  
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    
+    loadUserDefaults()
+    
+    let svgImageView = SVGImageView(svgSource: "Pentagon")
+    movesetView = svgImageView
+    
+  }
+  
+  func loadUserDefaults() {
+    
+  }
+  
 }

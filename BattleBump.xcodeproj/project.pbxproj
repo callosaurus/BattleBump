@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2557B4C4105CC0511455BD5D /* Pods_BattleBump.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B014960031A086821FC026E /* Pods_BattleBump.framework */; };
 		3F0B629D1EF0F04B006724B7 /* EditVerbsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0B629C1EF0F04B006724B7 /* EditVerbsViewController.swift */; };
 		3F252AB61EE8A0FF000ADFD9 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F252AB51EE8A0FF000ADFD9 /* GameViewController.swift */; };
 		3F35265D1E6E4EF800D84F2C /* UICircularProgressRingLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F35265C1E6E4EF800D84F2C /* UICircularProgressRingLayer.swift */; };
@@ -40,6 +41,7 @@
 		A2A182561E6E127B006F5DA8 /* BBRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A2A182551E6E127B006F5DA8 /* BBRootViewController.m */; };
 		A2A76BAA1E732F450046268D /* BBCheckMark.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A76BA91E732F450046268D /* BBCheckMark.swift */; };
 		A2BDFEBE1E723A140098A967 /* BBNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A2BDFEBD1E723A140098A967 /* BBNetworkManager.m */; };
+		B3EA19E58AF8F623038E19AB /* Pods_BattleBumpTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A8669EB2F457F44D06C4BAE /* Pods_BattleBumpTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +55,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1A8669EB2F457F44D06C4BAE /* Pods_BattleBumpTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BattleBumpTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		34E1C55508FA1E212BE28236 /* Pods-BattleBump.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BattleBump.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BattleBump/Pods-BattleBump.debug.xcconfig"; sourceTree = "<group>"; };
+		3B014960031A086821FC026E /* Pods_BattleBump.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BattleBump.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F0B629C1EF0F04B006724B7 /* EditVerbsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditVerbsViewController.swift; sourceTree = "<group>"; };
 		3F252AB51EE8A0FF000ADFD9 /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		3F35265C1E6E4EF800D84F2C /* UICircularProgressRingLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UICircularProgressRingLayer.swift; sourceTree = "<group>"; };
@@ -69,6 +74,7 @@
 		3FB2EEC31EF04B2B00C4044C /* MovesetEditor.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MovesetEditor.storyboard; sourceTree = "<group>"; };
 		3FD254F71EEA5E1000438B16 /* Host.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Host.swift; sourceTree = "<group>"; };
 		3FE23B481EB57389007DB657 /* GameLogicManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameLogicManager.swift; sourceTree = "<group>"; };
+		92659EA1BE90728BD4B5B5DA /* Pods-BattleBump.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BattleBump.release.xcconfig"; path = "Pods/Target Support Files/Pods-BattleBump/Pods-BattleBump.release.xcconfig"; sourceTree = "<group>"; };
 		A22C50D51E6E162300A476F0 /* BBConnectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBConnectViewController.h; sourceTree = "<group>"; };
 		A22C50D61E6E162300A476F0 /* BBConnectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBConnectViewController.m; sourceTree = "<group>"; };
 		A22C50D81E6E163100A476F0 /* BBGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBGameViewController.h; sourceTree = "<group>"; };
@@ -97,6 +103,8 @@
 		A2BD05341E6E50A200AE31D3 /* BattleBump-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BattleBump-Bridging-Header.h"; sourceTree = SOURCE_ROOT; };
 		A2BDFEBC1E723A140098A967 /* BBNetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBNetworkManager.h; sourceTree = "<group>"; };
 		A2BDFEBD1E723A140098A967 /* BBNetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBNetworkManager.m; sourceTree = "<group>"; };
+		B6C55324B1F3146006258CFF /* Pods-BattleBumpTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BattleBumpTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BattleBumpTests/Pods-BattleBumpTests.release.xcconfig"; sourceTree = "<group>"; };
+		FFB9634504B3B0F3E8EE6732 /* Pods-BattleBumpTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BattleBumpTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BattleBumpTests/Pods-BattleBumpTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +112,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2557B4C4105CC0511455BD5D /* Pods_BattleBump.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -111,12 +120,24 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B3EA19E58AF8F623038E19AB /* Pods_BattleBumpTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3C8DA69F97656C67C8063505 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				34E1C55508FA1E212BE28236 /* Pods-BattleBump.debug.xcconfig */,
+				92659EA1BE90728BD4B5B5DA /* Pods-BattleBump.release.xcconfig */,
+				FFB9634504B3B0F3E8EE6732 /* Pods-BattleBumpTests.debug.xcconfig */,
+				B6C55324B1F3146006258CFF /* Pods-BattleBumpTests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		3F35265E1E6E4F2E00D84F2C /* UICircularProgress */ = {
 			isa = PBXGroup;
 			children = (
@@ -127,12 +148,23 @@
 			name = UICircularProgress;
 			sourceTree = "<group>";
 		};
+		5BB234541419AED7EAE2928C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3B014960031A086821FC026E /* Pods_BattleBump.framework */,
+				1A8669EB2F457F44D06C4BAE /* Pods_BattleBumpTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		A260C34B1E6DF1A600F5F84F = {
 			isa = PBXGroup;
 			children = (
 				A260C3561E6DF1A600F5F84F /* BattleBump */,
 				A260C3701E6DF1A600F5F84F /* BattleBumpTests */,
 				A260C3551E6DF1A600F5F84F /* Products */,
+				3C8DA69F97656C67C8063505 /* Pods */,
+				5BB234541419AED7EAE2928C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -246,9 +278,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A260C3761E6DF1A600F5F84F /* Build configuration list for PBXNativeTarget "BattleBump" */;
 			buildPhases = (
+				A6948A6C3CB67C9AFCB77572 /* [CP] Check Pods Manifest.lock */,
 				A260C3501E6DF1A600F5F84F /* Sources */,
 				A260C3511E6DF1A600F5F84F /* Frameworks */,
 				A260C3521E6DF1A600F5F84F /* Resources */,
+				E8C92FAC6342622EC8B0FDCF /* [CP] Embed Pods Frameworks */,
+				26EB1A8551FF2A769AD5539A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -263,9 +298,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A260C3791E6DF1A600F5F84F /* Build configuration list for PBXNativeTarget "BattleBumpTests" */;
 			buildPhases = (
+				EF83FD7D45738FB49065A55B /* [CP] Check Pods Manifest.lock */,
 				A260C3691E6DF1A600F5F84F /* Sources */,
 				A260C36A1E6DF1A600F5F84F /* Frameworks */,
 				A260C36B1E6DF1A600F5F84F /* Resources */,
+				55E9DC29AEB4DDD95A03B6FF /* [CP] Embed Pods Frameworks */,
+				7F4420AC68109DCAEB939CC6 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -342,6 +380,99 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		26EB1A8551FF2A769AD5539A /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BattleBump/Pods-BattleBump-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		55E9DC29AEB4DDD95A03B6FF /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BattleBumpTests/Pods-BattleBumpTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7F4420AC68109DCAEB939CC6 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BattleBumpTests/Pods-BattleBumpTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A6948A6C3CB67C9AFCB77572 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		E8C92FAC6342622EC8B0FDCF /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BattleBump/Pods-BattleBump-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EF83FD7D45738FB49065A55B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		A260C3501E6DF1A600F5F84F /* Sources */ = {
@@ -507,6 +638,7 @@
 		};
 		A260C3771E6DF1A600F5F84F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 34E1C55508FA1E212BE28236 /* Pods-BattleBump.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -525,6 +657,7 @@
 		};
 		A260C3781E6DF1A600F5F84F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 92659EA1BE90728BD4B5B5DA /* Pods-BattleBump.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -542,6 +675,7 @@
 		};
 		A260C37A1E6DF1A600F5F84F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FFB9634504B3B0F3E8EE6732 /* Pods-BattleBumpTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -556,6 +690,7 @@
 		};
 		A260C37B1E6DF1A600F5F84F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B6C55324B1F3146006258CFF /* Pods-BattleBumpTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";

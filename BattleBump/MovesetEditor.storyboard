@@ -23,36 +23,44 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ndg-Ts-J1p">
-                                <rect key="frame" x="16" y="136" width="288" height="288"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="ndg-Ts-J1p" secondAttribute="height" multiplier="1:1" id="XhY-Wm-nCY"/>
-                                </constraints>
-                            </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fUa-jq-8vD">
                                 <rect key="frame" x="80" y="518" width="160" height="30"/>
                                 <state key="normal" title="Pick verbs!"/>
                                 <connections>
+                                    <action selector="pickVerbsButtonPressed:" destination="Uu6-FD-VKU" eventType="touchUpInside" id="0jl-I7-8b2"/>
                                     <segue destination="xsB-EB-fHt" kind="showDetail" id="s7y-GH-rho"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="numberOfOutcomesLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e6z-Mg-FYW">
-                                <rect key="frame" x="61" y="432" width="198" height="20.5"/>
+                                <rect key="frame" x="61" y="400" width="198" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xoL-9w-HOR">
+                                <rect key="frame" x="32" y="136" width="256" height="256"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="xoL-9w-HOR" secondAttribute="height" multiplier="1:1" id="4uk-FV-TS1"/>
+                                </constraints>
+                            </view>
                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NDb-75-mRl">
                                 <rect key="frame" x="16" y="98" width="288" height="30"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wrn-JP-yNg">
                                         <rect key="frame" x="0.0" y="0.0" width="144" height="30"/>
                                         <state key="normal" title="-2 moves"/>
+                                        <connections>
+                                            <action selector="minus2MovesButtonPressed:" destination="Uu6-FD-VKU" eventType="touchUpInside" id="bOt-yx-cQn"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="ATZ-BN-BJJ">
                                         <rect key="frame" x="144" y="0.0" width="144" height="30"/>
                                         <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="15"/>
                                         <state key="normal" title="+2 moves"/>
+                                        <connections>
+                                            <action selector="plus2MovesButtonPressed:" destination="Uu6-FD-VKU" eventType="touchUpInside" id="UvD-t9-n5e"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>
@@ -64,21 +72,33 @@
                         <constraints>
                             <constraint firstItem="e6z-Mg-FYW" firstAttribute="centerX" secondItem="sqQ-sm-cqk" secondAttribute="centerX" id="3FF-lD-eiY"/>
                             <constraint firstItem="NDb-75-mRl" firstAttribute="leading" secondItem="sqQ-sm-cqk" secondAttribute="leadingMargin" id="E1r-Nx-Jcb"/>
-                            <constraint firstItem="ndg-Ts-J1p" firstAttribute="top" secondItem="aj8-UV-fNg" secondAttribute="bottom" constant="72" id="EAb-Zb-fGd"/>
+                            <constraint firstItem="e6z-Mg-FYW" firstAttribute="top" secondItem="xoL-9w-HOR" secondAttribute="bottom" constant="8" id="I1n-8t-hb3"/>
+                            <constraint firstItem="xoL-9w-HOR" firstAttribute="leading" secondItem="sqQ-sm-cqk" secondAttribute="leadingMargin" constant="16" id="Kbg-cf-e2o"/>
                             <constraint firstAttribute="trailingMargin" secondItem="NDb-75-mRl" secondAttribute="trailing" id="LzX-yp-nvZ"/>
-                            <constraint firstItem="e6z-Mg-FYW" firstAttribute="top" secondItem="ndg-Ts-J1p" secondAttribute="bottom" constant="8" id="RRe-Ab-8qi"/>
-                            <constraint firstAttribute="trailing" secondItem="ndg-Ts-J1p" secondAttribute="trailing" constant="16" id="UVs-ry-ceD"/>
-                            <constraint firstItem="ndg-Ts-J1p" firstAttribute="leading" secondItem="sqQ-sm-cqk" secondAttribute="leading" constant="16" id="VTh-fO-G3p"/>
-                            <constraint firstItem="ndg-Ts-J1p" firstAttribute="top" secondItem="NDb-75-mRl" secondAttribute="bottom" constant="8" id="YfS-zS-vcR"/>
+                            <constraint firstItem="xoL-9w-HOR" firstAttribute="top" secondItem="NDb-75-mRl" secondAttribute="bottom" constant="8" id="Tt5-U6-Zbd"/>
                             <constraint firstItem="GNp-RF-rtx" firstAttribute="top" secondItem="fUa-jq-8vD" secondAttribute="bottom" constant="20" id="Z2n-bM-7fX"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="xoL-9w-HOR" secondAttribute="trailing" constant="16" id="fto-aK-ga0"/>
                             <constraint firstItem="fUa-jq-8vD" firstAttribute="centerX" secondItem="sqQ-sm-cqk" secondAttribute="centerX" id="h4e-3R-cyO"/>
                             <constraint firstItem="fUa-jq-8vD" firstAttribute="width" secondItem="sqQ-sm-cqk" secondAttribute="width" multiplier="0.5" id="mL3-qz-tUo"/>
+                            <constraint firstItem="xoL-9w-HOR" firstAttribute="top" secondItem="aj8-UV-fNg" secondAttribute="bottom" constant="72" id="okv-hK-EjC"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="MovesetName" id="xDQ-7u-lDx">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="v3m-wf-fFe"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="Et3-My-Yb3"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="v3m-wf-fFe">
+                            <connections>
+                                <action selector="cancelButtonPressed:" destination="Uu6-FD-VKU" id="cC2-z0-d1j"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="Et3-My-Yb3">
+                            <connections>
+                                <action selector="doneButtonPressed:" destination="Uu6-FD-VKU" id="tWU-Dn-5Wu"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="movesetView" destination="xoL-9w-HOR" id="bLD-Fb-Lrs"/>
+                        <outlet property="numberOfOutcomesLabel" destination="e6z-Mg-FYW" id="CvW-nq-0RI"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xkX-M8-fE4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -87,7 +107,7 @@
         <!--How does...-->
         <scene sceneID="8ZK-4E-zhy">
             <objects>
-                <viewController id="YgC-0v-uRA" sceneMemberID="viewController">
+                <viewController id="YgC-0v-uRA" customClass="EditVerbsViewController" customModule="BattleBump" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="stD-83-ZRT"/>
                         <viewControllerLayoutGuide type="bottom" id="mog-ZJ-gei"/>
@@ -100,7 +120,7 @@
                                 <rect key="frame" x="16" y="64" width="288" height="504"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="77" id="SNg-VZ-nX7">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="verbCell" rowHeight="77" id="SNg-VZ-nX7">
                                         <rect key="frame" x="0.0" y="28" width="288" height="77"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="SNg-VZ-nX7" id="GRG-oA-62S">
@@ -140,8 +160,15 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="How does..." id="sKk-nD-wyF">
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="go0-0M-J8o"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="go0-0M-J8o">
+                            <connections>
+                                <action selector="doneButtonPressed:" destination="YgC-0v-uRA" id="3ms-zZ-8sN"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="verbsTableView" destination="gpX-Qb-9jn" id="Jk4-Fb-iTk"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ND8-Qk-eUf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
