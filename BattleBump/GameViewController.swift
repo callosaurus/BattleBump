@@ -34,36 +34,36 @@ class GameViewController: UIViewController, MPCGameplayProtocol, BBNetworkManage
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.me = self.playerInviteesArray[0]
-        self.opponent = self.playerInviteesArray[1]
-        self.mpcManager.gameplayDelegate = self
+        me = playerInviteesArray[0]
+        opponent = playerInviteesArray[1]
+        mpcManager.gameplayDelegate = self
 
         configureViews()
     }
     
     
     @IBAction func readyButtonPressed(_ sender: UIButton) {
-        if (self.me?.game.state == "ready" && self.opponent?.game.state == "ready") {
+        if (me?.game.state == "ready" && opponent?.game.state == "ready") {
             
-            self.rockLabel.isUserInteractionEnabled = true
-            self.paperLabel.isUserInteractionEnabled = true
-            self.scissorsLabel.isUserInteractionEnabled = true
+            rockLabel.isUserInteractionEnabled = true
+            paperLabel.isUserInteractionEnabled = true
+            scissorsLabel.isUserInteractionEnabled = true
             
-            self.theirLastMoveLabel.text = ""
-            self.resultLabel.text = ""
+            theirLastMoveLabel.text = ""
+            resultLabel.text = ""
             
-            self.rockConfirmationIcon?.alpha = 0.0;
-            self.paperConfirmationIcon?.alpha = 0.0;
-            self.scissorsConfirmationIcon?.alpha = 0.0;
+            rockConfirmationIcon?.alpha = 0.0;
+            paperConfirmationIcon?.alpha = 0.0;
+            scissorsConfirmationIcon?.alpha = 0.0;
             
-            self.progressRing.alpha = 1.0;
-            self.giantMoveLabel.alpha = 0.0;
+            progressRing.alpha = 1.0;
+            giantMoveLabel.alpha = 0.0;
             
-            if(self.gameLogicManager.myConfirmedMove != "") {
-                self.gameLogicManager.myConfirmedMove = ""
+            if(gameLogicManager.myConfirmedMove != "") {
+                gameLogicManager.myConfirmedMove = ""
             }
             
-            self.progressRing.setProgress(value: 0.0, animationDuration: 5.0, completion: { () in
+            progressRing.setProgress(value: 0.0, animationDuration: 5.0, completion: { () in
                 
                 //picks random move if user hasn't chosen one by end of timer
                 if (self.gameLogicManager.myConfirmedMove == "") {
@@ -117,82 +117,82 @@ class GameViewController: UIViewController, MPCGameplayProtocol, BBNetworkManage
     
     func configureViews() {
         
-        self.currentPlayGameLabel.text = String(format: "You are playing %@", (self.opponent?.player.name)!)
+        currentPlayGameLabel.text = String(format: "You are playing %@", (opponent?.player.name)!)
         
         let confirmRock = UITapGestureRecognizer(target: self, action: #selector(didConfirmRock(_:)))
-        self.rockLabel.addGestureRecognizer(confirmRock)
+        rockLabel.addGestureRecognizer(confirmRock)
         
         let confirmPaper = UITapGestureRecognizer(target: self, action: #selector(didConfirmPaper(_:)))
-        self.paperLabel.addGestureRecognizer(confirmPaper)
+        paperLabel.addGestureRecognizer(confirmPaper)
         
         let confirmScissors = UITapGestureRecognizer(target: self, action: #selector(didConfirmScissors(_:)))
-        self.scissorsLabel.addGestureRecognizer(confirmScissors)
+        scissorsLabel.addGestureRecognizer(confirmScissors)
     }
     
     //MARK: - Confirmations -
     
     func didConfirmRock(_ sender: UITapGestureRecognizer) {
         
-        if (self.rockConfirmationIcon == nil) {
-            self.rockConfirmationIcon = UIImageView(frame: CGRect(x: self.rockLabel.bounds.origin.x, y: self.rockLabel.bounds.origin.y, width: self.rockLabel.bounds.size.width, height: self.rockLabel.bounds.size.height))
-            self.rockConfirmationIcon?.image = UIImage(named: "confirmationTick")?.withRenderingMode(.alwaysTemplate)
-            self.rockConfirmationIcon?.tintColor = UIColor.green
-            self.rockLabel.addSubview(self.rockConfirmationIcon!)
+        if (rockConfirmationIcon == nil) {
+            rockConfirmationIcon = UIImageView(frame: CGRect(x: rockLabel.bounds.origin.x, y: rockLabel.bounds.origin.y, width: rockLabel.bounds.size.width, height: rockLabel.bounds.size.height))
+            rockConfirmationIcon?.image = UIImage(named: "confirmationTick")?.withRenderingMode(.alwaysTemplate)
+            rockConfirmationIcon?.tintColor = UIColor.green
+            rockLabel.addSubview(rockConfirmationIcon!)
         }
         
-        self.rockConfirmationIcon?.alpha = 0.5
-        self.paperConfirmationIcon?.alpha = 0.0
-        self.scissorsConfirmationIcon?.alpha = 0.0
+        rockConfirmationIcon?.alpha = 0.5
+        paperConfirmationIcon?.alpha = 0.0
+        scissorsConfirmationIcon?.alpha = 0.0
         
-        self.gameLogicManager.myConfirmedMove = "Rock"
+        gameLogicManager.myConfirmedMove = "Rock"
     }
     
     func didConfirmPaper(_ sender: UITapGestureRecognizer) {
         
-        if (self.paperConfirmationIcon == nil) {
-            self.paperConfirmationIcon = UIImageView(frame: CGRect(x: self.paperLabel.bounds.origin.x, y: self.paperLabel.bounds.origin.y, width: self.paperLabel.bounds.size.width, height: self.paperLabel.bounds.size.height))
-            self.paperConfirmationIcon?.image = UIImage(named: "confirmationTick")?.withRenderingMode(.alwaysTemplate)
-            self.paperConfirmationIcon?.tintColor = UIColor.green
-            self.paperLabel.addSubview(self.paperConfirmationIcon!)
+        if (paperConfirmationIcon == nil) {
+            paperConfirmationIcon = UIImageView(frame: CGRect(x: paperLabel.bounds.origin.x, y: paperLabel.bounds.origin.y, width: paperLabel.bounds.size.width, height: paperLabel.bounds.size.height))
+            paperConfirmationIcon?.image = UIImage(named: "confirmationTick")?.withRenderingMode(.alwaysTemplate)
+            paperConfirmationIcon?.tintColor = UIColor.green
+            paperLabel.addSubview(paperConfirmationIcon!)
         }
         
-        self.rockConfirmationIcon?.alpha = 0.0
-        self.paperConfirmationIcon?.alpha = 0.5
-        self.scissorsConfirmationIcon?.alpha = 0.0
+        rockConfirmationIcon?.alpha = 0.0
+        paperConfirmationIcon?.alpha = 0.5
+        scissorsConfirmationIcon?.alpha = 0.0
         
-        self.gameLogicManager.myConfirmedMove = "Paper"
+        gameLogicManager.myConfirmedMove = "Paper"
     }
     
     func didConfirmScissors(_ sender: UITapGestureRecognizer) {
         
-        if (self.scissorsConfirmationIcon == nil) {
-            self.scissorsConfirmationIcon = UIImageView(frame: CGRect(x: self.scissorsLabel.bounds.origin.x, y: self.scissorsLabel.bounds.origin.y, width: self.scissorsLabel.bounds.size.width, height: self.scissorsLabel.bounds.size.height))
-            self.scissorsConfirmationIcon?.image = UIImage(named: "confirmationTick")?.withRenderingMode(.alwaysTemplate)
-            self.scissorsConfirmationIcon?.tintColor = UIColor.green
-            self.scissorsLabel.addSubview(self.scissorsConfirmationIcon!)
+        if (scissorsConfirmationIcon == nil) {
+            scissorsConfirmationIcon = UIImageView(frame: CGRect(x: scissorsLabel.bounds.origin.x, y: scissorsLabel.bounds.origin.y, width: scissorsLabel.bounds.size.width, height: scissorsLabel.bounds.size.height))
+            scissorsConfirmationIcon?.image = UIImage(named: "confirmationTick")?.withRenderingMode(.alwaysTemplate)
+            scissorsConfirmationIcon?.tintColor = UIColor.green
+            scissorsLabel.addSubview(scissorsConfirmationIcon!)
         }
         
-        self.rockConfirmationIcon?.alpha = 0.0
-        self.paperConfirmationIcon?.alpha = 0.0
-        self.scissorsConfirmationIcon?.alpha = 0.5
+        rockConfirmationIcon?.alpha = 0.0
+        paperConfirmationIcon?.alpha = 0.0
+        scissorsConfirmationIcon?.alpha = 0.5
         
-        self.gameLogicManager.myConfirmedMove = "Scissors"
+        gameLogicManager.myConfirmedMove = "Scissors"
     }
     
     //MARK: - Round Over -
     
     func roundConclusion() {
         
-        let resultLabelString = self.gameLogicManager.generateResultsLabelWithMoves()
+        let resultLabelString = gameLogicManager.generateResultsLabelWithMoves()
         
         //Check if Game Over
-        if (self.gameLogicManager.myWinsNumber == 3 || self.gameLogicManager.opponentWinsNumber == 3) {
-            self.mpcManager.send(self.me!)
+        if (gameLogicManager.myWinsNumber == 3 || gameLogicManager.opponentWinsNumber == 3) {
+            mpcManager.send(me!)
             presentGameOverAlert()
         } else {
-            self.mpcManager.send(self.me!)
-            self.me?.game.state = "ready"
-            self.opponent?.game.state = "ready"
+            mpcManager.send(me!)
+            me?.game.state = "ready"
+            opponent?.game.state = "ready"
             
             //Update UI
             DispatchQueue.main.async {
@@ -206,10 +206,10 @@ class GameViewController: UIViewController, MPCGameplayProtocol, BBNetworkManage
   
     func presentGameOverAlert() {
         var titleString = ""
-        if (self.gameLogicManager.myWinsNumber == 3) {
+        if (gameLogicManager.myWinsNumber == 3) {
             titleString = "You Won!"
         } else {
-            titleString = String(format:"%@ Won!", (self.opponent?.player.name)!)
+            titleString = String(format:"%@ Won!", (opponent?.player.name)!)
         }
         
         let alertController = UIAlertController(title: titleString, message: nil, preferredStyle: .alert)
@@ -219,17 +219,17 @@ class GameViewController: UIViewController, MPCGameplayProtocol, BBNetworkManage
         })
         
         alertController.addAction(alertAction)
-        self.present(alertController, animated: true)
+        present(alertController, animated: true)
     }
     
     //MARK: - Networking -
     
     func receivedInviteeMessage(_ invitee: Invitee) {
         print("Received Invitee Message")
-        self.opponent?.player.move = invitee.player.move;
-        self.gameLogicManager.theirConfirmedMove = (self.opponent?.player.move)!;
+        opponent?.player.move = invitee.player.move;
+        gameLogicManager.theirConfirmedMove = (opponent?.player.move)!;
         
-        if(invitee.game.state == "roundOver" && self.me?.game.state == "roundOver") {
+        if(invitee.game.state == "roundOver" && me?.game.state == "roundOver") {
             
             roundConclusion()
         }
@@ -243,7 +243,7 @@ class GameViewController: UIViewController, MPCGameplayProtocol, BBNetworkManage
         })
         
         alertController.addAction(alertAction)
-        self.present(alertController, animated: true)
+        present(alertController, animated: true)
     }
  
 }

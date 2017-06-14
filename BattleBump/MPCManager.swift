@@ -29,8 +29,7 @@ protocol MPCJoiningProtocol: NSObjectProtocol {
     var myBrowser : MCNearbyServiceBrowser?
     var mySession : MCSession?
     var foundHostsArray = [Host]()
-    var state : String?
-    
+  
     func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
         print("Peer [\(peerID.displayName)] changed state to \(string(forPeerConnectionState: state))")
         
@@ -43,11 +42,10 @@ protocol MPCJoiningProtocol: NSObjectProtocol {
             let player = Player(name: peerID.displayName, emoji: "🙅🏽‍♂️", move: "join")
             let game = Game(name: "theGame", state: "join")
             let opponentInvitee = Invitee(player: player, game: game)
-            self.joinDelegate?.didConnectSuccessfully(to: opponentInvitee)
+            joinDelegate?.didConnectSuccessfully(to: opponentInvitee)
             
         } else if (state == .notConnected) {
-            self.state = "notConnected"
-            self.gameplayDelegate?.session(session: session, wasInterruptedByState: state)
+            gameplayDelegate?.session(session: session, wasInterruptedByState: state)
         }
     }
     
@@ -92,10 +90,9 @@ protocol MPCJoiningProtocol: NSObjectProtocol {
     
     func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didReceiveInvitationFromPeer peerID: MCPeerID, withContext context: Data?, invitationHandler: @escaping (Bool, MCSession?) -> Void) {
         
-        if (self.mySession == nil) {
-            self.state = "connected"
-            self.mySession = MCSession(peer: self.myPeerID!, securityIdentity: nil, encryptionPreference: .none)
-            self.mySession?.delegate = self
+        if (mySession == nil) {
+            mySession = MCSession(peer: myPeerID!, securityIdentity: nil, encryptionPreference: .none)
+            mySession?.delegate = self
             invitationHandler(true, mySession)
         }
     }
@@ -106,13 +103,13 @@ protocol MPCJoiningProtocol: NSObjectProtocol {
         print("Found peer: \(peerID)")
         
         let newHostFound = Host(hostPeerID: peerID, emoji: (info?["emoji"])!)
-        if (!self.foundHostsArray.contains(newHostFound)) {
-            self.foundHostsArray.append(newHostFound)
+        if (!foundHostsArray.contains(newHostFound)) {
+            foundHostsArray.append(newHostFound)
         }
         
         //eventually have moveset in discoveryInfo, decode
-        self.myBrowser?.stopBrowsingForPeers()
-        self.joinDelegate?.didChangeFoundHosts()
+        myBrowser?.stopBrowsingForPeers()
+        joinDelegate?.didChangeFoundHosts()
 
     }
     
@@ -120,13 +117,13 @@ protocol MPCJoiningProtocol: NSObjectProtocol {
         print("Peer lost: \(peerID.displayName)")
         
         //removes lost Host
-        if let lostHost = self.foundHostsArray.first(where: { $0.hostPeerID == peerID }) {
-            if let index = self.foundHostsArray.index(of: lostHost) {
-                self.foundHostsArray.remove(at: index)
+        if let lostHost = foundHostsArray.first(where: { $0.hostPeerID == peerID }) {
+            if let index = foundHostsArray.index(of: lostHost) {
+                foundHostsArray.remove(at: index)
             }
         }
         
-        self.joinDelegate?.didChangeFoundHosts()
+        joinDelegate?.didChangeFoundHosts()
         
     }
     
@@ -134,42 +131,42 @@ protocol MPCJoiningProtocol: NSObjectProtocol {
     
     func advertiseToPeers(invitee: Invitee) {
         
-        if (self.myPeerID == nil) {
-            self.myPeerID = MCPeerID(displayName: invitee.player.name)
-            print(String(format:"Making new peerID to advertise: %@", self.myPeerID!))
+        if (myPeerID == nil) {
+            myPeerID = MCPeerID(displayName: invitee.player.name)
+            print(String(format:"Making new peerID to advertise: %@", myPeerID!))
         }
         
         let dict = ["emoji": invitee.player.emoji]
         // eventually encode discoveryInfo containing moveset name and moves
         
-        self.myAdvertiser = MCNearbyServiceAdvertiser(peer: myPeerID!, discoveryInfo: dict, serviceType: "RPSgame")
+        myAdvertiser = MCNearbyServiceAdvertiser(peer: myPeerID!, discoveryInfo: dict, serviceType: "RPSgame")
         print("Advertising for \(String(describing: myPeerID))")
         
-        self.myAdvertiser?.delegate = self
-        self.myAdvertiser?.startAdvertisingPeer()
+        myAdvertiser?.delegate = self
+        myAdvertiser?.startAdvertisingPeer()
     }
     
     func findPeers(invitee : Invitee) {
         
-        if (self.myPeerID == nil) {
-            self.myPeerID = MCPeerID(displayName: invitee.player.name)
-            print(String(format:"Making new peerID to browse with: %@", self.myPeerID!))
+        if (myPeerID == nil) {
+            myPeerID = MCPeerID(displayName: invitee.player.name)
+            print(String(format:"Making new peerID to browse with: %@", myPeerID!))
         }
         
-        self.myBrowser = MCNearbyServiceBrowser(peer: myPeerID!, serviceType: "RPSgame")
+        myBrowser = MCNearbyServiceBrowser(peer: myPeerID!, serviceType: "RPSgame")
         print("Browsing with \(String(describing: myPeerID))")
         
-        self.myBrowser?.delegate = self
-        self.myBrowser?.startBrowsingForPeers()
+        myBrowser?.delegate = self
+        myBrowser?.startBrowsingForPeers()
     }
     
     func joinPeer(peerID: MCPeerID) {
         
-        if (self.myPeerID != nil && self.myBrowser != nil) {
+        if (myPeerID != nil && myBrowser != nil) {
             print("connecting to: \(peerID)")
-            self.mySession = MCSession(peer: self.myPeerID!, securityIdentity: nil, encryptionPreference: .none)
-            self.mySession?.delegate = self
-            self.myBrowser?.invitePeer(peerID, to: self.mySession!, withContext: nil, timeout: 10)
+            mySession = MCSession(peer: myPeerID!, securityIdentity: nil, encryptionPreference: .none)
+            mySession?.delegate = self
+            myBrowser?.invitePeer(peerID, to: mySession!, withContext: nil, timeout: 10)
         }
     }
     
@@ -182,7 +179,7 @@ protocol MPCJoiningProtocol: NSObjectProtocol {
         let data = NSKeyedArchiver.archivedData(withRootObject: invitee)
         
         do {
-            try self.mySession?.send(data, toPeers: (self.mySession?.connectedPeers)!, with: .reliable)
+            try mySession?.send(data, toPeers: (mySession?.connectedPeers)!, with: .reliable)
         } catch {
             print(error.localizedDescription)
             print("Could not send invitee properly")

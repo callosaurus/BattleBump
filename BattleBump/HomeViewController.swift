@@ -35,8 +35,8 @@ class HomeViewController: UIViewController, MPCJoiningProtocol, UITableViewDeleg
         playerName = "Player"
         playerEmoji = "😎"
         
-        self.playerNameTextField.delegate = self
-        self.playerEmojiTextField.delegate = self
+        playerNameTextField.delegate = self
+        playerEmojiTextField.delegate = self
         
         loadUserDefaults()
         prepareTableView()
@@ -45,13 +45,13 @@ class HomeViewController: UIViewController, MPCJoiningProtocol, UITableViewDeleg
     
 //    override func viewWillAppear(_ animated: Bool) {
 //        super.viewWillAppear(animated)
-//        self.tableView.reloadData()
+//        tableView.reloadData()
 //    }
     
     //MARK: - IBActions -
     
     @IBAction func startButtonPressed(_ sender: UIButton) {
-        self.mpcManager.advertiseToPeers(invitee: self.me!)
+        mpcManager.advertiseToPeers(invitee: me!)
     
     }
     
@@ -63,7 +63,7 @@ class HomeViewController: UIViewController, MPCJoiningProtocol, UITableViewDeleg
         
         let defaults = UserDefaults.standard
         defaults.set(sender.text, forKey: "playerName")
-        self.playerNameTextField.resignFirstResponder()
+        playerNameTextField.resignFirstResponder()
     }
     
     @IBAction func playerEmojiTextFieldDidEndEditing(_ sender: UITextField) {
@@ -94,13 +94,13 @@ class HomeViewController: UIViewController, MPCJoiningProtocol, UITableViewDeleg
         
         let defaults = UserDefaults.standard
         if(defaults.dictionaryRepresentation().keys.contains("playerName")) {
-            self.playerName = defaults.string(forKey: "playerName")
-            self.playerEmoji = defaults.string(forKey:"playerEmoji")
+            playerName = defaults.string(forKey: "playerName")
+            playerEmoji = defaults.string(forKey:"playerEmoji")
         }
-        self.playerNameLabel.text = "Name"
-        self.playerEmojiLabel.text = "Emoji"
-        self.playerNameTextField.text = playerName
-        self.playerEmojiTextField.text = playerEmoji
+        playerNameLabel.text = "Name"
+        playerEmojiLabel.text = "Emoji"
+        playerNameTextField.text = playerName
+        playerEmojiTextField.text = playerEmoji
         
         //eventually load movesets from userdefaults. display visually
         let imageViews = [imageViewOne, imageViewTwo, imageViewThree]
@@ -111,7 +111,7 @@ class HomeViewController: UIViewController, MPCJoiningProtocol, UITableViewDeleg
     }
     
     func prepareTableView() {
-        self.tableViewLabel.text = "Joinable Players"
+        tableViewLabel.text = "Joinable Players"
         refreshControl = UIRefreshControl()
         refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         refreshControl.addTarget(self, action: #selector(refresh(_ :)), for: UIControlEvents.valueChanged)
@@ -119,17 +119,17 @@ class HomeViewController: UIViewController, MPCJoiningProtocol, UITableViewDeleg
     }
     
     func setupMPCManager() {
-        self.mpcManager.joinDelegate = self
+        mpcManager.joinDelegate = self
         
         let thisPlayer = Player(name: playerName!, emoji: playerEmoji!, move: "join")
         let thisGame = Game(name: "placeholderName", state: "join")
-        self.me = Invitee(player: thisPlayer, game: thisGame)
+        me = Invitee(player: thisPlayer, game: thisGame)
         
-        self.mpcManager.findPeers(invitee: self.me!)
+        mpcManager.findPeers(invitee: me!)
     }
     
     func refresh(_ sender: UIRefreshControl) {
-        self.mpcManager.findPeers(invitee: self.me!)
+        mpcManager.findPeers(invitee: me!)
         
     }
     
@@ -149,20 +149,20 @@ class HomeViewController: UIViewController, MPCJoiningProtocol, UITableViewDeleg
     // MARK: - MPCJoining Protocol Method -
     
     func didChangeFoundHosts() {
-        self.foundHostsArray = self.mpcManager.foundHostsArray
-        self.refreshControl.endRefreshing()
+        foundHostsArray = mpcManager.foundHostsArray
+        refreshControl.endRefreshing()
 
-        self.tableView.reloadData()
+        tableView.reloadData()
         
     }
     
     func didConnectSuccessfully(to invitee: Invitee) {
         
-        self.me!.game.state = "ready"
+        me!.game.state = "ready"
         invitee.game.state = "ready"
         
-        self.playerInviteesArray.append(self.me!)
-        self.playerInviteesArray.append(invitee)
+        playerInviteesArray.append(me!)
+        playerInviteesArray.append(invitee)
         
         DispatchQueue.main.async {
             self.performSegue(withIdentifier: "startGame", sender: self)
@@ -174,17 +174,16 @@ class HomeViewController: UIViewController, MPCJoiningProtocol, UITableViewDeleg
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if let gameVC = segue.destination as? GameViewController {
-            gameVC.playerInviteesArray = self.playerInviteesArray
-            gameVC.mpcManager = self.mpcManager
-            
+            gameVC.playerInviteesArray = playerInviteesArray
+            gameVC.mpcManager = mpcManager
         }
     }
     
     // MARK: - UITableView Methods -
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedHostPeerID = self.foundHostsArray[indexPath.row].hostPeerID
-        self.mpcManager.joinPeer(peerID: selectedHostPeerID)
+        let selectedHostPeerID = foundHostsArray[indexPath.row].hostPeerID
+        mpcManager.joinPeer(peerID: selectedHostPeerID)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -196,7 +195,7 @@ class HomeViewController: UIViewController, MPCJoiningProtocol, UITableViewDeleg
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.foundHostsArray.count
+        return foundHostsArray.count
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
