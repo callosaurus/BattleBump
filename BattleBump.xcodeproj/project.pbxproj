@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3F0B629D1EF0F04B006724B7 /* EditVerbsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0B629C1EF0F04B006724B7 /* EditVerbsViewController.swift */; };
 		3F252AB61EE8A0FF000ADFD9 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F252AB51EE8A0FF000ADFD9 /* GameViewController.swift */; };
 		3F35265D1E6E4EF800D84F2C /* UICircularProgressRingLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F35265C1E6E4EF800D84F2C /* UICircularProgressRingLayer.swift */; };
 		3F3526601E6E4F5E00D84F2C /* UICircularProgressRingDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F35265F1E6E4F5E00D84F2C /* UICircularProgressRingDelegate.swift */; };
@@ -18,6 +19,8 @@
 		3F8491F81EE77D24000AECF0 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8491F71EE77D24000AECF0 /* HomeViewController.swift */; };
 		3F8491FA1EE78AEA000AECF0 /* MPCManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8491F91EE78AEA000AECF0 /* MPCManager.swift */; };
 		3FB2EEC01EF0444300C4044C /* Moveset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB2EEBF1EF0444300C4044C /* Moveset.swift */; };
+		3FB2EEC21EF04AA200C4044C /* MovesetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB2EEC11EF04AA200C4044C /* MovesetViewController.swift */; };
+		3FB2EEC41EF04B2B00C4044C /* MovesetEditor.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3FB2EEC31EF04B2B00C4044C /* MovesetEditor.storyboard */; };
 		3FD254F81EEA5E1000438B16 /* Host.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD254F71EEA5E1000438B16 /* Host.swift */; };
 		3FE23B491EB57389007DB657 /* GameLogicManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE23B481EB57389007DB657 /* GameLogicManager.swift */; };
 		A22C50D71E6E162300A476F0 /* BBConnectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A22C50D61E6E162300A476F0 /* BBConnectViewController.m */; };
@@ -50,6 +53,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3F0B629C1EF0F04B006724B7 /* EditVerbsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditVerbsViewController.swift; sourceTree = "<group>"; };
 		3F252AB51EE8A0FF000ADFD9 /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		3F35265C1E6E4EF800D84F2C /* UICircularProgressRingLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UICircularProgressRingLayer.swift; sourceTree = "<group>"; };
 		3F35265F1E6E4F5E00D84F2C /* UICircularProgressRingDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UICircularProgressRingDelegate.swift; sourceTree = "<group>"; };
@@ -61,6 +65,8 @@
 		3F8491F71EE77D24000AECF0 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		3F8491F91EE78AEA000AECF0 /* MPCManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MPCManager.swift; sourceTree = "<group>"; };
 		3FB2EEBF1EF0444300C4044C /* Moveset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Moveset.swift; sourceTree = "<group>"; };
+		3FB2EEC11EF04AA200C4044C /* MovesetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovesetViewController.swift; sourceTree = "<group>"; };
+		3FB2EEC31EF04B2B00C4044C /* MovesetEditor.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MovesetEditor.storyboard; sourceTree = "<group>"; };
 		3FD254F71EEA5E1000438B16 /* Host.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Host.swift; sourceTree = "<group>"; };
 		3FE23B481EB57389007DB657 /* GameLogicManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameLogicManager.swift; sourceTree = "<group>"; };
 		A22C50D51E6E162300A476F0 /* BBConnectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBConnectViewController.h; sourceTree = "<group>"; };
@@ -213,6 +219,8 @@
 				A22C50D81E6E163100A476F0 /* BBGameViewController.h */,
 				A22C50D91E6E163100A476F0 /* BBGameViewController.m */,
 				3F252AB51EE8A0FF000ADFD9 /* GameViewController.swift */,
+				3FB2EEC11EF04AA200C4044C /* MovesetViewController.swift */,
+				3F0B629C1EF0F04B006724B7 /* EditVerbsViewController.swift */,
 			);
 			name = Control;
 			sourceTree = "<group>";
@@ -224,6 +232,7 @@
 				A260C3601E6DF1A600F5F84F /* Main.storyboard */,
 				A2A182501E6E0613006F5DA8 /* Connect.storyboard */,
 				3F8491F51EE761D0000AECF0 /* Home.storyboard */,
+				3FB2EEC31EF04B2B00C4044C /* MovesetEditor.storyboard */,
 				A2A182521E6E061E006F5DA8 /* Game.storyboard */,
 				3F35265E1E6E4F2E00D84F2C /* UICircularProgress */,
 			);
@@ -321,6 +330,7 @@
 				3F8491F61EE761D0000AECF0 /* Home.storyboard in Resources */,
 				A2A182531E6E061E006F5DA8 /* Game.storyboard in Resources */,
 				A2A182511E6E0613006F5DA8 /* Connect.storyboard in Resources */,
+				3FB2EEC41EF04B2B00C4044C /* MovesetEditor.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -340,12 +350,14 @@
 			files = (
 				A25D7B201E6F74050090BC65 /* Invitee.swift in Sources */,
 				A25D7B191E6F60A50090BC65 /* Player.swift in Sources */,
+				3F0B629D1EF0F04B006724B7 /* EditVerbsViewController.swift in Sources */,
 				3F8491FA1EE78AEA000AECF0 /* MPCManager.swift in Sources */,
 				3F3956561EE8C33E004F27D7 /* HostCell.swift in Sources */,
 				A2A76BAA1E732F450046268D /* BBCheckMark.swift in Sources */,
 				3F8491F81EE77D24000AECF0 /* HomeViewController.swift in Sources */,
 				A260C35C1E6DF1A600F5F84F /* AppDelegate.m in Sources */,
 				A2BDFEBE1E723A140098A967 /* BBNetworkManager.m in Sources */,
+				3FB2EEC21EF04AA200C4044C /* MovesetViewController.swift in Sources */,
 				A22C50D71E6E162300A476F0 /* BBConnectViewController.m in Sources */,
 				3F252AB61EE8A0FF000ADFD9 /* GameViewController.swift in Sources */,
 				3FB2EEC01EF0444300C4044C /* Moveset.swift in Sources */,
