@@ -3,7 +3,7 @@
 //  BattleBump
 //
 //  Created by Dave Augerinos on 2017-03-06.
-//  Copyright © 2017 Dave Augerinos. All rights reserved.
+//  Copyright © 2017 Callum Davies & Dave Augerinos. All rights reserved.
 //
 
 #import "BBConnectViewController.h"
@@ -35,7 +35,6 @@
 
 static NSString * const reuseIdentifier = @"inviteeCell";
 
-
 - (void)viewDidLoad {
 
     [super viewDidLoad];
@@ -47,6 +46,14 @@ static NSString * const reuseIdentifier = @"inviteeCell";
     self.playerInviteesArray = [[NSMutableArray alloc] init];
     self.cellSelected = [[NSMutableArray alloc] init];
     
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if([[[defaults dictionaryRepresentation] allKeys] containsObject:@"playerName"]){
+        
+        self.playerNameTextField.text = [defaults valueForKey:@"playerName"];
+        self.playerEmojiTextField.text = [defaults valueForKey:@"playerEmoji"];
+        self.gameNameTextField.text = [defaults valueForKey:@"playerGameName"];
+    }
+    
     self.hasASelection = NO;
     
     self.playerNameTextField.layer.borderWidth = 0.5;
@@ -55,7 +62,7 @@ static NSString * const reuseIdentifier = @"inviteeCell";
 }
 
 
-#pragma mark <UICollectionViewDataSource>
+#pragma mark - UICollectionViewDataSource Methods -
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
 
@@ -89,7 +96,7 @@ static NSString * const reuseIdentifier = @"inviteeCell";
 }
 
 
-#pragma mark - NetworkManager Method -
+#pragma mark - NetworkManager Protocol Method -
 
 - (void)receivedInviteeMessage:(Invitee *) invitee {
 
@@ -117,7 +124,7 @@ static NSString * const reuseIdentifier = @"inviteeCell";
 }
 
 
-#pragma mark - IBActions methods -
+#pragma mark - IBActions Methods -
 
 - (IBAction)joinButtonPressed:(UIButton *)sender {
 
@@ -127,10 +134,6 @@ static NSString * const reuseIdentifier = @"inviteeCell";
     NSString *playerName = self.playerNameTextField.text;
     NSString *playerEmoji = self.playerEmojiTextField.text;
     NSString *gameName = self.gameNameTextField.text;
-
-    // Check for valid player name
-    // Check for valid emoji
-    // Check for valid game name
 
     Player *player = [[Player alloc] initWithName:playerName emoji:playerEmoji move:@"join"];
     Game *game = [[Game alloc] initWithName:gameName state:@"join"];
@@ -167,11 +170,13 @@ static NSString * const reuseIdentifier = @"inviteeCell";
 }
 
 
-#pragma mark - UITextFieldDelegate methods -
+#pragma mark - UITextFieldDelegate Methods -
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
-
-    [self.view endEditing:YES];
+    
+    [self.playerNameTextField resignFirstResponder];
+    [self.playerEmojiTextField resignFirstResponder];
+    [self.gameNameTextField resignFirstResponder];
     return YES;
 }
 
@@ -188,7 +193,7 @@ static NSString * const reuseIdentifier = @"inviteeCell";
 }
 
 
-# pragma mark - UICollectionViewDelegate methods -
+# pragma mark - UICollectionViewDelegate Methods -
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 

@@ -3,7 +3,7 @@
 //  BattleBump
 //
 //  Created by Dave Augerinos & Callum Davies on 2017-03-06.
-//  Copyright © 2017 Dave Augerinos. All rights reserved.
+//  Copyright © 2017 Callum Davies & Dave Augerinos. All rights reserved.
 //
 
 #import "BBGameViewController.h"
@@ -42,15 +42,11 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     self.me = self.playerInviteesArray[0];
     self.opponent = self.playerInviteesArray[1];
     self.currentPlayGameLabel.text = [NSString stringWithFormat:@"You are playing %@", self.opponent.player.name];
     self.networkManager.delegate = self;
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (IBAction)readyButtonPressed:(UIButton *)sender {
@@ -146,7 +142,7 @@
         self.rockConfirmationIcon.tintColor = [UIColor greenColor];
         [self.rockLabel addSubview:self.rockConfirmationIcon];
     }
-
+    
     self.rockConfirmationIcon.alpha = 0.5;
     self.paperConfirmationIcon.alpha = 0.0;
     self.scissorsConfirmationIcon.alpha = 0.0;
@@ -184,29 +180,38 @@
     self.gameLogicManager.myConfirmedMove = @"Scissors";
 }
 
+#pragma mark - Round Over -
+
 - (void)roundConclusion {
     
-    //Update UI
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^ {
-        self.theirLastMoveLabel.text = [NSString stringWithFormat:@"%@ played: %@", self.opponent.player.name, self.opponent.player.move];
-        self.resultLabel.text = [self.gameLogicManager generateResultsLabelWithMoves];
-        self.winsAndRoundsLabel.text = [NSString stringWithFormat:@"%d / %d", self.gameLogicManager.myWinsNumber, self.gameLogicManager.roundsPlayedNumber];
-    }];
+    NSString *resultLabelString = [self.gameLogicManager generateResultsLabelWithMoves];
     
     //Check if Game Over
-    if (self.gameLogicManager.myWinsNumber == 5 || self.gameLogicManager.opponentWinsNumber == 5) {
+    if (self.gameLogicManager.myWinsNumber == 3 || self.gameLogicManager.opponentWinsNumber == 3) {
+        
+        [self.networkManager send:self.me];
         [self presentGameOverAlert];
+        
     } else {
         
         [self.networkManager send:self.me];
         self.me.game.state = @"ready";
         self.opponent.game.state = @"ready";
     }
+    
+    //Update UI
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^ {
+        self.theirLastMoveLabel.text = [NSString stringWithFormat:@"%@ played: %@", self.opponent.player.name, self.opponent.player.move];
+        self.resultLabel.text = resultLabelString;
+        self.winsAndRoundsLabel.text = [NSString stringWithFormat:@"%ld / %ld", (long)self.gameLogicManager.myWinsNumber, (long)self.gameLogicManager.roundsPlayedNumber];
+        
+    }];
+
 }
 
 -(void)presentGameOverAlert {
     NSMutableString *titleString;
-    if (self.gameLogicManager.myWinsNumber == 5) {
+    if (self.gameLogicManager.myWinsNumber == 3) {
         titleString = [NSMutableString stringWithString: @"You Won!"];
     } else {
         titleString = [NSMutableString stringWithString:[NSString stringWithFormat:@"%@ Won!", self.opponent.player.name]];
