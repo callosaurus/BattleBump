@@ -28,7 +28,7 @@
                                 <state key="normal" title="Pick verbs!"/>
                                 <connections>
                                     <action selector="pickVerbsButtonPressed:" destination="Uu6-FD-VKU" eventType="touchUpInside" id="0jl-I7-8b2"/>
-                                    <segue destination="xsB-EB-fHt" kind="showDetail" id="s7y-GH-rho"/>
+                                    <segue destination="xsB-EB-fHt" kind="showDetail" identifier="pickVerbs" id="s7y-GH-rho"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="numberOfOutcomesLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e6z-Mg-FYW">
