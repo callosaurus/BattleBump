@@ -8,15 +8,40 @@
 
 import Foundation
 
-struct Moveset {
-  var movesetName = "Basic RPS"
-  var numberOfMoves = 3
-  var movesArray = ["Rock", "Paper", "Scissors"]
-  var winningVerbDictionary = ["Rock": ["vsScissors": "crushes"],
-                                       "Paper": ["vsRock": "wraps around"],
-                                       "Scissors": ["vsPaper": "cuts"]]
+class Moveset: NSObject, NSCoding {
   
-  init(name: String, numberOfMoves: Int, movesArray: [String]) {
+  var movesetName: String!                                 // "Standard RPS"
+  var numberOfMoves: Int!                                  //  3
+  var movesArray: [String]!                                //  ["Rock", "Paper", "Scissors"]
+  var winningVerbDictionary: [String: [String: String]]?   // ["Rock": ["vsScissors": "crushes"], "Paper": ["vsRock": "wraps around"], "Scissors": ["vsPaper": "cuts"]]
+  
+  func encode(with aCoder: NSCoder) {
+    
+    aCoder.encode(movesetName, forKey: "movesetName")
+    aCoder.encode(numberOfMoves, forKey: "numberOfMoves")
+    aCoder.encode(movesArray, forKey: "movesArray")
+    if let winningVerbDictionary = winningVerbDictionary { aCoder.encode(winningVerbDictionary, forKey: "winningVerbDictionary")}
+  }
+  
+  required convenience init?(coder aDecoder: NSCoder) {
+    self.init()
+    self.movesetName = aDecoder.decodeObject(forKey: "movesetName") as! String
+    self.numberOfMoves = aDecoder.decodeObject(forKey: "numberOfMoves") as! Int
+    self.movesArray = aDecoder.decodeObject(forKey: "movesArray") as! [String]
+  }
+  
+
+//  required convenience init?(coder decoder: NSCoder) {
+//
+//    guard let name = decoder.decodeObject(forKey: "name") as? String,
+//      let state = decoder.decodeObject(forKey: "state") as? String
+//      else { return nil }
+//
+//    self.init(name: name, state: state)
+//  }
+  
+  convenience init(name: String, numberOfMoves: Int, movesArray: [String]) {
+    self.init()
     self.movesetName = name
     self.numberOfMoves = numberOfMoves
     self.movesArray = movesArray

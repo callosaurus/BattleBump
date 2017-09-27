@@ -28,6 +28,11 @@ class HomeViewController: UIViewController, MPCJoiningProtocol, UITableViewDeleg
   var me: Invitee?
   var foundHostsArray = [Host]()
   lazy var refreshControl = UIRefreshControl()
+  var movesetImageViewsArray = [UIImageView]()
+  var movesetOne: Moveset?
+  var movesetTwo: Moveset?
+  var movesetThree: Moveset?
+  var movesetArray = [Moveset]()
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -38,21 +43,28 @@ class HomeViewController: UIViewController, MPCJoiningProtocol, UITableViewDeleg
     playerNameTextField.delegate = self
     playerEmojiTextField.delegate = self
     
+  
+    
+    movesetImageViewsArray = [imageViewOne, imageViewTwo, imageViewThree]
+    
     loadUserDefaults()
     prepareTableView()
     setupMPCManager()
   }
   
   //    override func viewWillAppear(_ animated: Bool) {
+  
   //        super.viewWillAppear(animated)
   //        tableView.reloadData()
   //    }
   
   //MARK: - IBActions -
+  @IBAction func editButtonPressed(_ sender: UIButton) {
+    //take current moveset selection and pass to MovesetViewController
+  }
   
-  @IBAction func startButtonPressed(_ sender: UIButton) {
+  @IBAction func hostButtonPressed(_ sender: UIButton) {
     mpcManager.advertiseToPeers(invitee: me!)
-    
   }
   
   @IBAction func playerNameTextFieldDidEndEditing(_ sender: UITextField) {
@@ -102,18 +114,38 @@ class HomeViewController: UIViewController, MPCJoiningProtocol, UITableViewDeleg
     playerNameTextField.text = playerName
     playerEmojiTextField.text = playerEmoji
     
-    //eventually load movesets from userdefaults. display visually
-    //        let imageViews = [imageViewOne, imageViewTwo, imageViewThree]
-    //        for i in imageViews {
-    //            i?.image = UIImage(named: "confirmationTick")
-    //        }
+    if defaults.dictionaryRepresentation().keys.contains("One") {
+      movesetOne = defaults.object(forKey: "One") as? Moveset
+      movesetTwo = defaults.object(forKey: "Two") as? Moveset
+      movesetThree = defaults.object(forKey: "Three") as? Moveset
+    } else {
+      movesetOne = Moveset(name: "Standard", numberOfMoves: 3, movesArray: ["Rock", "Paper", "Scissors"])
+      movesetTwo = Moveset(name: "Weapon triangle", numberOfMoves: 3, movesArray: ["Sword", "Spear", "Axe"])
+      movesetThree = Moveset(name: "Pokemon", numberOfMoves: 7, movesArray: ["Grass", "Fire", "Rock", "Psychic", "Fighting", "Flying", "Water"])
+    }
     
-    imageViewOne.image = UIImage(named: "PentagonImage")
-    imageViewOne.backgroundColor = UIColor.white
-    imageViewTwo.image = UIImage(named: "TriangleImage")
-    imageViewTwo.backgroundColor = UIColor.white
-    imageViewThree.image = UIImage(named: "SeptagonImage")
-    imageViewThree.backgroundColor = UIColor.white
+    let movesetArray = [movesetOne, movesetTwo, movesetThree]
+    
+    var j = 0
+    for i in movesetImageViewsArray {
+      
+      switch movesetArray[j]!.numberOfMoves {
+      case 3 :
+        i.image = UIImage(named: "TriangleImage")
+      case 5:
+        i.image = UIImage(named: "PentagonImage")
+      case 7:
+        i.image = UIImage(named: "SeptagonImage")
+      default:
+        i.image = UIImage(named: "TriangleImage")
+      }
+      
+      i.backgroundColor = UIColor.white
+      i.isUserInteractionEnabled = true
+      
+      j = j + 1
+    }
+    
   }
   
   func prepareTableView() {
