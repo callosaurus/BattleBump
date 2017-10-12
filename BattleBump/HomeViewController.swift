@@ -146,7 +146,7 @@ class HomeViewController: UIViewController, MPCJoiningProtocol, UITableViewDeleg
       button.backgroundColor = UIColor.white
       button.tintColor = UIColor.lightGray
       button.layer.borderColor = UIColor.lightGray.cgColor
-      button.layer.cornerRadius = 5.0
+      button.layer.cornerRadius = 10.0
       button.layer.borderWidth = 1.0
       
       j = j + 1
