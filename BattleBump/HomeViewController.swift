@@ -32,7 +32,9 @@ class HomeViewController: UIViewController, MPCJoiningProtocol, UITableViewDeleg
   var movesetOne: Moveset?
   var movesetTwo: Moveset?
   var movesetThree: Moveset?
+  var selectedMoveset: Moveset?
   var movesetArray = [Moveset]()
+  var selectedMovesetIndex: Int?
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -59,6 +61,11 @@ class HomeViewController: UIViewController, MPCJoiningProtocol, UITableViewDeleg
   
   @IBAction func editButtonPressed(_ sender: UIButton) {
     //take current moveset selection and pass to MovesetViewController
+    if (selectedMoveset != nil) {
+      self.performSegue(withIdentifier: "edit", sender: self)
+    } else {
+      return
+    }
   }
   
   @IBAction func hostButtonPressed(_ sender: UIButton) {
@@ -152,7 +159,6 @@ class HomeViewController: UIViewController, MPCJoiningProtocol, UITableViewDeleg
       j = j + 1
     }
     
-    
   }
   
   func prepareTableView() {
@@ -181,6 +187,24 @@ class HomeViewController: UIViewController, MPCJoiningProtocol, UITableViewDeleg
     playerNameTextField.resignFirstResponder()
     playerEmojiTextField.resignFirstResponder()
   }
+  
+  //
+  @IBAction func movesetOneButtonPressed(_ sender: UIButton) {
+    selectedMoveset = movesetOne
+    selectedMovesetIndex = 0
+  }
+  
+  @IBAction func movesetTwoButtonPressed(_ sender: UIButton) {
+    selectedMoveset = movesetTwo
+    selectedMovesetIndex = 1
+  }
+  
+  @IBAction func movesetThreeButtonPressed(_ sender: UIButton) {
+    selectedMoveset = movesetThree
+    selectedMovesetIndex = 2
+  }
+  
+  //
   
   //MARK: - UITextFieldDelegate Methods -
   
@@ -216,6 +240,10 @@ class HomeViewController: UIViewController, MPCJoiningProtocol, UITableViewDeleg
     if let gameVC = segue.destination as? GameViewController {
       gameVC.playerInviteesArray = playerInviteesArray
       gameVC.mpcManager = mpcManager
+    } else if segue.identifier == "edit" {
+      let destinationNavigationController = segue.destination as! UINavigationController
+      let targetController = destinationNavigationController.topViewController as! MovesetViewController
+      targetController.movesetInProgress = selectedMoveset
     }
   }
   
@@ -231,9 +259,8 @@ class HomeViewController: UIViewController, MPCJoiningProtocol, UITableViewDeleg
     cell.playerNameLabel.text = foundHostsArray[indexPath.row].name
     cell.emojiLabel.text = foundHostsArray[indexPath.row].emoji
     /*
-     after setting moveset picker, add movesetName label to HostCell
+     after completing moveset picker, add movesetName label to HostCell
      cell.movesetName.text = foundHostsArray[indexPath.row].moveset["name"]
-     
      */
     return cell
   }

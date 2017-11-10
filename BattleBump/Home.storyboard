@@ -179,6 +179,9 @@
                                             <constraint firstAttribute="width" secondItem="ZXN-Oi-Zhp" secondAttribute="height" multiplier="1:1" id="Eg7-E6-j5P"/>
                                         </constraints>
                                         <state key="normal" title="Button"/>
+                                        <connections>
+                                            <action selector="movesetOneButtonPressed:" destination="hH9-Rs-3U1" eventType="touchUpInside" id="YFw-bb-LxH"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MPH-is-gUl">
                                         <rect key="frame" x="148.5" y="0.0" width="46" height="46"/>
@@ -187,6 +190,9 @@
                                             <constraint firstAttribute="width" secondItem="MPH-is-gUl" secondAttribute="height" multiplier="1:1" id="SM5-Ct-4d9"/>
                                         </constraints>
                                         <state key="normal" title="Button"/>
+                                        <connections>
+                                            <action selector="movesetTwoButtonPressed:" destination="hH9-Rs-3U1" eventType="touchUpInside" id="nVo-PM-AyI"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZbW-Zc-CTu">
                                         <rect key="frame" x="297" y="0.0" width="46" height="46"/>
@@ -195,6 +201,9 @@
                                             <constraint firstAttribute="width" secondItem="ZbW-Zc-CTu" secondAttribute="height" multiplier="1:1" id="Viy-MA-Kp6"/>
                                         </constraints>
                                         <state key="normal" title="Button"/>
+                                        <connections>
+                                            <action selector="movesetThreeButtonPressed:" destination="hH9-Rs-3U1" eventType="touchUpInside" id="LMg-7v-mYq"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>
@@ -241,6 +250,7 @@
                         <outlet property="tableView" destination="xE9-x3-0dj" id="gH6-LF-SQQ"/>
                         <outlet property="tableViewLabel" destination="Lag-sV-oXq" id="vdH-sj-eLb"/>
                         <segue destination="gLF-jM-iK9" kind="show" identifier="startGame" id="Kwm-gd-bJc"/>
+                        <segue destination="AKV-uA-hFr" kind="show" identifier="edit" id="lqh-2L-fgm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ITz-xA-HbD" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -254,6 +264,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bzY-Bk-bbg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="567" y="-150"/>
+        </scene>
+        <!--movesetNavigation-->
+        <scene sceneID="8pc-Tc-eae">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="MovesetEditor" storyboardName="MovesetEditor" referencedIdentifier="movesetNavigation" id="AKV-uA-hFr" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HIq-hi-xHM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="578" y="-60"/>
         </scene>
     </scenes>
 </document>

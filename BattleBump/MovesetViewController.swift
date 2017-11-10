@@ -11,13 +11,46 @@ import PocketSVG
 
 class MovesetViewController: UIViewController {
   
-  
-  @IBOutlet weak var movesetView: UIView!
+  @IBOutlet weak var movesetImageView: UIImageView!
   @IBOutlet weak var numberOfOutcomesLabel: UILabel!
   var currentNumberOfMoves: Int?
   let minimumNumberOfMoves = 3
   let maximumNumberOfMoves = 9
   
+  var movesetInProgress: Moveset! {
+    didSet {
+//      configure()
+    }
+  }
+  
+  override func viewDidLoad() {
+    super.viewDidLoad()
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    configure()
+  }
+  
+  func configure() {
+    drawMovesetDiagram(number: movesetInProgress.numberOfMoves)
+  }
+  
+  func drawMovesetDiagram(number: Int) {
+    
+    switch number {
+    case 3:
+      movesetImageView.image = UIImage(named: "TriangleImage")
+    case 5:
+      movesetImageView.image = UIImage(named: "PentagonImage")
+    case 7:
+      movesetImageView.image = UIImage(named: "SeptagonImage")
+    case 9:
+      movesetImageView.image = UIImage(named: "NonagonImage")
+    default:
+      movesetImageView.image = UIImage(named: "TriangleImage")
+    }
+    
+  }
   
   //MARK: - IBActions -
   
@@ -52,41 +85,9 @@ class MovesetViewController: UIViewController {
     self.dismiss(animated: true, completion: nil)
   }
   
-  override func viewDidLoad() {
-    super.viewDidLoad()
-    
-    loadUserDefaults()
-//    drawMovesetDiagram()
-    
-  }
-  
-  func loadUserDefaults() {
-    
-  }
-  
-  func drawMovesetDiagram(number: Int) {
-    
-    var svgImageView = SVGImageView()
-    
-    switch number {
-    case 3:
-      svgImageView = SVGImageView(svgSource: "Triangle")
-    case 5:
-      svgImageView = SVGImageView(svgSource: "Pentagon")
-    case 7:
-      svgImageView = SVGImageView(svgSource: "Septagon")
-    case 9:
-      svgImageView = SVGImageView(svgSource: "Nonagon")
-    default:
-      svgImageView = SVGImageView(svgSource: "Triangle")
-    }
-    
-    movesetView = svgImageView
-  }
-  
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
     if let touch = touches.first {
-      let position = touch.location(in: self.movesetView)
+      let position = touch.location(in: self.movesetImageView)
       print(position.x)
       print(position.y)
     }
