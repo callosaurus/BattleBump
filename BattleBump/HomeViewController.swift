@@ -141,13 +141,15 @@ class HomeViewController: UIViewController, MPCJoiningProtocol, UITableViewDeleg
       
       switch movesetArray[j].numberOfMoves {
       case 3 :
-        button.setImage(UIImage(named: "TriangleImage"), for: .normal)
+        button.setImage(UIImage(named: "2-simplex"), for: .normal)
       case 5:
-        button.setImage(UIImage(named: "PentagonImage"), for: .normal)
+        button.setImage(UIImage(named: "4-simplex"), for: .normal)
       case 7:
-        button.setImage(UIImage(named: "SeptagonImage"), for: .normal)
+        button.setImage(UIImage(named: "6-simplex"), for: .normal)
+      case 9:
+        button.setImage(UIImage(named: "8-simplex"), for: .normal)
       default:
-        button.setImage(UIImage(named: "TriangleImage"), for: .normal)
+        button.setImage(UIImage(named: "2-simplex"), for: .normal)
       }
       
       button.backgroundColor = UIColor.white
