@@ -137,7 +137,7 @@ class HomeViewController: UIViewController, MPCJoiningProtocol, UITableViewDeleg
     var j = 0
     for button in movesetButtonArray {
       
-      button.imageEdgeInsets = UIEdgeInsetsMake(5.0, 5.0, 5.0, 5.0)
+        button.imageEdgeInsets = UIEdgeInsets(top: 5.0, left: 5.0, bottom: 5.0, right: 5.0)
       
       switch movesetArray[j].numberOfMoves {
       case 3 :
@@ -167,7 +167,7 @@ class HomeViewController: UIViewController, MPCJoiningProtocol, UITableViewDeleg
     tableViewLabel.text = "Joinable Players"
     refreshControl = UIRefreshControl()
     refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
-    refreshControl.addTarget(self, action: #selector(refresh(_ :)), for: UIControlEvents.valueChanged)
+    refreshControl.addTarget(self, action: #selector(refresh(_ :)), for: UIControl.Event.valueChanged)
     tableView.addSubview(refreshControl)
   }
   
@@ -181,7 +181,7 @@ class HomeViewController: UIViewController, MPCJoiningProtocol, UITableViewDeleg
     mpcManager.findPeers(invitee: me!)
   }
   
-  func refresh(_ sender: UIRefreshControl) {
+    @objc func refresh(_ sender: UIRefreshControl) {
     mpcManager.findPeers(invitee: me!)
   }
   

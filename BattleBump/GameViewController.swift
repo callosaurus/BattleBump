@@ -131,7 +131,7 @@ class GameViewController: UIViewController, MPCGameplayProtocol, BBNetworkManage
   
   //MARK: - Confirmations -
   
-  func didConfirmRock(_ sender: UITapGestureRecognizer) {
+    @objc func didConfirmRock(_ sender: UITapGestureRecognizer) {
     
     if (rockConfirmationIcon == nil) {
       rockConfirmationIcon = UIImageView(frame: CGRect(x: rockLabel.bounds.origin.x, y: rockLabel.bounds.origin.y, width: rockLabel.bounds.size.width, height: rockLabel.bounds.size.height))
@@ -147,7 +147,7 @@ class GameViewController: UIViewController, MPCGameplayProtocol, BBNetworkManage
     gameLogicManager.myConfirmedMove = "Rock"
   }
   
-  func didConfirmPaper(_ sender: UITapGestureRecognizer) {
+    @objc func didConfirmPaper(_ sender: UITapGestureRecognizer) {
     
     if (paperConfirmationIcon == nil) {
       paperConfirmationIcon = UIImageView(frame: CGRect(x: paperLabel.bounds.origin.x, y: paperLabel.bounds.origin.y, width: paperLabel.bounds.size.width, height: paperLabel.bounds.size.height))
@@ -163,7 +163,7 @@ class GameViewController: UIViewController, MPCGameplayProtocol, BBNetworkManage
     gameLogicManager.myConfirmedMove = "Paper"
   }
   
-  func didConfirmScissors(_ sender: UITapGestureRecognizer) {
+    @objc func didConfirmScissors(_ sender: UITapGestureRecognizer) {
     
     if (scissorsConfirmationIcon == nil) {
       scissorsConfirmationIcon = UIImageView(frame: CGRect(x: scissorsLabel.bounds.origin.x, y: scissorsLabel.bounds.origin.y, width: scissorsLabel.bounds.size.width, height: scissorsLabel.bounds.size.height))

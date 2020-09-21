@@ -507,7 +507,7 @@ import UIKit
      ## Author:
      Luis Padron
      */
-    open var animationStyle: String = kCAMediaTimingFunctionEaseIn {
+    open var animationStyle: String = CAMediaTimingFunctionName.easeIn.rawValue {
         didSet {
             self.ringLayer.animationStyle = self.animationStyle
         }
@@ -625,7 +625,7 @@ import UIKit
      ## Author:
      Luis Padron
      */
-    open func setProgress(value: CGFloat, animationDuration: TimeInterval, completion: ProgressCompletion? = nil) {
+    @objc open func setProgress(value: CGFloat, animationDuration: TimeInterval, completion: ProgressCompletion? = nil) {
         // Remove the current animation, so that new can be processed
         if isAnimating { self.layer.removeAnimation(forKey: "value") }
         // Only animate if duration sent is greater than zero
