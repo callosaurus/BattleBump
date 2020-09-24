@@ -204,24 +204,25 @@ class GameViewController: UIViewController, MPCGameplayProtocol, BBNetworkManage
     }
   }
   
-  func presentGameOverAlert() {
-    var titleString = ""
-    if (gameLogicManager.myWinsNumber == 3) {
-      titleString = "You Won!"
-    } else {
-      titleString = String(format:"%@ Won!", (opponent?.player.name)!)
+    func presentGameOverAlert() {
+        var titleString = ""
+        if (gameLogicManager.myWinsNumber == 3) {
+            titleString = "You Won!"
+        } else {
+            titleString = String(format:"%@ Won!", (opponent?.player.name)!)
+        }
+        
+        DispatchQueue.main.async {
+            let alertController = UIAlertController(title: titleString, message: nil, preferredStyle: .alert)
+            let alertAction = UIAlertAction(title: "OK", style: .default, handler: {(alert: UIAlertAction!) in
+                self.mpcManager.mySession = nil
+                self.dismiss(animated: true, completion: nil)
+            })
+            alertController.addAction(alertAction)
+            self.present(alertController, animated: true)
+        }
     }
     
-    let alertController = UIAlertController(title: titleString, message: nil, preferredStyle: .alert)
-    let alertAction = UIAlertAction(title: "OK", style: .default, handler: {(alert: UIAlertAction!) in
-      self.mpcManager.mySession = nil
-      self.dismiss(animated: true, completion: nil)
-    })
-    
-    alertController.addAction(alertAction)
-    present(alertController, animated: true)
-  }
-  
   //MARK: - Networking -
   
   func receivedInviteeMessage(_ invitee: Invitee) {
