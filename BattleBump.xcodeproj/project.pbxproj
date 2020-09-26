@@ -14,6 +14,7 @@
 		3F3526621E6E4FC400D84F2C /* UICircularProgressRingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3526611E6E4FC400D84F2C /* UICircularProgressRingView.swift */; };
 		3F3956541EE8C240004F27D7 /* Loader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3956531EE8C240004F27D7 /* Loader.swift */; };
 		3F3956561EE8C33E004F27D7 /* HostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3956551EE8C33E004F27D7 /* HostCell.swift */; };
+		3F59AE072520041B0001D1EA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F59AE062520041B0001D1EA /* AppDelegate.swift */; };
 		3F6EA18A1EE6186500385F6D /* EmojiChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6EA1891EE6186500385F6D /* EmojiChecker.swift */; };
 		3F725A531F887A95005580D7 /* MovesetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F725A521F887A95005580D7 /* MovesetCell.swift */; };
 		3F8491F61EE761D0000AECF0 /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F8491F51EE761D0000AECF0 /* Home.storyboard */; };
@@ -27,8 +28,6 @@
 		A25D7B191E6F60A50090BC65 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25D7B181E6F60A50090BC65 /* Player.swift */; };
 		A25D7B1B1E6F60B70090BC65 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25D7B1A1E6F60B70090BC65 /* Game.swift */; };
 		A25D7B201E6F74050090BC65 /* Invitee.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25D7B1F1E6F74050090BC65 /* Invitee.swift */; };
-		A260C3591E6DF1A600F5F84F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A260C3581E6DF1A600F5F84F /* main.m */; };
-		A260C35C1E6DF1A600F5F84F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A260C35B1E6DF1A600F5F84F /* AppDelegate.m */; };
 		A260C3621E6DF1A600F5F84F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A260C3601E6DF1A600F5F84F /* Main.storyboard */; };
 		A260C3641E6DF1A600F5F84F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A260C3631E6DF1A600F5F84F /* Assets.xcassets */; };
 		A260C3671E6DF1A600F5F84F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A260C3651E6DF1A600F5F84F /* LaunchScreen.storyboard */; };
@@ -55,6 +54,7 @@
 		3F3526611E6E4FC400D84F2C /* UICircularProgressRingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UICircularProgressRingView.swift; sourceTree = "<group>"; };
 		3F3956531EE8C240004F27D7 /* Loader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Loader.swift; sourceTree = "<group>"; };
 		3F3956551EE8C33E004F27D7 /* HostCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HostCell.swift; sourceTree = "<group>"; };
+		3F59AE062520041B0001D1EA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3F6EA1891EE6186500385F6D /* EmojiChecker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmojiChecker.swift; sourceTree = "<group>"; };
 		3F725A521F887A95005580D7 /* MovesetCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovesetCell.swift; sourceTree = "<group>"; };
 		3F8491F51EE761D0000AECF0 /* Home.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Home.storyboard; sourceTree = "<group>"; };
@@ -69,9 +69,6 @@
 		A25D7B1A1E6F60B70090BC65 /* Game.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		A25D7B1F1E6F74050090BC65 /* Invitee.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Invitee.swift; sourceTree = "<group>"; };
 		A260C3541E6DF1A600F5F84F /* BattleBump.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BattleBump.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		A260C3581E6DF1A600F5F84F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		A260C35A1E6DF1A600F5F84F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		A260C35B1E6DF1A600F5F84F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		A260C3611E6DF1A600F5F84F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A260C3631E6DF1A600F5F84F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A260C3661E6DF1A600F5F84F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -146,7 +143,6 @@
 			children = (
 				A260C3631E6DF1A600F5F84F /* Assets.xcassets */,
 				A260C3681E6DF1A600F5F84F /* Info.plist */,
-				A260C3581E6DF1A600F5F84F /* main.m */,
 				3F6EA1891EE6186500385F6D /* EmojiChecker.swift */,
 			);
 			name = "Supporting Files";
@@ -181,8 +177,7 @@
 				3FE23B481EB57389007DB657 /* GameLogicManager.swift */,
 				3F8491F91EE78AEA000AECF0 /* MPCManager.swift */,
 				3FD254F71EEA5E1000438B16 /* Host.swift */,
-				A260C35A1E6DF1A600F5F84F /* AppDelegate.h */,
-				A260C35B1E6DF1A600F5F84F /* AppDelegate.m */,
+				3F59AE062520041B0001D1EA /* AppDelegate.swift */,
 				3FB2EEBF1EF0444300C4044C /* Moveset.swift */,
 			);
 			name = Model;
@@ -321,6 +316,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3F59AE072520041B0001D1EA /* AppDelegate.swift in Sources */,
 				A25D7B201E6F74050090BC65 /* Invitee.swift in Sources */,
 				A25D7B191E6F60A50090BC65 /* Player.swift in Sources */,
 				3F0B629D1EF0F04B006724B7 /* EditVerbsViewController.swift in Sources */,
@@ -329,7 +325,6 @@
 				A2A76BAA1E732F450046268D /* BBCheckMark.swift in Sources */,
 				3F8491F81EE77D24000AECF0 /* HomeViewController.swift in Sources */,
 				3F725A531F887A95005580D7 /* MovesetCell.swift in Sources */,
-				A260C35C1E6DF1A600F5F84F /* AppDelegate.m in Sources */,
 				3FB2EEC21EF04AA200C4044C /* MovesetViewController.swift in Sources */,
 				3F252AB61EE8A0FF000ADFD9 /* GameViewController.swift in Sources */,
 				3FB2EEC01EF0444300C4044C /* Moveset.swift in Sources */,
@@ -341,7 +336,6 @@
 				3F3956541EE8C240004F27D7 /* Loader.swift in Sources */,
 				3FE23B491EB57389007DB657 /* GameLogicManager.swift in Sources */,
 				A25D7B1B1E6F60B70090BC65 /* Game.swift in Sources */,
-				A260C3591E6DF1A600F5F84F /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -486,7 +480,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.caldavies.BattleBump;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "BattleBump-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
@@ -504,7 +497,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.caldavies.BattleBump;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "BattleBump-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
