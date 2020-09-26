@@ -10,10 +10,10 @@ import UIKit
 
 class Game: NSObject, NSCoding {
 
-    let name: String
-    var state: String
+    @objc let name: String
+    @objc var state: String
     
-    init(name: String, state: String) {
+    @objc init(name: String, state: String) {
         
         self.name = name
         self.state = state

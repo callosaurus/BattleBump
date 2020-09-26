@@ -10,13 +10,13 @@ import UIKit
 
 class GameLogicManager: NSObject {
     
-    var myConfirmedMove = ""
-    var theirConfirmedMove = ""
-    var roundsPlayedNumber = 0
-    var myWinsNumber = 0
-    var opponentWinsNumber = 0
+    @objc var myConfirmedMove = ""
+    @objc var theirConfirmedMove = ""
+    @objc var roundsPlayedNumber = 0
+    @objc var myWinsNumber = 0
+    @objc var opponentWinsNumber = 0
     
-    func pickRandomMove() {
+    @objc func pickRandomMove() {
         let i = arc4random_uniform(3)
         switch i {
         case 0:
@@ -31,7 +31,7 @@ class GameLogicManager: NSObject {
         
     }
     
-    func generateResultsLabelWithMoves() -> String {
+    @objc func generateResultsLabelWithMoves() -> String {
         var computedString = ""
         if (self.myConfirmedMove == self.theirConfirmedMove) {
             computedString = "\(self.myConfirmedMove) ties \(self.theirConfirmedMove)"

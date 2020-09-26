@@ -90,7 +90,7 @@ class UICircularProgressRingLayer: CAShapeLayer {
     @NSManaged var decimalPlaces: Int
     
     var animationDuration: TimeInterval = 5.0
-    var animationStyle: String = kCAMediaTimingFunctionEaseIn
+    var animationStyle: String = CAMediaTimingFunctionName.easeIn.rawValue
     var animated = false
     
     // The value label which draws the text for the current value
@@ -133,7 +133,7 @@ class UICircularProgressRingLayer: CAShapeLayer {
         if event == "value" && self.animated {
             let animation = CABasicAnimation(keyPath: "value")
             animation.fromValue = self.presentation()?.value(forKey: "value")
-            animation.timingFunction = CAMediaTimingFunction(name: animationStyle)
+            animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName(rawValue: animationStyle))
             animation.duration = animationDuration
             return animation
         }

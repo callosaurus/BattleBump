@@ -76,7 +76,7 @@ protocol MPCJoiningProtocol: NSObjectProtocol {
         print("Start receiving resource [\(resourceName)] from peer \(peerID.displayName) with progress [\(progress)]")
     }
     
-    func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL, withError error: Error?) {
+  func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL?, withError error: Error?) {
         // MCSession delegate callback when a incoming resource transfer ends (possibly with error)
         print("Received data over resource with name \(resourceName) from peer \(peerID.displayName)")
     }
