@@ -10,11 +10,10 @@ import UIKit
 
 class Invitee: NSObject, NSCoding {
 
-    @objc let player: Player
-    @objc let game: Game
+    let player: Player
+    let game: Game
     
-    @objc init(player: Player, game:Game) {
-        
+    init(player: Player, game:Game) {
         self.player = player
         self.game = game
         super.init()

@@ -9,10 +9,9 @@
 import UIKit
 import MultipeerConnectivity
 
-class GameViewController: UIViewController, MPCGameplayProtocol, BBNetworkManagerProtocol {
+class GameViewController: UIViewController, MPCGameplayProtocol {
   
   var playerInviteesArray = [Invitee]()
-  var networkManager = BBNetworkManager()
   var mpcManager = MPCManager()
   
   @IBOutlet weak var progressRing: UICircularProgressRingView!

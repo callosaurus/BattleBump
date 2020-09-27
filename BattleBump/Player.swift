@@ -10,12 +10,11 @@ import UIKit
 
 class Player: NSObject, NSCoding {
 
-    @objc let name: String
-    @objc let emoji: String
-    @objc var move: String
+    let name: String
+    let emoji: String
+    var move: String
 
-    @objc init(name: String, emoji:String, move: String) {
-        
+    init(name: String, emoji:String, move: String) {
         self.name = name
         self.emoji = emoji
         self.move = move

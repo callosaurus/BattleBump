@@ -19,7 +19,7 @@ protocol MPCJoiningProtocol: NSObjectProtocol {
     func didConnectSuccessfully(to invitee: Invitee)
 }
 
-@objc class MPCManager: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegate, MCNearbyServiceAdvertiserDelegate {
+class MPCManager: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegate, MCNearbyServiceAdvertiserDelegate {
     
     weak var gameplayDelegate: MPCGameplayProtocol?
     weak var joinDelegate: MPCJoiningProtocol?
@@ -57,6 +57,8 @@ protocol MPCJoiningProtocol: NSObjectProtocol {
             return "Connecting"
         case .notConnected:
             return "Not Connected"
+        @unknown default:
+            return "Unknown State"
         }
     }
     

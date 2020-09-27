@@ -25,20 +25,10 @@ class Moveset: NSObject, NSCoding {
   
   required convenience init?(coder aDecoder: NSCoder) {
     self.init()
-    self.movesetName = aDecoder.decodeObject(forKey: "movesetName") as! String
-    self.numberOfMoves = aDecoder.decodeObject(forKey: "numberOfMoves") as! Int
-    self.movesArray = aDecoder.decodeObject(forKey: "movesArray") as! [String]
+    self.movesetName = aDecoder.decodeObject(forKey: "movesetName") as? String
+    self.numberOfMoves = aDecoder.decodeObject(forKey: "numberOfMoves") as? Int
+    self.movesArray = (aDecoder.decodeObject(forKey: "movesArray") as? [String])
   }
-  
-
-//  required convenience init?(coder decoder: NSCoder) {
-//
-//    guard let name = decoder.decodeObject(forKey: "name") as? String,
-//      let state = decoder.decodeObject(forKey: "state") as? String
-//      else { return nil }
-//
-//    self.init(name: name, state: state)
-//  }
   
   convenience init(name: String, numberOfMoves: Int, movesArray: [String]) {
     self.init()

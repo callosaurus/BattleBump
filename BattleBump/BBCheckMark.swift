@@ -19,7 +19,7 @@ class BBCheckMark: UIView {
     // choose whether you like open or grayed out non-selected items
     private var checkMarkStyleReal: BBCheckMarkStyle = BBCheckMarkStyle.GrayedOut
     
-    @objc var checked: Bool {
+    var checked: Bool {
         get {
             return self.checkedBool
         }
