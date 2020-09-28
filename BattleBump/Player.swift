@@ -7,36 +7,55 @@
 //
 
 import UIKit
+import MultipeerConnectivity
 
-class Player: NSObject, NSCoding {
-
+class Player: NSCoding, Equatable {
+    
     let name: String
-    let emoji: String
-    var move: String
-
-    init(name: String, emoji:String, move: String) {
+    var selectedMove: String
+    var isReadyForNewRound: Bool
+    var isHost: Bool
+    let peerID: MCPeerID
+//    var chosenMoveset: Moveset
+//    var playerImage
+    
+    init(name: String, peerID: MCPeerID) {
         self.name = name
-        self.emoji = emoji
-        self.move = move
-        super.init()
-    }
-   
-    // MARK: NSCoding
-    
-    required convenience init?(coder decoder: NSCoder) {
-        
-        guard let name = decoder.decodeObject(forKey: "name") as? String,
-            let emoji = decoder.decodeObject(forKey: "emoji") as? String,
-            let move = decoder.decodeObject(forKey: "move") as? String
-            else { return nil }
-        
-        self.init(name: name, emoji: emoji, move: move)
+        self.peerID = peerID
     }
     
-    func encode(with aCoder: NSCoder) {
-        
-        aCoder.encode(self.name, forKey: "name")
-        aCoder.encode(self.emoji, forKey: "emoji")
-        aCoder.encode(self.move, forKey: "move")
+    static func == (lhs: Player, rhs: Player) -> Bool {
+        return lhs.name == rhs.name && lhs.peerID == rhs.peerID
     }
+    
+    func encode(with coder: NSCoder) {
+        <#code#>
+    }
+
+    required init?(coder: NSCoder) {
+        <#code#>
+    }
+
+//    init(name: String, emoji:String, move: String) {
+//        self.name = name
+//        self.move = move
+//        super.init()
+//    }
+//
+//    // MARK: NSCoding
+//
+//    required convenience init?(coder decoder: NSCoder) {
+//
+//        guard let name = decoder.decodeObject(forKey: "name") as? String,
+//            let move = decoder.decodeObject(forKey: "move") as? String
+//            else { return nil }
+//
+//        self.init(name: name, emoji: emoji, move: move)
+//    }
+//
+//    func encode(with aCoder: NSCoder) {
+//
+//        aCoder.encode(self.name, forKey: "name")
+//        aCoder.encode(self.move, forKey: "move")
+//    }
 }

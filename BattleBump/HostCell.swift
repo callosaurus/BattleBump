@@ -11,18 +11,15 @@ import UIKit
 class HostCell: UITableViewCell {
 
     @IBOutlet weak var playerNameLabel: UILabel!
-    @IBOutlet weak var emojiLabel: UILabel!
     
-    var host: Host! {
+    var host: Player! {
         didSet {
             configure()
         }
     }
     
     fileprivate func configure() {
-        
         playerNameLabel.text = self.host.name
-        emojiLabel.text = self.host.emoji
     }
 
 }

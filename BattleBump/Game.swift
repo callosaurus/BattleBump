@@ -8,31 +8,44 @@
 
 import UIKit
 
-class Game: NSObject, NSCoding {
+class Game {
 
     let name: String
-    var state: String
+    var players: [Player]
+    var rounds: [String: [String: Player]]  // ["round1": {"winner":"Callum"},"round2": {"winner":"Dave"),...]
     
-    init(name: String, state: String) {    
+    enum State {
+        case gameStart
+        case roundBegin
+        case roundEnd
+        case gameEnd
+    }
+    var currentState: State
+    
+    // var numberOfRounds: Int 
+    // var movesetInUse: Moveset
+    
+    init(name: String, players:[Player], state: State) {
         self.name = name
-        self.state = state
-        super.init()
+        self.players = players
+        self.currentState = state
+//        super.init()
     }
     
-    // MARK: NSCoding
-    
-    required convenience init?(coder decoder: NSCoder) {
-        
-        guard let name = decoder.decodeObject(forKey: "name") as? String,
-            let state = decoder.decodeObject(forKey: "state") as? String
-            else { return nil }
-        
-        self.init(name: name, state: state)
-    }
-    
-    func encode(with aCoder: NSCoder) {
-        
-        aCoder.encode(self.name, forKey: "name")
-        aCoder.encode(self.state, forKey: "state")
-    }
+//    // MARK: NSCoding
+//
+//    required convenience init?(coder decoder: NSCoder) {
+//
+//        guard let name = decoder.decodeObject(forKey: "name") as? String
+//            let state = decoder.decodeObject(forKey: "state") as? String
+//            else { return nil }
+//
+//        self.init(name: name)
+//    }
+//
+//    func encode(with aCoder: NSCoder) {
+//
+//        aCoder.encode(self.name, forKey: "name")
+//        aCoder.encode(self.state, forKey: "state")
+//    }
 }
