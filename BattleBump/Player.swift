@@ -9,53 +9,25 @@
 import UIKit
 import MultipeerConnectivity
 
-class Player: NSCoding, Equatable {
+class Player: Codable {
     
-    let name: String
-    var selectedMove: String
+    var name: String
+    var selectedMove: String // TODO: change to use Moveset.swift etc
     var isReadyForNewRound: Bool
     var isHost: Bool
-    let peerID: MCPeerID
 //    var chosenMoveset: Moveset
 //    var playerImage
     
-    init(name: String, peerID: MCPeerID) {
+    init(name: String) {
         self.name = name
-        self.peerID = peerID
+//        self.peerID = peerID --- NOT NEEDED now, wanted to make Player Codable easily without `extension MCPeerID: Codable`
+        self.selectedMove = ""
+        self.isHost = false
+        self.isReadyForNewRound = false
     }
     
-    static func == (lhs: Player, rhs: Player) -> Bool {
-        return lhs.name == rhs.name && lhs.peerID == rhs.peerID
-    }
-    
-    func encode(with coder: NSCoder) {
-        <#code#>
-    }
+//    static func == (lhs: Player, rhs: Player) -> Bool {
+//        return lhs.name == rhs.name //&& lhs.peerID == rhs.peerID
+//    }
 
-    required init?(coder: NSCoder) {
-        <#code#>
-    }
-
-//    init(name: String, emoji:String, move: String) {
-//        self.name = name
-//        self.move = move
-//        super.init()
-//    }
-//
-//    // MARK: NSCoding
-//
-//    required convenience init?(coder decoder: NSCoder) {
-//
-//        guard let name = decoder.decodeObject(forKey: "name") as? String,
-//            let move = decoder.decodeObject(forKey: "move") as? String
-//            else { return nil }
-//
-//        self.init(name: name, emoji: emoji, move: move)
-//    }
-//
-//    func encode(with aCoder: NSCoder) {
-//
-//        aCoder.encode(self.name, forKey: "name")
-//        aCoder.encode(self.move, forKey: "move")
-//    }
 }

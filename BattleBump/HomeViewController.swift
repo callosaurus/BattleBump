@@ -9,7 +9,8 @@
 import UIKit
 import MultipeerConnectivity
 
-class HomeViewController: UIViewController, MPCJoiningProtocol, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
+class HomeViewController: UIViewController, MPCManagerProtocol, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
+    
     
     @IBOutlet weak var playerNameLabel: UILabel!
     @IBOutlet weak var playerNameTextField: UITextField!
@@ -20,19 +21,19 @@ class HomeViewController: UIViewController, MPCJoiningProtocol, UITableViewDeleg
     @IBOutlet weak var movesetThreeButton: UIButton!
     
     var mpcManager = MPCManager()
-    //  var playerInviteesArray = [Invitee]()
     var playersForNewGame = [Player]()
     var playerName: String?
     var me: Player!
-    var foundPlayersArray = [Player]()
+    var foundPeersArray = [MCPeerID]()
+    var connectedPlayersArray = [Player]()
     lazy var refreshControl = UIRefreshControl()
     var movesetButtonArray = [UIButton]()
-      var movesetOne: Moveset?
-      var movesetTwo: Moveset?
-      var movesetThree: Moveset?
-      var selectedMoveset: Moveset?
-      var movesetArray = [Moveset]()
-      var selectedMovesetIndex: Int?
+    var movesetOne: Moveset?
+    var movesetTwo: Moveset?
+    var movesetThree: Moveset?
+    var selectedMoveset: Moveset?
+    var movesetArray = [Moveset]()
+    var selectedMovesetIndex: Int?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,21 +65,21 @@ class HomeViewController: UIViewController, MPCJoiningProtocol, UITableViewDeleg
     }
     
     @IBAction func hostButtonPressed(_ sender: UIButton) {
-        mpcManager.advertiseToPeers(player: me!)
+        mpcManager.advertiseToPeers()
     }
     
     @IBAction func playerNameTextFieldDidEndEditing(_ sender: UITextField) {
         
-        guard let text = sender.text, !text.isEmpty else {
+        guard let text = sender.text, !text.isEmpty, playerName == sender.text else {
             return
         }
         
-        //TODO: Disallow ':' character, as it's used as a Player.peerID delimiter
-        
-        playerName = sender.text
+        playerName = text
         let defaults = UserDefaults.standard
-        defaults.set(sender.text, forKey: "playerName")
+        defaults.set(text, forKey: "playerName")
         playerNameTextField.resignFirstResponder()
+        
+        me.name = text
     }
     
     //MARK: - Functions -
@@ -94,46 +95,47 @@ class HomeViewController: UIViewController, MPCJoiningProtocol, UITableViewDeleg
         
         playerNameTextField.text = playerName
         
-            if defaults.dictionaryRepresentation().keys.contains("One") {
-              movesetOne = defaults.object(forKey: "One") as? Moveset
-              movesetTwo = defaults.object(forKey: "Two") as? Moveset
-              movesetThree = defaults.object(forKey: "Three") as? Moveset
-            } else {
-              movesetOne = Moveset(name: "Standard", numberOfMoves: 3, movesArray: ["Rock", "Paper", "Scissors"])
-              movesetTwo = Moveset(name: "Weapon triangle", numberOfMoves: 3, movesArray: ["Sword", "Spear", "Axe"])
-              movesetThree = Moveset(name: "Pokemon", numberOfMoves: 7, movesArray: ["Grass", "Fire", "Rock", "Psychic", "Fighting", "Flying", "Water"])
-            }
+        if defaults.dictionaryRepresentation().keys.contains("One") {
+            movesetOne = defaults.object(forKey: "One") as? Moveset
+            movesetTwo = defaults.object(forKey: "Two") as? Moveset
+            movesetThree = defaults.object(forKey: "Three") as? Moveset
+        } else {
+            movesetOne = Moveset(name: "Standard", numberOfMoves: 3, movesArray: ["Rock", "Paper", "Scissors"])
+            movesetTwo = Moveset(name: "Weapon triangle", numberOfMoves: 3, movesArray: ["Sword", "Spear", "Axe"])
+            movesetThree = Moveset(name: "Pokemon", numberOfMoves: 7, movesArray: ["Grass", "Fire", "Rock", "Psychic", "Fighting", "Flying", "Water"])
+        }
         
-            movesetArray = [movesetOne!, movesetTwo!, movesetThree!]
-            movesetButtonArray = [movesetOneButton, movesetTwoButton, movesetThreeButton]
+        movesetArray = [movesetOne!, movesetTwo!, movesetThree!]
+        movesetButtonArray = [movesetOneButton, movesetTwoButton, movesetThreeButton]
         
-            var j = 0
-            for button in movesetButtonArray {
-        
-                button.imageEdgeInsets = UIEdgeInsets(top: 5.0, left: 5.0, bottom: 5.0, right: 5.0)
-        
-              switch movesetArray[j].numberOfMoves {
-              case 3 :
+        var j = 0
+        for button in movesetButtonArray {
+            
+            button.imageEdgeInsets = UIEdgeInsets(top: 5.0, left: 5.0, bottom: 5.0, right: 5.0)
+            
+            switch movesetArray[j].numberOfMoves {
+            case 3 :
                 button.setImage(UIImage(named: "2-simplex"), for: .normal)
-              case 5:
+            case 5:
                 button.setImage(UIImage(named: "4-simplex"), for: .normal)
-              case 7:
+            case 7:
                 button.setImage(UIImage(named: "6-simplex"), for: .normal)
-              case 9:
+            case 9:
                 button.setImage(UIImage(named: "8-simplex"), for: .normal)
-              default:
+            default:
                 button.setImage(UIImage(named: "2-simplex"), for: .normal)
-              }
-        
-              button.backgroundColor = UIColor.white
-              button.tintColor = UIColor.lightGray
-              button.layer.borderColor = UIColor.lightGray.cgColor
-              button.layer.cornerRadius = 10.0
-              button.layer.borderWidth = 1.0
-        
-              j = j + 1
             }
+            
+            button.backgroundColor = UIColor.white
+            button.tintColor = UIColor.lightGray
+            button.layer.borderColor = UIColor.lightGray.cgColor
+            button.layer.cornerRadius = 10.0
+            button.layer.borderWidth = 1.0
+            
+            j = j + 1
+        }
         
+        me = Player(name: playerName!)
     }
     
     func prepareTableView() {
@@ -145,21 +147,14 @@ class HomeViewController: UIViewController, MPCJoiningProtocol, UITableViewDeleg
     }
     
     func setupMPCManager() {
-        mpcManager.joinDelegate = self
-        
-        // Append UIDevice to avoid user name collisions
-        me = Player(name: playerName!, peerID: MCPeerID(displayName: "\(playerName!):\(UIDevice.current.name)"))
-        
-        //    let thisPlayer = Player(name: playerName!, emoji: playerEmoji!, move: "join")
-        //    let thisGame = Game(name: "placeholderName", state: "join")
-        //    me = Invitee(player: thisPlayer, game: thisGame)
+        mpcManager.managerDelegate = self
         
         // TODO: Decide on UX choice between automatic browsing for others on viewDidLoad, or 'search for hosts' button
-        mpcManager.findPeers(player: me!)
+        mpcManager.findPeers()
     }
     
     @objc func refresh(_ sender: UIRefreshControl) {
-        mpcManager.findPeers(player: me!)
+        mpcManager.findPeers()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -182,7 +177,6 @@ class HomeViewController: UIViewController, MPCJoiningProtocol, UITableViewDeleg
         selectedMovesetIndex = 2
     }
     
-    
     //MARK: - UITextFieldDelegate Methods -
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -190,19 +184,33 @@ class HomeViewController: UIViewController, MPCJoiningProtocol, UITableViewDeleg
         return true
     }
     
-    // MARK: - MPCJoining Protocol Method -
+    // MARK: - MPCManagerProtocol Method -
     
-    func didChangeFoundPlayers() {
-        foundPlayersArray = mpcManager.foundPlayersArray
+    func didConnectSuccessfullyToPeer() {
+        mpcManager.send(me)
+    }
+    
+    func receivedPlayerDataFromPeer(_ player: Player) {
+        startNewGame(with: player)
+        //TODO: include moveset reception from Host if necessary
+    }
+    
+    func session(session: MCSession, wasInterruptedByState state: MCSessionState) {
+        
+        return
+    }
+    
+    func didChangeFoundPeers() {
+        foundPeersArray = mpcManager.foundPeersArray
         refreshControl.endRefreshing()
         tableView.reloadData()
     }
     
-    func didConnectSuccessfully(to player: Player) {
-        //    me!.game.state = "ready"
-        //    invitee.game.state = "ready"
-        //    playerInviteesArray.append(me!)
-        //    playerInviteesArray.append(invitee)
+//    func didConnectSuccessfully() {
+//        mpcManager.send(me)
+//    }
+    
+    func startNewGame(with player: Player) {
         
         playersForNewGame = [me, player]
         
@@ -216,7 +224,8 @@ class HomeViewController: UIViewController, MPCJoiningProtocol, UITableViewDeleg
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let gameVC = segue.destination as? GameViewController {
             gameVC.mpcManager = mpcManager
-            gameVC.initializeNewGameWithPlayers(players: playersForNewGame)
+            gameVC.playersForNewGame = playersForNewGame
+//            gameVC.initializeNewGameWithPlayers(players: playersForNewGame)
         } else if segue.identifier == "edit" {
             let destinationNavigationController = segue.destination as! UINavigationController
             let targetController = destinationNavigationController.topViewController as! MovesetViewController
@@ -227,13 +236,13 @@ class HomeViewController: UIViewController, MPCJoiningProtocol, UITableViewDeleg
     // MARK: - UITableView Methods -
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedPlayerPeerID = foundPlayersArray[indexPath.row].peerID
-        mpcManager.joinPeer(peerID: selectedPlayerPeerID)
+        let selectedPeerID = foundPeersArray[indexPath.row]
+        mpcManager.joinPeer(peerID: selectedPeerID)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "hostCell", for: indexPath) as! HostCell
-        cell.playerNameLabel.text = foundPlayersArray[indexPath.row].name
+        cell.playerNameLabel.text = foundPeersArray[indexPath.row].displayName
         /*
          after completing moveset picker, add movesetName label to HostCell
          cell.movesetName.text = foundHostsArray[indexPath.row].moveset["name"]
@@ -242,7 +251,7 @@ class HomeViewController: UIViewController, MPCJoiningProtocol, UITableViewDeleg
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return foundPlayersArray.count
+        return foundPeersArray.count
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
