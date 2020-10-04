@@ -35,18 +35,15 @@ class GameViewController: UIViewController, MPCManagerProtocol {
         super.viewDidLoad()
 //        mpcManager.managerDelegate = self - Not needed b/c set during prepare(for segue:) ?
         
-        configureViews()
-        
         me = playersForNewGame[0]
         opponent = playersForNewGame[1]
         currentGame = Game(name: "\(me!.name) and \(opponent!.name)'s game", players: playersForNewGame, state: .gameStart)
-//        gameLogicManager = GameLogicManager(game: currentGame!)
+        configureViews()
     }
     
     func configureViews() {
         
-        currentPlayGameLabel.text = "You are playing \(String(describing: opponent?.name))"
-        
+        currentPlayGameLabel.text = "You are playing \(opponent!.name)"
         winsAndRoundsLabel.text = "- / -"
         
         let confirmRock = UITapGestureRecognizer(target: self, action: #selector(didConfirmRock(_:)))
