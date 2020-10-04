@@ -70,16 +70,16 @@ class HomeViewController: UIViewController, MPCManagerProtocol, UITableViewDeleg
     
     @IBAction func playerNameTextFieldDidEndEditing(_ sender: UITextField) {
         
-        guard let text = sender.text, !text.isEmpty, playerName == sender.text else {
+        guard let text = sender.text, !text.isEmpty, playerName != sender.text else {
             return
         }
         
         playerName = text
+        me.name = text
         let defaults = UserDefaults.standard
         defaults.set(text, forKey: "playerName")
         playerNameTextField.resignFirstResponder()
         
-        me.name = text
     }
     
     //MARK: - Functions -
