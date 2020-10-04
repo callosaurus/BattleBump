@@ -22,6 +22,7 @@ class GameViewController: UIViewController, MPCManagerProtocol {
     @IBOutlet weak var currentPlayGameLabel: UILabel!
     @IBOutlet weak var giantMoveLabel: UILabel!
     @IBOutlet weak var winsAndRoundsLabel: UILabel!
+    @IBOutlet weak var readyButton: UIButton!
     var rockConfirmationIcon: UIImageView?
     var paperConfirmationIcon: UIImageView?
     var scissorsConfirmationIcon: UIImageView?
@@ -63,6 +64,10 @@ class GameViewController: UIViewController, MPCManagerProtocol {
         currentGame?.currentState = .roundBegin
         
         DispatchQueue.main.async {
+            self.readyButton.isUserInteractionEnabled = false
+            self.readyButton.setTitle("", for: .normal)
+            self.readyButton.alpha = 0.0
+            
             self.rockLabel.isUserInteractionEnabled = true
             self.paperLabel.isUserInteractionEnabled = true
             self.scissorsLabel.isUserInteractionEnabled = true
@@ -135,6 +140,13 @@ class GameViewController: UIViewController, MPCManagerProtocol {
         me?.isReadyForNewRound = false
         opponent?.isReadyForNewRound = false
         
+        DispatchQueue.main.async {
+            self.readyButton.isUserInteractionEnabled = true
+            self.readyButton.setTitle("Ready?", for: .normal)
+            self.readyButton.alpha = 1.0
+            self.readyButton.setTitleColor(.blue, for: .normal)
+        }
+        
         // check if gameOver should be triggered
         //        let resultLabelString = gameLogicManager.generateResultsLabelWithMoves()
         //
@@ -187,6 +199,12 @@ class GameViewController: UIViewController, MPCManagerProtocol {
         // await them to send message back saying they're ready for new round
         
         me!.isReadyForNewRound = true
+        
+        sender.isUserInteractionEnabled = false
+        sender.setTitle("Waiting for opponent...", for: .normal)
+        sender.alpha = 0.5
+        sender.setTitleColor(.gray, for: .normal)
+        
         mpcManager.send(me!)
         if (me?.isReadyForNewRound == true && opponent?.isReadyForNewRound == true) {
             roundBegin()
@@ -280,24 +298,6 @@ class GameViewController: UIViewController, MPCManagerProtocol {
         default:
             print("Unexpected reception of player/game state")
         }
-        
-        // round ended, players both hit 'ready', received new opponent with .isReadyForNewRound = true
-        //        if (me!.isReadyForNewRound == true && player.isReadyForNewRound == true && currentGame?.currentState != .roundBegin)  {
-        //
-        //            opponent = player //TODO: more elegant way of diff'ing player update instead of just overriding?
-        //            roundBegin()
-        //
-        //        // if other player is ready but I am not yet
-        //        } else if me!.isReadyForNewRound == false && currentGame?.currentState != .roundBegin {
-        //            opponent = player
-        //
-        //        // countdown ended but round hasn't ended yet
-        //        } else if me!.isReadyForNewRound == false && currentGame?.currentState == .roundBegin {
-        //            opponent = player
-        //            roundEnded()
-        //        } else {
-        //            print("Unexpected reception of player/game state")
-        //        }
     }
     
     func session(session: MCSession, wasInterruptedByState state: MCSessionState) {
