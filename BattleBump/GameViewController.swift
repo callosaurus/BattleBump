@@ -33,8 +33,8 @@ class GameViewController: UIViewController, MPCManagerProtocol {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        mpcManager.managerDelegate = self - Not needed b/c set during prepare(for segue:) ?
         
+        mpcManager.managerDelegate = self
         me = playersForNewGame[0]
         opponent = playersForNewGame[1]
         currentGame = Game(name: "\(me!.name) and \(opponent!.name)'s game", players: playersForNewGame, state: .gameStart)
@@ -62,21 +62,23 @@ class GameViewController: UIViewController, MPCManagerProtocol {
         
         currentGame?.currentState = .roundBegin
         
-        rockLabel.isUserInteractionEnabled = true
-        paperLabel.isUserInteractionEnabled = true
-        scissorsLabel.isUserInteractionEnabled = true
-        
-        theirLastMoveLabel.text = ""
-        resultLabel.text = ""
-        
-        rockConfirmationIcon?.alpha = 0.0;
-        paperConfirmationIcon?.alpha = 0.0;
-        scissorsConfirmationIcon?.alpha = 0.0;
-        
-        progressRing.alpha = 1.0;
-        giantMoveLabel.alpha = 0.0;
-        
-        me?.selectedMove = ""
+        DispatchQueue.main.async {
+            self.rockLabel.isUserInteractionEnabled = true
+            self.paperLabel.isUserInteractionEnabled = true
+            self.scissorsLabel.isUserInteractionEnabled = true
+            
+            self.theirLastMoveLabel.text = ""
+            self.resultLabel.text = ""
+            
+            self.rockConfirmationIcon?.alpha = 0.0;
+            self.paperConfirmationIcon?.alpha = 0.0;
+            self.scissorsConfirmationIcon?.alpha = 0.0;
+            
+            self.progressRing.alpha = 1.0;
+            self.giantMoveLabel.alpha = 0.0;
+            
+            self.me?.selectedMove = ""
+        }
         
         progressRing.setProgress(value: 0.0, animationDuration: 5.0, completion: { () in
             self.countdownEnded()
@@ -89,11 +91,11 @@ class GameViewController: UIViewController, MPCManagerProtocol {
         
         if (me?.selectedMove == "") {
             me?.selectedMove = gameLogicManager.pickRandomMove()
-//            print("Randomly picked a move!")
+            //            print("Randomly picked a move!")
         }
         
         //reset UI
-//        self.drawGiantMoveLabel()
+        //        self.drawGiantMoveLabel()
         
         self.rockLabel.isUserInteractionEnabled = false
         self.paperLabel.isUserInteractionEnabled = false
@@ -134,26 +136,26 @@ class GameViewController: UIViewController, MPCManagerProtocol {
         opponent?.isReadyForNewRound = false
         
         // check if gameOver should be triggered
-//        let resultLabelString = gameLogicManager.generateResultsLabelWithMoves()
-//
-//        //Check if Game Over
-//        if (gameLogicManager.myWinsNumber == 3 || gameLogicManager.opponentWinsNumber == 3) {
-//            mpcManager.send(me!)
-//            presentGameOverAlert()
-//        } else {
-//            mpcManager.send(me!)
-//            me?.game.state = "ready"
-//            opponent?.game.state = "ready"
-//
-//            //Update UI
-//            DispatchQueue.main.async {
-//
-//                self.theirLastMoveLabel.text = String(format: "%@ played: %@", (self.opponent?.player.name)!, (self.opponent?.player.move)!)
-//                self.resultLabel.text = resultLabelString
-//                self.winsAndRoundsLabel.text = String(format: "%i / %i", self.gameLogicManager.myWinsNumber, self.gameLogicManager.roundsPlayedNumber)
-//            }
-//        }
-            
+        //        let resultLabelString = gameLogicManager.generateResultsLabelWithMoves()
+        //
+        //        //Check if Game Over
+        //        if (gameLogicManager.myWinsNumber == 3 || gameLogicManager.opponentWinsNumber == 3) {
+        //            mpcManager.send(me!)
+        //            presentGameOverAlert()
+        //        } else {
+        //            mpcManager.send(me!)
+        //            me?.game.state = "ready"
+        //            opponent?.game.state = "ready"
+        //
+        //            //Update UI
+        //            DispatchQueue.main.async {
+        //
+        //                self.theirLastMoveLabel.text = String(format: "%@ played: %@", (self.opponent?.player.name)!, (self.opponent?.player.move)!)
+        //                self.resultLabel.text = resultLabelString
+        //                self.winsAndRoundsLabel.text = String(format: "%i / %i", self.gameLogicManager.myWinsNumber, self.gameLogicManager.roundsPlayedNumber)
+        //            }
+        //        }
+        
         currentGame!.currentState = .roundEnd
         currentGame = gameLogicManager.generateResults(game: currentGame!)
     }
@@ -186,6 +188,9 @@ class GameViewController: UIViewController, MPCManagerProtocol {
         
         me!.isReadyForNewRound = true
         mpcManager.send(me!)
+        if (me?.isReadyForNewRound == true && opponent?.isReadyForNewRound == true) {
+            roundBegin()
+        }
     }
     
     //MARK: - Confirmations -
@@ -252,38 +257,62 @@ class GameViewController: UIViewController, MPCManagerProtocol {
     
     func receivedPlayerDataFromPeer(_ player: Player) {
         print("Received Player Update")
+        opponent = player //TODO: more elegant way of diff'ing player update instead of just overriding?
         
-        if me!.isReadyForNewRound && opponent!.isReadyForNewRound && currentGame?.currentState != .roundBegin  {
-            // round ended, players both hit 'ready', received new opponent with .isReadyForNewRound = true
-            guard player.isReadyForNewRound == true else {
-                print("Unexpected opponent state received")
-                return
+        switch currentGame?.currentState {
+        case .gameStart:
+            if (me?.isReadyForNewRound == true && opponent?.isReadyForNewRound == true) {
+                roundBegin()
+            } else if (me?.isReadyForNewRound == false && opponent?.isReadyForNewRound == true) {
+                print("Opponent is ready but I am not. Waiting...")
+            } else if (me?.isReadyForNewRound == true && opponent?.isReadyForNewRound == false) {
+                print("I am ready but opponent is not. Waiting...")
             }
+        case .roundBegin:
             
-            opponent = player
-            roundBegin()
-            
-        } else if me!.isReadyForNewRound == false && currentGame?.currentState == .roundBegin {
-            // countdown ended but round hasn't ended yet
-            opponent = player
             roundEnded()
-        } else {
+        case .roundEnd:
+            if (me?.isReadyForNewRound == false) {
+                roundEnded()
+            }
+        case .gameEnd:
+            print("Game ended but received player data..")
+        default:
             print("Unexpected reception of player/game state")
         }
+        
+        // round ended, players both hit 'ready', received new opponent with .isReadyForNewRound = true
+        //        if (me!.isReadyForNewRound == true && player.isReadyForNewRound == true && currentGame?.currentState != .roundBegin)  {
+        //
+        //            opponent = player //TODO: more elegant way of diff'ing player update instead of just overriding?
+        //            roundBegin()
+        //
+        //        // if other player is ready but I am not yet
+        //        } else if me!.isReadyForNewRound == false && currentGame?.currentState != .roundBegin {
+        //            opponent = player
+        //
+        //        // countdown ended but round hasn't ended yet
+        //        } else if me!.isReadyForNewRound == false && currentGame?.currentState == .roundBegin {
+        //            opponent = player
+        //            roundEnded()
+        //        } else {
+        //            print("Unexpected reception of player/game state")
+        //        }
     }
     
     func session(session: MCSession, wasInterruptedByState state: MCSessionState) {
         
         // tear down game vars / await new game / currentGame = nil etc.
-        
-        let alertController = UIAlertController(title: "Connection interrupted! ☹️", message: nil, preferredStyle: .alert)
-        let alertAction = UIAlertAction(title: "OK", style: .default, handler: {(alert: UIAlertAction!) in
-            self.dismiss(animated: true, completion: nil)
-        })
-        
-        alertController.addAction(alertAction)
-        present(alertController, animated: true)
-        // popVC?
+        DispatchQueue.main.async {
+            let alertController = UIAlertController(title: "Connection interrupted! ☹️", message: nil, preferredStyle: .alert)
+            let alertAction = UIAlertAction(title: "OK", style: .default, handler: {(alert: UIAlertAction!) in
+                self.dismiss(animated: true, completion: nil)
+            })
+            
+            alertController.addAction(alertAction)
+            self.present(alertController, animated: true)
+            // popVC?
+        }
     }
     
 }

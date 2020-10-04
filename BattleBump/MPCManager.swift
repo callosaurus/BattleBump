@@ -155,7 +155,7 @@ class MPCManager: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegate, M
         // TODO: add chosen moveset name to discoveryInfo
         let dict = ["testKey":"testValue"]
         myAdvertiser = MCNearbyServiceAdvertiser(peer: myPeerID, discoveryInfo:dict, serviceType: "RPSgame")
-        print("Advertising for \(myPeerID.displayName))")
+        print("Advertising with \(myPeerID.displayName)")
         
         myAdvertiser?.delegate = self
         myAdvertiser?.startAdvertisingPeer()
@@ -164,7 +164,7 @@ class MPCManager: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegate, M
     
     func findPeers() {
         myBrowser = MCNearbyServiceBrowser(peer: myPeerID, serviceType: "RPSgame")
-        print("Browsing with \(myPeerID.displayName))")
+        print("Browsing with \(myPeerID.displayName)")
         
         myBrowser?.delegate = self
         myBrowser?.startBrowsingForPeers()

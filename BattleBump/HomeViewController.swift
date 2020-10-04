@@ -225,7 +225,6 @@ class HomeViewController: UIViewController, MPCManagerProtocol, UITableViewDeleg
         if let gameVC = segue.destination as? GameViewController {
             gameVC.mpcManager = mpcManager
             gameVC.playersForNewGame = playersForNewGame
-//            gameVC.initializeNewGameWithPlayers(players: playersForNewGame)
         } else if segue.identifier == "edit" {
             let destinationNavigationController = segue.destination as! UINavigationController
             let targetController = destinationNavigationController.topViewController as! MovesetViewController
