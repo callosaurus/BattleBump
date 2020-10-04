@@ -173,7 +173,7 @@ class MPCManager: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegate, M
     
     func joinPeer(peerID: MCPeerID) {
         
-        if (myPeerID != nil && myBrowser != nil) {
+        if (myBrowser != nil) {
             print("Connecting to: \(peerID)")
             mySession = MCSession(peer: myPeerID, securityIdentity: nil, encryptionPreference: .none)
             mySession?.delegate = self
