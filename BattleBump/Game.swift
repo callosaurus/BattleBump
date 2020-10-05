@@ -14,14 +14,14 @@ class Game {
 //    var players: [Player]
     let me: Player
     var myRoundWins: Int
-    let opponent: Player
+    var opponent: Player
     var opponentRoundWins: Int
     var rounds = [String: [String: String]]()   // ["round1":{ "winner":"Callum","sentence": "Rock beats Scissors"},
                                                 //  "round2": {"winner":"Dave",...]
     
     enum State: String, Codable {
         case gameStart
-        case roundBegin
+        case roundInProgress
         case roundEnd
         case gameEnd
     }
