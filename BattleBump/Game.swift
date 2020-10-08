@@ -10,7 +10,7 @@ import UIKit
 
 class Game {
 
-    let name: String
+    var name: String { "\(me.name) and \(opponent.name)'s game" }
 //    var players: [Player]
     let me: Player
     var myRoundWins: Int
@@ -24,14 +24,14 @@ class Game {
         case roundInProgress
         case roundEnd
         case gameEnd
+        case none
     }
     var currentState: State
     
     // var numberOfRounds: Int
     // var movesetInUse: Moveset
     
-    init(name: String, players:[Player], state: State) {
-        self.name = name
+    init(players:[Player], state: State) {
         self.me = players[0]
         self.opponent = players[1]
         self.currentState = .gameStart

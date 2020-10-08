@@ -10,9 +10,9 @@ import Foundation
 
 class Moveset: Codable {
     
-    var movesetName: String!                                 // "Standard RPS"
-    var numberOfMoves: Int!                                  //  3
-    var moveNamesArray: [String]!                                //  ["Rock", "Paper", "Scissors"]
+    var movesetName: String                                 // "Standard RPS"
+    var numberOfMoves: Int                                  //  3
+    var moveNamesArray: [String]                                //  ["Rock", "Paper", "Scissors"]
     var winningVerbDictionary: [String: [String: String]]?   // ["Rock": ["vsScissors": "crushes"], "Paper": ["vsRock": "wraps around"], "Scissors": ["vsPaper": "cuts"]]
     //TODO: include moveImages/moveEmojis
     
@@ -21,28 +21,6 @@ class Moveset: Codable {
         self.numberOfMoves = numberOfMoves
         self.moveNamesArray = movesArray
     }
-    
-//    func encode(with aCoder: NSCoder) {
-//
-//        aCoder.encode(movesetName, forKey: "movesetName")
-//        aCoder.encode(numberOfMoves, forKey: "numberOfMoves")
-//        aCoder.encode(movesArray, forKey: "movesArray")
-//        if let winningVerbDictionary = winningVerbDictionary { aCoder.encode(winningVerbDictionary, forKey: "winningVerbDictionary")}
-//    }
-//
-//    required convenience init?(coder aDecoder: NSCoder) {
-//        self.init()
-//        self.movesetName = aDecoder.decodeObject(forKey: "movesetName") as? String
-//        self.numberOfMoves = aDecoder.decodeObject(forKey: "numberOfMoves") as? Int
-//        self.movesArray = (aDecoder.decodeObject(forKey: "movesArray") as? [String])
-//    }
-//    
-//    convenience init(name: String, numberOfMoves: Int, movesArray: [String]) {
-//        self.init()
-//        self.movesetName = name
-//        self.numberOfMoves = numberOfMoves
-//        self.movesArray = movesArray
-//    }
     
 }
 

@@ -224,6 +224,15 @@ class HomeViewController: UIViewController, MPCManagerProtocol, UITableViewDeleg
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let gameVC = segue.destination as? GameViewController {
             gameVC.mpcManager = mpcManager
+            
+            gameVC.onGameFinished = { [weak self] mpcManager in
+                guard let self = self else {
+                    // we should never have lost reference to HomeVC but need to handle this
+                    return
+                }
+                self.mpcManager = mpcManager
+                self.mpcManager.managerDelegate = self
+            }
             gameVC.playersForNewGame = playersForNewGame
         } else if segue.identifier == "edit" {
             let destinationNavigationController = segue.destination as! UINavigationController
