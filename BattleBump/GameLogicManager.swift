@@ -8,67 +8,63 @@
 
 import UIKit
 
-class GameLogicManager: NSObject {
+class GameLogicManager {
     
-    @objc var myConfirmedMove = ""
-    @objc var theirConfirmedMove = ""
-    @objc var roundsPlayedNumber = 0
-    @objc var myWinsNumber = 0
-    @objc var opponentWinsNumber = 0
-    
-    @objc func pickRandomMove() {
-        let i = arc4random_uniform(3)
-        switch i {
-        case 0:
-            self.myConfirmedMove = "Rock"
-        case 1:
-            self.myConfirmedMove = "Paper"
-        case 2:
-            self.myConfirmedMove = "Scissors"
-        default:
-            break
-        }
-        
+    // TODO: Update to arc4random the length of the Moveset movesArray and return appropriately
+    func pickRandomMove() -> String {
+        return ["Rock", "Paper", "Scissors"].randomElement() ?? ""
     }
     
-    @objc func generateResultsLabelWithMoves() -> String {
-        var computedString = ""
-        if (self.myConfirmedMove == self.theirConfirmedMove) {
-            computedString = "\(self.myConfirmedMove) ties \(self.theirConfirmedMove)"
+    // TODO: Update this to use Moveset dict of dict comparisons
+    func generateResults(game: Game) -> Game {        
+        let roundsPlayed = game.rounds.count
+        
+        if let myMove = game.me.selectedMove, let opponentMove = game.opponent.selectedMove {
+            if myMove == opponentMove {
+                game.rounds["round\(roundsPlayed+1)"] = ["winner": "TIE", "sentence":"\(myMove) ties \(opponentMove)"]
+            }
+            else {
+                if myMove == "Rock" && opponentMove == "Paper" {
+                    opponentWins(round: roundsPlayed, game: game)
+                }
+                if myMove == "Rock" && opponentMove == "Scissors" {
+                    iWin(round: roundsPlayed, game: game)
+                }
+                if myMove == "Scissors" && opponentMove == "Paper" {
+                    iWin(round: roundsPlayed, game: game)
+                }
+                if myMove == "Scissors" && opponentMove == "Rock" {
+                    opponentWins(round: roundsPlayed, game: game)
+                }
+                if myMove == "Paper" && opponentMove == "Scissors" {
+                    opponentWins(round: roundsPlayed, game: game)
+                }
+                if myMove == "Paper" && opponentMove == "Rock" {
+                    iWin(round: roundsPlayed, game: game)
+                }
+            }
+            
         }
-        else {
-            if (self.myConfirmedMove == "Rock") && (self.theirConfirmedMove == "Paper") {
-                computedString = "\(self.theirConfirmedMove) beats \(self.myConfirmedMove)"
-                self.opponentWinsNumber += 1
-                self.roundsPlayedNumber += 1
-            }
-            if (self.myConfirmedMove == "Rock") && (self.theirConfirmedMove == "Scissors") {
-                computedString = "\(self.myConfirmedMove) beats \(self.theirConfirmedMove)"
-                self.myWinsNumber += 1
-                self.roundsPlayedNumber += 1
-            }
-            if (self.myConfirmedMove == "Scissors") && (self.theirConfirmedMove == "Paper") {
-                computedString = "\(self.myConfirmedMove) beats \(self.theirConfirmedMove)"
-                self.myWinsNumber += 1
-                self.roundsPlayedNumber += 1
-            }
-            if (self.myConfirmedMove == "Scissors") && (self.theirConfirmedMove == "Rock") {
-                computedString = "\(self.theirConfirmedMove) beats \(self.myConfirmedMove)"
-                self.opponentWinsNumber += 1
-                self.roundsPlayedNumber += 1
-            }
-            if (self.myConfirmedMove == "Paper") && (self.theirConfirmedMove == "Scissors") {
-                computedString = "\(self.theirConfirmedMove) beats \(self.myConfirmedMove)"
-                self.opponentWinsNumber += 1
-                self.roundsPlayedNumber += 1
-            }
-            if (self.myConfirmedMove == "Paper") && (self.theirConfirmedMove == "Rock") {
-                computedString = "\(self.myConfirmedMove) beats \(self.theirConfirmedMove)"
-                self.myWinsNumber += 1
-                self.roundsPlayedNumber += 1
-            }
+        
+        return game
+    }
+    
+    func iWin(round:Int, game: Game) {
+        guard let move1 = game.me.selectedMove, let move2 = game.opponent.selectedMove else {
+            print("Couldn't add to game rounds because selectedMoves are invalid")
+            return
         }
-        return computedString
+        game.myRoundWins += 1
+        game.rounds["round\(round+1)"] = ["winner": "\(game.me.name)", "sentence":"\(move1) beats \(move2)"]
+    }
+    
+    func opponentWins(round: Int, game: Game) {
+        guard let move1 = game.opponent.selectedMove, let move2 = game.me.selectedMove else {
+            print("Couldn't add to game rounds because selectedMoves are invalid")
+            return
+        }
+        game.opponentRoundWins += 1
+        game.rounds["round\(round+1)"] = ["winner": "\(game.opponent.name)", "sentence":"\(move1) beats \(move2)"]
     }
     
 }

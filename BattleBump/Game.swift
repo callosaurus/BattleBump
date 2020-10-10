@@ -8,32 +8,35 @@
 
 import UIKit
 
-class Game: NSObject, NSCoding {
+class Game {
 
-    @objc let name: String
-    @objc var state: String
+    var name: String { "\(me.name) and \(opponent.name)'s game" }
+//    var players: [Player]
+    let me: Player
+    var myRoundWins: Int
+    var opponent: Player
+    var opponentRoundWins: Int
+    var rounds = [String: [String: String]]()   // ["round1":{ "winner":"Callum","sentence": "Rock beats Scissors"},
+                                                //  "round2": {"winner":"Dave",...]
     
-    @objc init(name: String, state: String) {
-        
-        self.name = name
-        self.state = state
-        super.init()
+    enum State: String, Codable {
+        case gameStart
+        case roundInProgress
+        case roundEnd
+        case gameEnd
+        case none
+    }
+    var currentState: State
+    
+    // var numberOfRounds: Int
+    // var movesetInUse: Moveset
+    
+    init(players:[Player], state: State) {
+        self.me = players[0]
+        self.opponent = players[1]
+        self.currentState = .gameStart
+        self.myRoundWins = 0
+        self.opponentRoundWins = 0
     }
     
-    // MARK: NSCoding
-    
-    required convenience init?(coder decoder: NSCoder) {
-        
-        guard let name = decoder.decodeObject(forKey: "name") as? String,
-            let state = decoder.decodeObject(forKey: "state") as? String
-            else { return nil }
-        
-        self.init(name: name, state: state)
-    }
-    
-    func encode(with aCoder: NSCoder) {
-        
-        aCoder.encode(self.name, forKey: "name")
-        aCoder.encode(self.state, forKey: "state")
-    }
 }

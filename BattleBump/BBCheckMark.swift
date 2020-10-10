@@ -15,26 +15,14 @@ enum BBCheckMarkStyle : UInt {
 
 class BBCheckMark: UIView {
     
-    private var checkedBool: Bool = false
-    // choose whether you like open or grayed out non-selected items
-    private var checkMarkStyleReal: BBCheckMarkStyle = BBCheckMarkStyle.GrayedOut
-    
-    @objc var checked: Bool {
-        get {
-            return self.checkedBool
-        }
-        set(checked) {
-            self.checkedBool = checked
+    var checked: Bool = false {
+        didSet {
             self.setNeedsDisplay()
         }
     }
     
-    var checkMarkStyle: BBCheckMarkStyle {
-        get {
-            return self.checkMarkStyleReal
-        }
-        set(checkMarkStyle) {
-            self.checkMarkStyleReal = checkMarkStyle
+    var checkMarkStyle: BBCheckMarkStyle = .GrayedOut {
+        didSet {
             self.setNeedsDisplay()
         }
     }
