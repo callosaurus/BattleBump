@@ -10,11 +10,15 @@ import UIKit
 
 class MovesetViewController: UIViewController {
     
+    @IBOutlet weak var minusMovesButton: UIButton!
+    @IBOutlet weak var plusMovesButton: UIButton!
     @IBOutlet weak var movesetImageView: UIImageView!
     @IBOutlet weak var numberOfOutcomesLabel: UILabel!
     var currentNumberOfMoves: Int?
     let minimumNumberOfMoves = 3
     let maximumNumberOfMoves = 9
+    // TODO: allow user to pick from 'sample' movesets like "Weapon triangle": ["Sword", "Spear", "Axe"] or "Pokemon": ["Grass", "Fire", "Rock", "Psychic", "Fighting", "Flying", "Water"] or "RPSLS 🖖"
+    // TODO: emoji skin-color picker?
     
     var movesetInProgress: Moveset! {
         didSet {
@@ -24,20 +28,25 @@ class MovesetViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                configure()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        //    configure()
+        configure()
     }
     
     func configure() {
-        drawMovesetDiagram(number: movesetInProgress.numberOfMoves)
-        currentNumberOfMoves = movesetInProgress.numberOfMoves
+        drawMovesetDiagram(number: movesetInProgress.movesAndVerbsDictionary!.keys.count)
+        currentNumberOfMoves = movesetInProgress.movesAndVerbsDictionary!.keys.count
+        
+        if currentNumberOfMoves == minimumNumberOfMoves {
+            disableInteractionWith(button: minusMovesButton)
+        }
+        
+        if currentNumberOfMoves == maximumNumberOfMoves {
+            disableInteractionWith(button: plusMovesButton)
+        }
     }
     
     func drawMovesetDiagram(number: Int) {
         
+        // Number of outcomes will always be "0.5n (rounded down) * n", maybe extract into func when 9-move cap is lifted
         switch number {
         case 3:
             movesetImageView.image = UIImage(named: "2-simplex")
@@ -62,22 +71,34 @@ class MovesetViewController: UIViewController {
     
     @IBAction func minus2MovesButtonPressed(_ sender: UIButton) {
         
-        if currentNumberOfMoves == minimumNumberOfMoves {
-            print("min move threshold reached")
-            return
-        }
         currentNumberOfMoves = currentNumberOfMoves! - 2
+        if currentNumberOfMoves == minimumNumberOfMoves {
+            disableInteractionWith(button: minusMovesButton)
+        }
+        enableInteractionWith(button: plusMovesButton)
         drawMovesetDiagram(number: currentNumberOfMoves!)
     }
     
     @IBAction func plus2MovesButtonPressed(_ sender: UIButton) {
         
-        if currentNumberOfMoves == maximumNumberOfMoves {
-            print("max move threshold reached")
-            return
-        }
         currentNumberOfMoves = currentNumberOfMoves! + 2
+        if currentNumberOfMoves == maximumNumberOfMoves {
+            disableInteractionWith(button: plusMovesButton)
+        }
+        enableInteractionWith(button: minusMovesButton)
         drawMovesetDiagram(number: currentNumberOfMoves!)
+    }
+    
+    func enableInteractionWith(button: UIButton) {
+        button.isUserInteractionEnabled = true
+        button.alpha = 1.0
+        button.setTitleColor(.systemBlue, for: .normal)
+    }
+    
+    func disableInteractionWith(button: UIButton) {
+        button.isUserInteractionEnabled = false
+        button.alpha = 0.5
+        button.setTitleColor(.gray, for: .normal)
     }
     
     @IBAction func pickVerbsButtonPressed(_ sender: UIButton) {
@@ -85,6 +106,7 @@ class MovesetViewController: UIViewController {
     }
     
     @IBAction func cancelButtonPressed(_ sender: UIBarButtonItem) {
+        // TODO: Ask the user if they're sure they want to exit
         self.dismiss(animated: true, completion: nil)
     }
     

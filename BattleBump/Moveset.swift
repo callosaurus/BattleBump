@@ -10,16 +10,15 @@ import Foundation
 
 class Moveset: Codable {
     
-    var movesetName: String                                 // "Standard RPS"
-    var numberOfMoves: Int                                  //  3
-    var moveNamesArray: [String]                                //  ["Rock", "Paper", "Scissors"]
-    var winningVerbDictionary: [String: [String: String]]?   // ["Rock": ["vsScissors": "crushes"], "Paper": ["vsRock": "wraps around"], "Scissors": ["vsPaper": "cuts"]]
-    //TODO: include moveImages/moveEmojis
+    var movesetName: String                                     // "Standard RPS"
+    var movesAndVerbsDictionary: [String: [String: String]]?    // ["Rock": ["vsScissors": "crushes"],"Paper": ["vsRock": "wraps around"],"Scissors": ["vsPaper": "cuts"]]
     
-    init(name: String, numberOfMoves: Int, movesArray: [String]) {
+    var moveEmojis : [String: String]?    // ["Rock": <Image/Emoji>,"Paper": <Image/Emoji>,"Scissors": <Image/Emoji>] -- TODO: Allow images? e.g. picture of a hand in an orientation (but Image doesn't conform to Codable out of the box etc)
+    
+    init(name: String, movesAndVerbs: [String: [String: String]], emojisDict: [String: String]) {
         movesetName = name
-        self.numberOfMoves = numberOfMoves
-        self.moveNamesArray = movesArray
+        movesAndVerbsDictionary = movesAndVerbs
+        moveEmojis = emojisDict
     }
     
 }

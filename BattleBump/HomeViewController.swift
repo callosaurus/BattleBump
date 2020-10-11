@@ -16,24 +16,23 @@ class HomeViewController: UIViewController, MPCManagerProtocol, UITableViewDeleg
     @IBOutlet weak var playerNameTextField: UITextField!
     @IBOutlet weak var tableViewLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var movesetOneButton: UIButton!
-    @IBOutlet weak var movesetTwoButton: UIButton!
-    @IBOutlet weak var movesetThreeButton: UIButton!
+    @IBOutlet weak var movesetCollectionView: UICollectionView!
     
     var mpcManager = MPCManager()
     var playersForNewGame = [Player]()
     var playerName: String?
+    var playerMovesets = [Moveset]()
     var me: Player!
     var foundPeersArray = [MCPeerID]()
     var connectedPlayersArray = [Player]()
     lazy var refreshControl = UIRefreshControl()
-    var movesetButtonArray = [UIButton]()
-    var movesetOne: Moveset?
-    var movesetTwo: Moveset?
-    var movesetThree: Moveset?
+    //    var movesetButtonArray = [UIButton]()
+    //    var movesetOne: Moveset?
+    //    var movesetTwo: Moveset?
+    //    var movesetThree: Moveset?
     var selectedMoveset: Moveset?
-    var movesetArray = [Moveset]()
-    var selectedMovesetIndex: Int?
+    //    var movesetArray = [Moveset]()
+    //    var selectedMovesetIndex: Int?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,6 +42,7 @@ class HomeViewController: UIViewController, MPCManagerProtocol, UITableViewDeleg
         
         loadUserDefaults()
         prepareTableView()
+        movesetCollectionView.reloadData()
         setupMPCManager()
     }
     
@@ -57,11 +57,11 @@ class HomeViewController: UIViewController, MPCManagerProtocol, UITableViewDeleg
     
     @IBAction func editButtonPressed(_ sender: UIButton) {
         //take current moveset selection and pass to MovesetViewController
-        if (selectedMoveset != nil) {
-            self.performSegue(withIdentifier: "edit", sender: self)
-        } else {
+        guard selectedMoveset != nil else {
+            print("Edit button was pressed without a selectedMoveset")
             return
         }
+        self.performSegue(withIdentifier: "edit", sender: self)
     }
     
     @IBAction func hostButtonPressed(_ sender: UIButton) {
@@ -94,48 +94,22 @@ class HomeViewController: UIViewController, MPCManagerProtocol, UITableViewDeleg
         }
         
         playerNameTextField.text = playerName
-        
-        if defaults.dictionaryRepresentation().keys.contains("One") {
-            movesetOne = defaults.object(forKey: "One") as? Moveset
-            movesetTwo = defaults.object(forKey: "Two") as? Moveset
-            movesetThree = defaults.object(forKey: "Three") as? Moveset
-        } else {
-            movesetOne = Moveset(name: "Standard", numberOfMoves: 3, movesArray: ["Rock", "Paper", "Scissors"])
-            movesetTwo = Moveset(name: "Weapon triangle", numberOfMoves: 3, movesArray: ["Sword", "Spear", "Axe"])
-            movesetThree = Moveset(name: "Pokemon", numberOfMoves: 7, movesArray: ["Grass", "Fire", "Rock", "Psychic", "Fighting", "Flying", "Water"])
-        }
-        
-        movesetArray = [movesetOne!, movesetTwo!, movesetThree!]
-        movesetButtonArray = [movesetOneButton, movesetTwoButton, movesetThreeButton]
-        
-        var j = 0
-        for button in movesetButtonArray {
-            
-            button.imageEdgeInsets = UIEdgeInsets(top: 5.0, left: 5.0, bottom: 5.0, right: 5.0)
-            
-            switch movesetArray[j].numberOfMoves {
-            case 3 :
-                button.setImage(UIImage(named: "2-simplex"), for: .normal)
-            case 5:
-                button.setImage(UIImage(named: "4-simplex"), for: .normal)
-            case 7:
-                button.setImage(UIImage(named: "6-simplex"), for: .normal)
-            case 9:
-                button.setImage(UIImage(named: "8-simplex"), for: .normal)
-            default:
-                button.setImage(UIImage(named: "2-simplex"), for: .normal)
-            }
-            
-            button.backgroundColor = UIColor.white
-            button.tintColor = UIColor.lightGray
-            button.layer.borderColor = UIColor.lightGray.cgColor
-            button.layer.cornerRadius = 10.0
-            button.layer.borderWidth = 1.0
-            
-            j = j + 1
-        }
-        
         me = Player(name: playerName!)
+        
+        if defaults.dictionaryRepresentation().keys.contains("playerMovesets") {
+            playerMovesets = defaults.object(forKey: "playerMovesets") as! [Moveset]
+        } else {
+            //TODO: Give the player more than the 3 basic 'RPS' movesets? e.g. Weapon triangle/Pokemon/Spock&Lizard RPS/umop versions?
+            let standardMoves = ["Rock": ["vs-Scissors": "crushes"],
+                                 "Paper": ["vs-Rock": "wraps around"],
+                                 "Scissors": ["vs-Paper": "cuts"]]
+            let standardEmojis = ["Rock": "👊", "Paper": "✋", "Scissors": "✌️"]
+            let standardRPSMoveset = Moveset(name: "Standard RPS", movesAndVerbs: standardMoves, emojisDict: standardEmojis)
+            
+            playerMovesets.append(contentsOf: repeatElement(standardRPSMoveset, count: 3))
+            print("Player Movesets: \(playerMovesets)")
+        }
+        
     }
     
     func prepareTableView() {
@@ -159,22 +133,6 @@ class HomeViewController: UIViewController, MPCManagerProtocol, UITableViewDeleg
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         playerNameTextField.resignFirstResponder()
-    }
-    
-    //
-    @IBAction func movesetOneButtonPressed(_ sender: UIButton) {
-        selectedMoveset = movesetOne
-        selectedMovesetIndex = 0
-    }
-    
-    @IBAction func movesetTwoButtonPressed(_ sender: UIButton) {
-        selectedMoveset = movesetTwo
-        selectedMovesetIndex = 1
-    }
-    
-    @IBAction func movesetThreeButtonPressed(_ sender: UIButton) {
-        selectedMoveset = movesetThree
-        selectedMovesetIndex = 2
     }
     
     //MARK: - UITextFieldDelegate Methods -
@@ -206,9 +164,9 @@ class HomeViewController: UIViewController, MPCManagerProtocol, UITableViewDeleg
         tableView.reloadData()
     }
     
-//    func didConnectSuccessfully() {
-//        mpcManager.send(me)
-//    }
+    //    func didConnectSuccessfully() {
+    //        mpcManager.send(me)
+    //    }
     
     func startNewGame(with player: Player) {
         
@@ -269,14 +227,29 @@ class HomeViewController: UIViewController, MPCManagerProtocol, UITableViewDeleg
     // MARK: - UICollectionView Methods -
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "moveCellIdentifier", for: indexPath) as! MovesetCell
-        cell.moveset = movesetArray[indexPath.item]
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "moveset", for: indexPath) as! MovesetCell
+        cell.moveset = playerMovesets[indexPath.item]
+        cell.movesetCellImageView.contentMode = UIView.ContentMode.scaleAspectFit
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return movesetArray.count
+        return playerMovesets.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        selectedMoveset = playerMovesets[indexPath.item]
+        
+        if let cell = collectionView.cellForItem(at: indexPath) as? MovesetCell {
+            cell.backgroundColor = UIColor.green
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        if let cell = collectionView.cellForItem(at: indexPath) as? MovesetCell {
+            cell.backgroundColor = UIColor.white
+        }
     }
     
 }
