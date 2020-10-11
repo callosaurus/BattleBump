@@ -26,13 +26,7 @@ class HomeViewController: UIViewController, MPCManagerProtocol, UITableViewDeleg
     var foundPeersArray = [MCPeerID]()
     var connectedPlayersArray = [Player]()
     lazy var refreshControl = UIRefreshControl()
-    //    var movesetButtonArray = [UIButton]()
-    //    var movesetOne: Moveset?
-    //    var movesetTwo: Moveset?
-    //    var movesetThree: Moveset?
     var selectedMoveset: Moveset?
-    //    var movesetArray = [Moveset]()
-    //    var selectedMovesetIndex: Int?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,13 +39,6 @@ class HomeViewController: UIViewController, MPCManagerProtocol, UITableViewDeleg
         movesetCollectionView.reloadData()
         setupMPCManager()
     }
-    
-    /*
-     override func viewWillAppear(_ animated: Bool) {
-     super.viewWillAppear(animated)
-     tableView.reloadData()
-     }
-     */
     
     //MARK: - IBActions -
     
@@ -107,8 +94,8 @@ class HomeViewController: UIViewController, MPCManagerProtocol, UITableViewDeleg
             let standardRPSMoveset = Moveset(name: "Standard RPS", movesAndVerbs: standardMoves, emojisDict: standardEmojis)
             
             playerMovesets.append(contentsOf: repeatElement(standardRPSMoveset, count: 3))
-            print("Player Movesets: \(playerMovesets)")
         }
+        print("Movesets loaded: \(playerMovesets.map({ $0.movesetName }))")
         
     }
     

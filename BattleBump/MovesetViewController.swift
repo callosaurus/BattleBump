@@ -22,7 +22,7 @@ class MovesetViewController: UIViewController {
     
     var movesetInProgress: Moveset! {
         didSet {
-//            configure()
+            // make a copy for 'Undo All Changes'?
         }
     }
     
@@ -46,23 +46,25 @@ class MovesetViewController: UIViewController {
     
     func drawMovesetDiagram(number: Int) {
         
-        // Number of outcomes will always be "0.5n (rounded down) * n", maybe extract into func when 9-move cap is lifted
-        switch number {
-        case 3:
-            movesetImageView.image = UIImage(named: "2-simplex")
-            numberOfOutcomesLabel.text = "3 possible outcomes 🙂"
-        case 5:
-            movesetImageView.image = UIImage(named: "4-simplex")
-            numberOfOutcomesLabel.text = "10 possible outcomes 🤔"
-        case 7:
-            movesetImageView.image = UIImage(named: "6-simplex")
-            numberOfOutcomesLabel.text = "21 possible outcomes 😥"
-        case 9:
-            movesetImageView.image = UIImage(named: "8-simplex")
-            numberOfOutcomesLabel.text = "36 possible outcomes 😳"
-            
-        default:
-            movesetImageView.image = UIImage(named: "2-simplex")
+        DispatchQueue.main.async() {
+            // Number of outcomes will always be "0.5n (rounded down) * n", maybe extract into func when 9-move cap is lifted
+            switch number {
+            case 3:
+                self.movesetImageView.image = UIImage(named: "2-simplex")
+                self.numberOfOutcomesLabel.text = "3 possible outcomes 🙂"
+            case 5:
+                self.movesetImageView.image = UIImage(named: "4-simplex")
+                self.numberOfOutcomesLabel.text = "10 possible outcomes 🤔"
+            case 7:
+                self.movesetImageView.image = UIImage(named: "6-simplex")
+                self.numberOfOutcomesLabel.text = "21 possible outcomes 😥"
+            case 9:
+                self.movesetImageView.image = UIImage(named: "8-simplex")
+                self.numberOfOutcomesLabel.text = "36 possible outcomes 😳"
+                
+            default:
+                self.movesetImageView.image = UIImage(named: "2-simplex")
+            }
         }
         
     }
@@ -90,15 +92,19 @@ class MovesetViewController: UIViewController {
     }
     
     func enableInteractionWith(button: UIButton) {
-        button.isUserInteractionEnabled = true
-        button.alpha = 1.0
-        button.setTitleColor(.systemBlue, for: .normal)
+        DispatchQueue.main.async() {
+            button.isUserInteractionEnabled = true
+            button.alpha = 1.0
+            button.setTitleColor(.systemBlue, for: .normal)
+        }
     }
     
     func disableInteractionWith(button: UIButton) {
-        button.isUserInteractionEnabled = false
-        button.alpha = 0.5
-        button.setTitleColor(.gray, for: .normal)
+        DispatchQueue.main.async() {
+            button.isUserInteractionEnabled = false
+            button.alpha = 0.5
+            button.setTitleColor(.gray, for: .normal)
+        }
     }
     
     @IBAction func pickVerbsButtonPressed(_ sender: UIButton) {

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="dDE-ye-sp9">
-    <device id="retina4_0" orientation="portrait" appearance="light"/>
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -15,11 +15,11 @@
                         <viewControllerLayoutGuide type="bottom" id="GNp-RF-rtx"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="sqQ-sm-cqk">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fUa-jq-8vD">
-                                <rect key="frame" x="80" y="518" width="160" height="30"/>
+                                <rect key="frame" x="94" y="617" width="187.5" height="30"/>
                                 <state key="normal" title="Pick verbs!"/>
                                 <connections>
                                     <action selector="pickVerbsButtonPressed:" destination="Uu6-FD-VKU" eventType="touchUpInside" id="0jl-I7-8b2"/>
@@ -27,23 +27,23 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="numberOfOutcomesLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e6z-Mg-FYW">
-                                <rect key="frame" x="61.5" y="380" width="197" height="20.5"/>
+                                <rect key="frame" x="89" y="435" width="197" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NDb-75-mRl">
-                                <rect key="frame" x="16" y="78" width="288" height="30"/>
+                                <rect key="frame" x="16" y="78" width="343" height="30"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wrn-JP-yNg">
-                                        <rect key="frame" x="0.0" y="0.0" width="144" height="30"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="171.5" height="30"/>
                                         <state key="normal" title="-2 moves"/>
                                         <connections>
                                             <action selector="minus2MovesButtonPressed:" destination="Uu6-FD-VKU" eventType="touchUpInside" id="bOt-yx-cQn"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="ATZ-BN-BJJ">
-                                        <rect key="frame" x="144" y="0.0" width="144" height="30"/>
+                                        <rect key="frame" x="171.5" y="0.0" width="171.5" height="30"/>
                                         <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="15"/>
                                         <state key="normal" title="+2 moves"/>
                                         <connections>
@@ -56,7 +56,7 @@
                                 </constraints>
                             </stackView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="C9z-BJ-u7D">
-                                <rect key="frame" x="40" y="116" width="240" height="240"/>
+                                <rect key="frame" x="40" y="116" width="295" height="295"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="C9z-BJ-u7D" secondAttribute="height" multiplier="1:1" id="MY6-lp-vNf"/>
                                 </constraints>
@@ -110,18 +110,18 @@
                         <viewControllerLayoutGuide type="bottom" id="mog-ZJ-gei"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="UIL-9V-cx7">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="77" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="gpX-Qb-9jn">
-                                <rect key="frame" x="16" y="44" width="288" height="524"/>
+                                <rect key="frame" x="16" y="44" width="343" height="623"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="verbCell" rowHeight="77" id="SNg-VZ-nX7">
-                                        <rect key="frame" x="0.0" y="28" width="288" height="77"/>
+                                        <rect key="frame" x="0.0" y="28" width="343" height="77"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="SNg-VZ-nX7" id="GRG-oA-62S">
-                                            <rect key="frame" x="0.0" y="0.0" width="288" height="77"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="343" height="77"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="beat" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tXz-qr-XDw">
@@ -176,7 +176,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="xsB-EB-fHt" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="dLF-XQ-kLR">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -194,7 +194,7 @@
                 <navigationController storyboardIdentifier="movesetNavigation" automaticallyAdjustsScrollViewInsets="NO" id="dDE-ye-sp9" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="YUM-76-QU9">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
