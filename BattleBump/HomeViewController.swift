@@ -87,11 +87,12 @@ class HomeViewController: UIViewController, MPCManagerProtocol, UITableViewDeleg
             playerMovesets = defaults.object(forKey: "playerMovesets") as! [Moveset]
         } else {
             //TODO: Give the player more than the 3 basic 'RPS' movesets? e.g. Weapon triangle/Pokemon/Spock&Lizard RPS/umop versions?
-            let standardMoves = ["Rock": ["vs-Scissors": "crushes"],
+            let standardMoves = ["Rock", "Paper", "Scissors"]
+            let standardMoveVerbs = ["Rock": ["vs-Scissors": "crushes"],
                                  "Paper": ["vs-Rock": "wraps around"],
                                  "Scissors": ["vs-Paper": "cuts"]]
             let standardEmojis = ["Rock": "👊", "Paper": "✋", "Scissors": "✌️"]
-            let standardRPSMoveset = Moveset(name: "Standard RPS", movesAndVerbs: standardMoves, emojisDict: standardEmojis)
+            let standardRPSMoveset = Moveset(name: "Standard RPS", moveNamesArray: standardMoves, movesAndVerbs: standardMoveVerbs, emojisDict: standardEmojis)
             
             playerMovesets.append(contentsOf: repeatElement(standardRPSMoveset, count: 3))
         }

@@ -3,6 +3,8 @@
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -20,14 +22,15 @@
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fUa-jq-8vD">
                                 <rect key="frame" x="94" y="617" width="187.5" height="30"/>
-                                <state key="normal" title="Pick verbs!"/>
+                                <color key="backgroundColor" systemColor="systemGray5Color"/>
+                                <state key="normal" title="Edit verbs"/>
                                 <connections>
                                     <action selector="pickVerbsButtonPressed:" destination="Uu6-FD-VKU" eventType="touchUpInside" id="0jl-I7-8b2"/>
                                     <segue destination="xsB-EB-fHt" kind="showDetail" identifier="pickVerbs" id="s7y-GH-rho"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="numberOfOutcomesLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e6z-Mg-FYW">
-                                <rect key="frame" x="89" y="435" width="197" height="20.5"/>
+                                <rect key="frame" x="89" y="482.5" width="197" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -55,27 +58,54 @@
                                     <constraint firstItem="wrn-JP-yNg" firstAttribute="width" secondItem="ATZ-BN-BJJ" secondAttribute="width" id="7Vg-uZ-OY4"/>
                                 </constraints>
                             </stackView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="C9z-BJ-u7D">
-                                <rect key="frame" x="40" y="116" width="295" height="295"/>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="b58-Bd-60D">
+                                <rect key="frame" x="8" y="111" width="359" height="330.5"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="C9z-BJ-u7D" secondAttribute="height" multiplier="1:1" id="MY6-lp-vNf"/>
+                                    <constraint firstAttribute="width" secondItem="b58-Bd-60D" secondAttribute="height" multiplier="343:316" id="Y2E-d0-4LW"/>
                                 </constraints>
-                            </imageView>
+                                <collectionViewLayout key="collectionViewLayout" id="M8c-3I-VGF" customClass="CircularCollectionViewLayout" customModule="BattleBump" customModuleProvider="target"/>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="circle" id="qkC-HX-Dwu" customClass="CircularCollectionViewCell" customModule="BattleBump" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="pOa-hd-fvc">
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sao-wj-Fqn">
+                                                    <rect key="frame" x="4" y="0.0" width="42" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </collectionViewCellContentView>
+                                        <connections>
+                                            <outlet property="circleLabel" destination="sao-wj-Fqn" id="bsG-nB-9T3"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="Uu6-FD-VKU" id="hAS-V5-VUY"/>
+                                    <outlet property="delegate" destination="Uu6-FD-VKU" id="RFa-33-H2m"/>
+                                </connections>
+                            </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="e6z-Mg-FYW" firstAttribute="centerX" secondItem="sqQ-sm-cqk" secondAttribute="centerX" id="3FF-lD-eiY"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="C9z-BJ-u7D" secondAttribute="trailing" constant="24" id="8BX-Ck-2Tv"/>
-                            <constraint firstItem="C9z-BJ-u7D" firstAttribute="centerX" secondItem="sqQ-sm-cqk" secondAttribute="centerX" id="Cmy-1z-4ec"/>
+                            <constraint firstItem="e6z-Mg-FYW" firstAttribute="centerX" secondItem="sqQ-sm-cqk" secondAttribute="centerX" id="3Ms-Ke-dei"/>
                             <constraint firstItem="NDb-75-mRl" firstAttribute="leading" secondItem="sqQ-sm-cqk" secondAttribute="leadingMargin" id="E1r-Nx-Jcb"/>
                             <constraint firstAttribute="trailingMargin" secondItem="NDb-75-mRl" secondAttribute="trailing" id="LzX-yp-nvZ"/>
-                            <constraint firstItem="e6z-Mg-FYW" firstAttribute="top" secondItem="C9z-BJ-u7D" secondAttribute="bottom" constant="24" id="WhL-eO-nck"/>
                             <constraint firstItem="GNp-RF-rtx" firstAttribute="top" secondItem="fUa-jq-8vD" secondAttribute="bottom" constant="20" id="Z2n-bM-7fX"/>
                             <constraint firstItem="fUa-jq-8vD" firstAttribute="centerX" secondItem="sqQ-sm-cqk" secondAttribute="centerX" id="h4e-3R-cyO"/>
                             <constraint firstItem="NDb-75-mRl" firstAttribute="top" secondItem="aj8-UV-fNg" secondAttribute="bottom" constant="34" id="hFQ-pp-icc"/>
+                            <constraint firstItem="e6z-Mg-FYW" firstAttribute="top" secondItem="b58-Bd-60D" secondAttribute="bottom" constant="41" id="i3L-Px-xJq"/>
                             <constraint firstItem="fUa-jq-8vD" firstAttribute="width" secondItem="sqQ-sm-cqk" secondAttribute="width" multiplier="0.5" id="mL3-qz-tUo"/>
-                            <constraint firstItem="C9z-BJ-u7D" firstAttribute="top" secondItem="NDb-75-mRl" secondAttribute="bottom" constant="8" id="qor-3k-6wK"/>
-                            <constraint firstItem="C9z-BJ-u7D" firstAttribute="leading" secondItem="sqQ-sm-cqk" secondAttribute="leadingMargin" constant="24" id="sOv-Bn-TVY"/>
+                            <constraint firstAttribute="trailing" secondItem="b58-Bd-60D" secondAttribute="trailing" constant="8" id="uus-fb-NfL"/>
+                            <constraint firstItem="b58-Bd-60D" firstAttribute="top" secondItem="NDb-75-mRl" secondAttribute="bottom" constant="3" id="vqd-Lt-14T"/>
+                            <constraint firstItem="b58-Bd-60D" firstAttribute="leading" secondItem="sqQ-sm-cqk" secondAttribute="leading" constant="8" id="zbr-gz-Uvo"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="MovesetName" id="xDQ-7u-lDx">
@@ -92,14 +122,13 @@
                     </navigationItem>
                     <connections>
                         <outlet property="minusMovesButton" destination="wrn-JP-yNg" id="hq0-97-T4T"/>
-                        <outlet property="movesetImageView" destination="C9z-BJ-u7D" id="U0s-c3-BE9"/>
                         <outlet property="numberOfOutcomesLabel" destination="e6z-Mg-FYW" id="CvW-nq-0RI"/>
                         <outlet property="plusMovesButton" destination="ATZ-BN-BJJ" id="bIh-f5-3Ee"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xkX-M8-fE4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1290" y="97.183098591549296"/>
+            <point key="canvasLocation" x="1288.8" y="96.7016491754123"/>
         </scene>
         <!--How does...-->
         <scene sceneID="8ZK-4E-zhy">
@@ -207,4 +236,12 @@
             <point key="canvasLocation" x="544" y="97"/>
         </scene>
     </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray5Color">
+            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
 </document>

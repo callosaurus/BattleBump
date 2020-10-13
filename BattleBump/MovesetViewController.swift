@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MovesetViewController: UIViewController {
+class MovesetViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
     @IBOutlet weak var minusMovesButton: UIButton!
     @IBOutlet weak var plusMovesButton: UIButton!
@@ -32,7 +32,7 @@ class MovesetViewController: UIViewController {
     }
     
     func configure() {
-        drawMovesetDiagram(number: movesetInProgress.movesAndVerbsDictionary!.keys.count)
+//        drawMovesetDiagram(number: movesetInProgress.movesAndVerbsDictionary!.keys.count)
         currentNumberOfMoves = movesetInProgress.movesAndVerbsDictionary!.keys.count
         
         if currentNumberOfMoves == minimumNumberOfMoves {
@@ -65,6 +65,8 @@ class MovesetViewController: UIViewController {
             default:
                 self.movesetImageView.image = UIImage(named: "2-simplex")
             }
+            
+            self.movesetImageView.alpha = 0.3
         }
         
     }
@@ -78,7 +80,7 @@ class MovesetViewController: UIViewController {
             disableInteractionWith(button: minusMovesButton)
         }
         enableInteractionWith(button: plusMovesButton)
-        drawMovesetDiagram(number: currentNumberOfMoves!)
+//        drawMovesetDiagram(number: currentNumberOfMoves!)
     }
     
     @IBAction func plus2MovesButtonPressed(_ sender: UIButton) {
@@ -88,7 +90,7 @@ class MovesetViewController: UIViewController {
             disableInteractionWith(button: plusMovesButton)
         }
         enableInteractionWith(button: minusMovesButton)
-        drawMovesetDiagram(number: currentNumberOfMoves!)
+//        drawMovesetDiagram(number: currentNumberOfMoves!)
     }
     
     func enableInteractionWith(button: UIButton) {
@@ -127,6 +129,29 @@ class MovesetViewController: UIViewController {
             print(position.x)
             print(position.y)
         }
+    }
+    
+    // MARK: - UICollectionView -
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return movesetInProgress.movesAndVerbsDictionary!.keys.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "circle", for: indexPath) as! CircularCollectionViewCell
+        //        cell.backgroundView?.backgroundColor = items[indexPath.item]
+        //        let moveKeys = Array(arrayLiteral: movesetInProgress.moveEmojis?.keys)
+        //        let sectionKey = moveKeys[indexPath.section]
+        //        let emojiSection = moveKeys[sectionKey]
+        //        let moveEmoji = emojiSection[indexPath.row]
+        let thisMove = movesetInProgress.moves[indexPath.item]
+        if let emoji = movesetInProgress.moveEmojis![thisMove] {
+            cell.circleLabel.text = "\(emoji)"
+            cell.backgroundColor = UIColor.gray
+        }
+        return cell
+        
+        
     }
     
 }
