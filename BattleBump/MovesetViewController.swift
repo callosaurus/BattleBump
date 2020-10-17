@@ -10,9 +10,9 @@ import UIKit
 
 class MovesetViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
+    @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var minusMovesButton: UIButton!
     @IBOutlet weak var plusMovesButton: UIButton!
-    @IBOutlet weak var movesetImageView: UIImageView!
     @IBOutlet weak var numberOfOutcomesLabel: UILabel!
     var currentNumberOfMoves: Int?
     let minimumNumberOfMoves = 3
@@ -32,8 +32,7 @@ class MovesetViewController: UIViewController, UICollectionViewDelegate, UIColle
     }
     
     func configure() {
-//        drawMovesetDiagram(number: movesetInProgress.movesAndVerbsDictionary!.keys.count)
-        currentNumberOfMoves = movesetInProgress.movesAndVerbsDictionary!.keys.count
+        currentNumberOfMoves = movesetInProgress.moves.count
         
         if currentNumberOfMoves == minimumNumberOfMoves {
             disableInteractionWith(button: minusMovesButton)
@@ -42,33 +41,6 @@ class MovesetViewController: UIViewController, UICollectionViewDelegate, UIColle
         if currentNumberOfMoves == maximumNumberOfMoves {
             disableInteractionWith(button: plusMovesButton)
         }
-    }
-    
-    func drawMovesetDiagram(number: Int) {
-        
-        DispatchQueue.main.async() {
-            // Number of outcomes will always be "0.5n (rounded down) * n", maybe extract into func when 9-move cap is lifted
-            switch number {
-            case 3:
-                self.movesetImageView.image = UIImage(named: "2-simplex")
-                self.numberOfOutcomesLabel.text = "3 possible outcomes 🙂"
-            case 5:
-                self.movesetImageView.image = UIImage(named: "4-simplex")
-                self.numberOfOutcomesLabel.text = "10 possible outcomes 🤔"
-            case 7:
-                self.movesetImageView.image = UIImage(named: "6-simplex")
-                self.numberOfOutcomesLabel.text = "21 possible outcomes 😥"
-            case 9:
-                self.movesetImageView.image = UIImage(named: "8-simplex")
-                self.numberOfOutcomesLabel.text = "36 possible outcomes 😳"
-                
-            default:
-                self.movesetImageView.image = UIImage(named: "2-simplex")
-            }
-            
-            self.movesetImageView.alpha = 0.3
-        }
-        
     }
     
     //MARK: - IBActions -
@@ -80,7 +52,13 @@ class MovesetViewController: UIViewController, UICollectionViewDelegate, UIColle
             disableInteractionWith(button: minusMovesButton)
         }
         enableInteractionWith(button: plusMovesButton)
-//        drawMovesetDiagram(number: currentNumberOfMoves!)
+        
+        let last2Moves = Array(movesetInProgress.moves.suffix(2))
+        movesetInProgress.moves.removeLast(2)
+        movesetInProgress.moveEmojis?.removeValue(forKey: last2Moves[0])
+        movesetInProgress.moveEmojis?.removeValue(forKey: last2Moves[1])
+        
+        redrawViews()
     }
     
     @IBAction func plus2MovesButtonPressed(_ sender: UIButton) {
@@ -90,7 +68,30 @@ class MovesetViewController: UIViewController, UICollectionViewDelegate, UIColle
             disableInteractionWith(button: plusMovesButton)
         }
         enableInteractionWith(button: minusMovesButton)
-//        drawMovesetDiagram(number: currentNumberOfMoves!)
+        
+        let currentMovesCount = self.movesetInProgress.moves.count
+        movesetInProgress.moves.append("DefaultMove\(currentMovesCount+1)")
+        movesetInProgress.moves.append("DefaultMove\(currentMovesCount+2)")
+        movesetInProgress.moveEmojis!["DefaultMove\(currentMovesCount+1)"] = randomEmoji()
+        movesetInProgress.moveEmojis!["DefaultMove\(currentMovesCount+2)"] = randomEmoji()
+        
+        redrawViews()
+    }
+    
+    func redrawViews() {
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+            let outcomesNum = (Float(self.movesetInProgress.moves.count) * 0.5).rounded(.down) * Float(self.movesetInProgress.moves.count)
+            self.numberOfOutcomesLabel.text = "\(Int(outcomesNum)) possible outcomes"
+        }
+    }
+    
+    func randomEmoji() -> String {
+        let range = 0x1F300...0x1F3F0
+        let index = Int(arc4random_uniform(UInt32(range.count)))
+        let ord = range.lowerBound + index
+        guard let scalar = UnicodeScalar(ord) else { return "❓" }
+        return String(scalar)
     }
     
     func enableInteractionWith(button: UIButton) {
@@ -123,35 +124,23 @@ class MovesetViewController: UIViewController, UICollectionViewDelegate, UIColle
         self.dismiss(animated: true, completion: nil)
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let touch = touches.first {
-            let position = touch.location(in: self.movesetImageView)
-            print(position.x)
-            print(position.y)
-        }
-    }
-    
     // MARK: - UICollectionView -
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return movesetInProgress.movesAndVerbsDictionary!.keys.count
+        return movesetInProgress.moves.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "circle", for: indexPath) as! CircularCollectionViewCell
-        //        cell.backgroundView?.backgroundColor = items[indexPath.item]
-        //        let moveKeys = Array(arrayLiteral: movesetInProgress.moveEmojis?.keys)
-        //        let sectionKey = moveKeys[indexPath.section]
-        //        let emojiSection = moveKeys[sectionKey]
-        //        let moveEmoji = emojiSection[indexPath.row]
         let thisMove = movesetInProgress.moves[indexPath.item]
         if let emoji = movesetInProgress.moveEmojis![thisMove] {
             cell.circleLabel.text = "\(emoji)"
-            cell.backgroundColor = UIColor.gray
+            cell.layer.borderWidth = 1
+            cell.layer.borderColor = UIColor.systemBlue.cgColor
+            cell.layer.cornerRadius = 10.0
         }
         return cell
-        
-        
+ 
     }
     
 }

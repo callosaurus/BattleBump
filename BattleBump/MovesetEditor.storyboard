@@ -73,14 +73,17 @@
                                             <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sao-wj-Fqn">
-                                                    <rect key="frame" x="4" y="0.0" width="42" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sao-wj-Fqn">
+                                                    <rect key="frame" x="4.5" y="15" width="41.5" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="sao-wj-Fqn" firstAttribute="centerX" secondItem="pOa-hd-fvc" secondAttribute="centerX" id="0do-Q3-bUG"/>
+                                                <constraint firstItem="sao-wj-Fqn" firstAttribute="centerY" secondItem="pOa-hd-fvc" secondAttribute="centerY" id="RYl-3R-XRH"/>
+                                            </constraints>
                                         </collectionViewCellContentView>
                                         <connections>
                                             <outlet property="circleLabel" destination="sao-wj-Fqn" id="bsG-nB-9T3"/>
@@ -121,6 +124,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="collectionView" destination="b58-Bd-60D" id="oKL-CY-s0K"/>
                         <outlet property="minusMovesButton" destination="wrn-JP-yNg" id="hq0-97-T4T"/>
                         <outlet property="numberOfOutcomesLabel" destination="e6z-Mg-FYW" id="CvW-nq-0RI"/>
                         <outlet property="plusMovesButton" destination="ATZ-BN-BJJ" id="bIh-f5-3Ee"/>
