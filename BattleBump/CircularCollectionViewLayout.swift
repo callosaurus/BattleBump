@@ -91,3 +91,4 @@ class CircularCollectionViewLayout: UICollectionViewLayout {
         attributes?.transform = CGAffineTransform.init(scaleX: 0.01, y: 0.01)
         return attributes
     }
+}
