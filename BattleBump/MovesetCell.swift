@@ -15,26 +15,8 @@ class MovesetCell: UICollectionViewCell {
     
     var moveset: Moveset! {
         didSet {
-            configure()
-        }
-    }
-    
-    fileprivate func configure() {
-        switch moveset.movesAndVerbsDictionary!.keys.count {
-        case 3:
-            movesetCellImageView.image = UIImage(named: "2-simplex")
-        case 5:
-            movesetCellImageView.image = UIImage(named: "4-simplex")
-        case 7:
-            movesetCellImageView.image = UIImage(named: "6-simplex")
-        case 9:
-            movesetCellImageView.image = UIImage(named: "8-simplex")
-        default:
-            print("Unknown number of moves when configuring MovesetCell")
             movesetCellImageView.image = UIImage(named: "2-simplex")
         }
-        
-        movesetCellLabel.text = moveset.movesetName
     }
     
 }

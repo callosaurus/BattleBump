@@ -21,6 +21,7 @@
 		3F8491FA1EE78AEA000AECF0 /* MPCManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8491F91EE78AEA000AECF0 /* MPCManager.swift */; };
 		3FA723DB2534E8DB0035F696 /* CircularCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA723DA2534E8DB0035F696 /* CircularCollectionViewLayout.swift */; };
 		3FA723DF2534EB450035F696 /* CircularCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA723DE2534EB450035F696 /* CircularCollectionViewCell.swift */; };
+		3FA723EA253FC69B0035F696 /* Move.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA723E9253FC69B0035F696 /* Move.swift */; };
 		3FB2EEC01EF0444300C4044C /* Moveset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB2EEBF1EF0444300C4044C /* Moveset.swift */; };
 		3FB2EEC21EF04AA200C4044C /* MovesetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB2EEC11EF04AA200C4044C /* MovesetViewController.swift */; };
 		3FB2EEC41EF04B2B00C4044C /* MovesetEditor.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3FB2EEC31EF04B2B00C4044C /* MovesetEditor.storyboard */; };
@@ -60,6 +61,7 @@
 		3F8491F91EE78AEA000AECF0 /* MPCManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MPCManager.swift; sourceTree = "<group>"; };
 		3FA723DA2534E8DB0035F696 /* CircularCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularCollectionViewLayout.swift; sourceTree = "<group>"; };
 		3FA723DE2534EB450035F696 /* CircularCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularCollectionViewCell.swift; sourceTree = "<group>"; };
+		3FA723E9253FC69B0035F696 /* Move.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Move.swift; sourceTree = "<group>"; };
 		3FB2EEBF1EF0444300C4044C /* Moveset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Moveset.swift; sourceTree = "<group>"; };
 		3FB2EEC11EF04AA200C4044C /* MovesetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovesetViewController.swift; sourceTree = "<group>"; };
 		3FB2EEC31EF04B2B00C4044C /* MovesetEditor.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MovesetEditor.storyboard; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 				3F8491F91EE78AEA000AECF0 /* MPCManager.swift */,
 				3F59AE062520041B0001D1EA /* AppDelegate.swift */,
 				3FB2EEBF1EF0444300C4044C /* Moveset.swift */,
+				3FA723E9253FC69B0035F696 /* Move.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -313,6 +316,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3FA723EA253FC69B0035F696 /* Move.swift in Sources */,
 				3F59AE072520041B0001D1EA /* AppDelegate.swift in Sources */,
 				A25D7B191E6F60A50090BC65 /* Player.swift in Sources */,
 				3F0B629D1EF0F04B006724B7 /* EditVerbsViewController.swift in Sources */,

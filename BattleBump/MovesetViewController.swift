@@ -37,7 +37,7 @@ class MovesetViewController: UIViewController, UICollectionViewDelegate, UIColle
         moveNameLabel.text = "Move Name:"
         moveEmojiLabel.text = "Move Emoji:"
         
-        currentNumberOfMoves = movesetInProgress.moves.count
+        currentNumberOfMoves = movesetInProgress.moveArray.count
         if currentNumberOfMoves == minimumNumberOfMoves {
             disableInteractionWith(button: minusMovesButton)
         }
@@ -47,7 +47,7 @@ class MovesetViewController: UIViewController, UICollectionViewDelegate, UIColle
         
         moveNameTextField.isUserInteractionEnabled = false
         moveEmojiTextField.isUserInteractionEnabled = false
-        let outcomesNum = (Float(self.movesetInProgress.moves.count) * 0.5).rounded(.down) * Float(self.movesetInProgress.moves.count)
+        let outcomesNum = (Float(self.movesetInProgress.moveArray.count) * 0.5).rounded(.down) * Float(self.movesetInProgress.moveArray.count)
         numberOfOutcomesLabel.text = "\(Int(outcomesNum)) possible outcomes"
     }
     
@@ -66,10 +66,10 @@ class MovesetViewController: UIViewController, UICollectionViewDelegate, UIColle
         }
         enableInteractionWith(button: plusMovesButton)
         
-        let last2Moves = Array(movesetInProgress.moves.suffix(2))
-        movesetInProgress.moves.removeLast(2)
-        movesetInProgress.moveEmojis?.removeValue(forKey: last2Moves[0])
-        movesetInProgress.moveEmojis?.removeValue(forKey: last2Moves[1])
+//        let last2Moves = Array(movesetInProgress.moveArray.suffix(2))
+        movesetInProgress.moveArray.removeLast(2)
+//        movesetInProgress.moveEmojis?.removeValue(forKey: last2Moves[0])
+//        movesetInProgress.moveEmojis?.removeValue(forKey: last2Moves[1])
         
         redrawViews()
     }
@@ -82,11 +82,14 @@ class MovesetViewController: UIViewController, UICollectionViewDelegate, UIColle
         }
         enableInteractionWith(button: minusMovesButton)
         
-        let currentMovesCount = self.movesetInProgress.moves.count
-        movesetInProgress.moves.append("DefaultMove\(currentMovesCount+1)")
-        movesetInProgress.moves.append("DefaultMove\(currentMovesCount+2)")
-        movesetInProgress.moveEmojis!["DefaultMove\(currentMovesCount+1)"] = randomEmoji()
-        movesetInProgress.moveEmojis!["DefaultMove\(currentMovesCount+2)"] = randomEmoji()
+//        let currentMovesCount = movesetInProgress.moveArray.count
+//        movesetInProgress.moves.append("DefaultMove\(currentMovesCount+1)")
+//        movesetInProgress.moves.append("DefaultMove\(currentMovesCount+2)")
+//        movesetInProgress.moveEmojis!["DefaultMove\(currentMovesCount+1)"] = randomEmoji()
+//        movesetInProgress.moveEmojis!["DefaultMove\(currentMovesCount+2)"] = randomEmoji()
+        let defaultMove = Move(moveName: "Default Move", moveEmoji: "❓", moveVerbs: ["vsDefault":"beats"])
+//        movesetInProgress.moveArray.append(defaultMove)
+        movesetInProgress.moveArray.append(contentsOf: repeatElement(defaultMove, count: 2))
         
         redrawViews()
     }
@@ -106,37 +109,44 @@ class MovesetViewController: UIViewController, UICollectionViewDelegate, UIColle
     }
     
     @IBAction func moveNameTextFieldDidEndEditing(_ sender: UITextField) {
-        guard let text = sender.text, !text.isEmpty else {
+        guard let text = sender.text, !text.isEmpty, let indexPath = collectionView.indexPathsForSelectedItems?.first else {
             return
         }
         
-        let indexPath = collectionView.indexPathsForSelectedItems?.first
-        movesetInProgress.moves[indexPath!.item] = sender.text ?? "DefaultMove\(indexPath!.item)"
+        movesetInProgress.moveArray[indexPath.item].moveName = text
         
         moveNameTextField.resignFirstResponder()
         collectionView.reloadData()
         collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .top)
+        
+        var newMoves = [String]()
+        movesetInProgress.moveArray.forEach { move in
+            newMoves.append(move.moveName)
+        }
+        print("Name TextField DidEndEditing. The move names are now: \(newMoves)")
     }
     
     @IBAction func moveEmojiTextFieldDidEndEditing(_ sender: UITextField) {
-        guard let text = sender.text, !text.isEmpty else {
+        guard let text = sender.text, !text.isEmpty, let indexPath = collectionView.indexPathsForSelectedItems?.first else {
             return
         }
         
-        let indexPath = collectionView.indexPathsForSelectedItems?.first
-        let item = movesetInProgress.moves[indexPath!.item]
-        movesetInProgress.moveEmojis!.updateValue(sender.text ?? "⛔️", forKey: item)
+        movesetInProgress.moveArray[indexPath.item].moveEmoji = text
         
         moveEmojiTextField.resignFirstResponder()
         collectionView.reloadData()
         collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .top)
+        
+        var newMoves = [String]()
+        movesetInProgress.moveArray.forEach { move in
+            newMoves.append(move.moveEmoji)
+        }
+        print("Emoji TextField DidEndEditing. The move emojis are now: \(newMoves)")
     }
     
     // MARK: - Helper -
     
     func redrawViews() {
-        DispatchQueue.main.async {
-            
             self.collectionView.indexPathsForSelectedItems?.forEach({ self.collectionView.deselectItem(at: $0, animated: false) })
             
             if let selectedIndexes = self.collectionView.indexPathsForSelectedItems {
@@ -144,67 +154,62 @@ class MovesetViewController: UIViewController, UICollectionViewDelegate, UIColle
             }
             
             self.collectionView.reloadData()
-            let outcomesNum = (Float(self.movesetInProgress.moves.count) * 0.5).rounded(.down) * Float(self.movesetInProgress.moves.count)
+            let outcomesNum = (Float(self.movesetInProgress.moveArray.count) * 0.5).rounded(.down) * Float(self.movesetInProgress.moveArray.count)
             self.numberOfOutcomesLabel.text = "\(Int(outcomesNum)) possible outcomes"
-        }
     }
     
-    func randomEmoji() -> String {
-        let range = 0x1F300...0x1F3F0
-        let index = Int(arc4random_uniform(UInt32(range.count)))
-        let ord = range.lowerBound + index
-        guard let scalar = UnicodeScalar(ord) else { return "❓" }
-        return String(scalar)
-    }
+//    func randomEmoji() -> String {
+//        let range = 0x1F300...0x1F3F0
+//        let index = Int(arc4random_uniform(UInt32(range.count)))
+//        let ord = range.lowerBound + index
+//        guard let scalar = UnicodeScalar(ord) else { return "❓" }
+//        return String(scalar)
+//    }
     
     func enableInteractionWith(button: UIButton) {
-        DispatchQueue.main.async() {
             button.isUserInteractionEnabled = true
             button.alpha = 1.0
             button.setTitleColor(.systemBlue, for: .normal)
-        }
     }
     
     func disableInteractionWith(button: UIButton) {
-        DispatchQueue.main.async() {
             button.isUserInteractionEnabled = false
             button.alpha = 0.5
             button.setTitleColor(.gray, for: .normal)
-        }
     }
     
     // MARK: - UICollectionView -
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return movesetInProgress.moves.count
+        return movesetInProgress.moveArray.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "circle", for: indexPath) as! CircularCollectionViewCell
-        let thisMove = movesetInProgress.moves[indexPath.item]
-        if let emoji = movesetInProgress.moveEmojis![thisMove] {
-            cell.circleLabel.text = "\(emoji)"
-            cell.layer.borderWidth = 1
-            cell.layer.borderColor = UIColor.systemBlue.cgColor
-            cell.layer.cornerRadius = 10.0
-        }
+        //        let thisMove = movesetInProgress.moveArray[indexPath.item].moveEmoji
+        //        if let emoji = movesetInProgress.moveEmojis![thisMove]
+        let emoji = movesetInProgress.moveArray[indexPath.item].moveEmoji
+        cell.circleLabel.text = emoji
+        cell.layer.borderWidth = 1
+        cell.layer.borderColor = UIColor.systemBlue.cgColor
+        cell.layer.cornerRadius = 10.0
+        
         return cell
- 
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let selectedIndexes = self.collectionView.indexPathsForSelectedItems {
             print("didSelectItem. New index paths currently selected: \(selectedIndexes)")
         }
-        let selectedMove = movesetInProgress.moves[indexPath.item]
-        if let emoji = movesetInProgress.moveEmojis![selectedMove] {
-            DispatchQueue.main.async {
-                self.moveNameTextField.text = "\(selectedMove)"
-                self.moveEmojiTextField.text = "\(emoji)"
-                self.moveNameTextField.isUserInteractionEnabled = true
-                self.moveEmojiTextField.isUserInteractionEnabled = true
-            }
-        }
+        //        let selectedMove = movesetInProgress.moveArray[indexPath.item]
+        //        if let emoji = movesetInProgress.moveEmojis![selectedMove] {
+        let selectedMove = movesetInProgress.moveArray[indexPath.item]
+        moveNameTextField.text = selectedMove.moveName
+        moveEmojiTextField.text = selectedMove.moveEmoji
+        moveNameTextField.isUserInteractionEnabled = true
+        moveEmojiTextField.isUserInteractionEnabled = true
+        
     }
     
 //    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
