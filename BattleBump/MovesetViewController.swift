@@ -69,11 +69,7 @@ class MovesetViewController: UIViewController, UICollectionViewDelegate, UIColle
         }
         enableInteractionWith(button: plusMovesButton)
         
-//        let last2Moves = Array(movesetInProgress.moveArray.suffix(2))
         movesetInProgress.moveArray.removeLast(2)
-//        movesetInProgress.moveEmojis?.removeValue(forKey: last2Moves[0])
-//        movesetInProgress.moveEmojis?.removeValue(forKey: last2Moves[1])
-        
         moveArrayCountHalved = Int(round(Double(movesetInProgress.moveArray.count/2)))
         redrawViews()
     }
@@ -86,15 +82,8 @@ class MovesetViewController: UIViewController, UICollectionViewDelegate, UIColle
         }
         enableInteractionWith(button: minusMovesButton)
         
-//        let currentMovesCount = movesetInProgress.moveArray.count
-//        movesetInProgress.moves.append("DefaultMove\(currentMovesCount+1)")
-//        movesetInProgress.moves.append("DefaultMove\(currentMovesCount+2)")
-//        movesetInProgress.moveEmojis!["DefaultMove\(currentMovesCount+1)"] = randomEmoji()
-//        movesetInProgress.moveEmojis!["DefaultMove\(currentMovesCount+2)"] = randomEmoji()
         let defaultMove = Move(moveName: "Default Move", moveEmoji: "❓", moveVerbs: ["vsDefault":"beats"])
-//        movesetInProgress.moveArray.append(defaultMove)
         movesetInProgress.moveArray.append(contentsOf: repeatElement(defaultMove, count: 2))
-        
         moveArrayCountHalved = Int(round(Double(movesetInProgress.moveArray.count/2)))
         redrawViews()
     }
@@ -152,15 +141,15 @@ class MovesetViewController: UIViewController, UICollectionViewDelegate, UIColle
     // MARK: - Helper -
     
     func redrawViews() {
-            self.collectionView.indexPathsForSelectedItems?.forEach({ self.collectionView.deselectItem(at: $0, animated: false) })
-            
-            if let selectedIndexes = self.collectionView.indexPathsForSelectedItems {
-                print("Index Paths currently selected: \(selectedIndexes)")
+        self.collectionView.indexPathsForSelectedItems?.forEach({ self.collectionView.deselectItem(at: $0, animated: false) })
+        collectionView.layer.sublayers?.forEach { layer in
+            if layer.name == "line" {
+                layer.removeFromSuperlayer()
             }
-            
-            self.collectionView.reloadData()
-            let outcomesNum = (Float(self.movesetInProgress.moveArray.count) * 0.5).rounded(.down) * Float(self.movesetInProgress.moveArray.count)
-            self.numberOfOutcomesLabel.text = "\(Int(outcomesNum)) possible outcomes"
+        }
+        self.collectionView.reloadData()
+        let outcomesNum = (Float(self.movesetInProgress.moveArray.count) * 0.5).rounded(.down) * Float(self.movesetInProgress.moveArray.count)
+        self.numberOfOutcomesLabel.text = "\(Int(outcomesNum)) possible outcomes"
     }
     
 //    func randomEmoji() -> String {
@@ -172,15 +161,15 @@ class MovesetViewController: UIViewController, UICollectionViewDelegate, UIColle
 //    }
     
     func enableInteractionWith(button: UIButton) {
-            button.isUserInteractionEnabled = true
-            button.alpha = 1.0
-            button.setTitleColor(.systemBlue, for: .normal)
+        button.isUserInteractionEnabled = true
+        button.alpha = 1.0
+        button.setTitleColor(.systemBlue, for: .normal)
     }
     
     func disableInteractionWith(button: UIButton) {
-            button.isUserInteractionEnabled = false
-            button.alpha = 0.5
-            button.setTitleColor(.gray, for: .normal)
+        button.isUserInteractionEnabled = false
+        button.alpha = 0.5
+        button.setTitleColor(.gray, for: .normal)
     }
     
     // MARK: - UICollectionView -
@@ -191,16 +180,13 @@ class MovesetViewController: UIViewController, UICollectionViewDelegate, UIColle
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "circle", for: indexPath) as! CircularCollectionViewCell
-        //        let thisMove = movesetInProgress.moveArray[indexPath.item].moveEmoji
-        //        if let emoji = movesetInProgress.moveEmojis![thisMove]
         let emoji = movesetInProgress.moveArray[indexPath.item].moveEmoji
         cell.circleLabel.text = emoji
         cell.layer.borderWidth = 1
         cell.layer.borderColor = UIColor.systemBlue.cgColor
-        cell.layer.cornerRadius = 10.0
-        
+        cell.layer.cornerRadius = 15.0
+        cell.layer.backgroundColor = UIColor.systemBackground.cgColor
         return cell
-        
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -208,8 +194,15 @@ class MovesetViewController: UIViewController, UICollectionViewDelegate, UIColle
         guard let selectedCell = collectionView.cellForItem(at: indexPath) else {
             return
         }
+        
+        collectionView.layer.sublayers?.forEach { layer in
+            if layer.name == "line" {
+                layer.removeFromSuperlayer()
+            }
+        }
+        
         selectedCell.layer.borderColor = UIColor.systemBlue.cgColor
-        selectedCell.layer.borderWidth = 4
+        selectedCell.layer.borderWidth = 6
         let selectedMove = movesetInProgress.moveArray[indexPath.item]
         moveNameTextField.text = selectedMove.moveName
         moveEmojiTextField.text = selectedMove.moveEmoji
@@ -227,36 +220,31 @@ class MovesetViewController: UIViewController, UICollectionViewDelegate, UIColle
         print("losesAgainstIndexes: \(losesAgainstIndexes)") // [4, 5, 6]
         print("winsAgainstIndexes: \(winsAgainstIndexes)") // [2, 1, 0]
         
-        var losesAgainstCells = [UICollectionViewCell]()
         losesAgainstIndexes.forEach { index in
-            let indexpath = IndexPath(indexes: [0,index])
-            let cell = collectionView.cellForItem(at: indexpath)
-            losesAgainstCells.append(cell!)
-        }
-        losesAgainstCells.forEach { cell in
-            cell.layer.borderColor = UIColor.systemRed.cgColor
-            cell.layer.borderWidth = 4
-            // TODO: draw arrows or other UI element TO selected cell FROM other cells that BEAT selected cell
+            if let cell = collectionView.cellForItem(at: IndexPath(indexes: [0,index])) {
+                cell.layer.borderColor = UIColor.systemRed.cgColor
+                cell.layer.borderWidth = 3
+                // TODO: draw arrows or other UI element TO selected cell FROM other cells that BEAT selected cell
+                collectionView.drawLineFrom(from: IndexPath(indexes: [0,index]), to: indexPath, color: UIColor.systemRed)
+            }
         }
         
-        var winsAgainstCells = [UICollectionViewCell]()
         winsAgainstIndexes.forEach { index in
-            let indexpath = IndexPath(indexes: [0,index])
-            let cell = collectionView.cellForItem(at: indexpath)
-            winsAgainstCells.append(cell!)
-        }
-        winsAgainstCells.forEach { cell in
-            cell.layer.borderColor = UIColor.systemGreen.cgColor
-            cell.layer.borderWidth = 4
-            // draw arrows or other UI element FROM selected cell TO other cells that are BEATEN by selected cell
+            if let cell = collectionView.cellForItem(at: IndexPath(indexes: [0,index])) {
+                cell.layer.borderColor = UIColor.systemGreen.cgColor
+                cell.layer.borderWidth = 3
+                // TODO: draw arrows or other UI element FROM selected cell TO other cells that are BEATEN by selected cell
+                collectionView.drawLineFrom(from: IndexPath(indexes: [0,index]), to: indexPath, color: UIColor.systemGreen)
+                
+            }
         }
     }
     
-//    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-//        if let selectedIndexes = self.collectionView.indexPathsForSelectedItems {
-//            print("didDeselectItem. New index paths currently selected: \(selectedIndexes)")
-//        }
-//    }
+    //    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+    //        if let selectedIndexes = self.collectionView.indexPathsForSelectedItems {
+    //            print("didDeselectItem. New index paths currently selected: \(selectedIndexes)")
+    //        }
+    //    }
     
     //MARK: - UITextFieldDelegate Methods -
     
@@ -271,5 +259,37 @@ class MovesetViewController: UIViewController, UICollectionViewDelegate, UIColle
 extension Array {
     subscript (wrapping index: Int) -> Element {
         return self[(index % self.count + self.count) % self.count]
+    }
+}
+
+//https://stackoverflow.com/questions/39396778/uicollectionview-draw-a-line-between-cells/39397325#39397325
+extension UICollectionView {
+    func drawLineFrom(
+        from: IndexPath,
+        to: IndexPath,
+        lineWidth: CGFloat = 2,
+        color: UIColor = UIColor.systemBlue
+    ) {
+        guard
+            let fromPoint = cellForItem(at: from)?.center,
+            let toPoint = cellForItem(at: to)?.center
+        else {
+            return
+        }
+        
+        let path = UIBezierPath()
+        
+        path.move(to: convert(fromPoint, to: self))
+        path.addLine(to: convert(toPoint, to: self))
+        
+        let layer = CAShapeLayer()
+        
+        layer.path = path.cgPath
+        layer.lineWidth = lineWidth
+        layer.strokeColor = color.cgColor
+        layer.name = "line"
+        layer.zPosition = -500
+        layer.lineDashPattern = [15, 5]
+        self.layer.addSublayer(layer)
     }
 }

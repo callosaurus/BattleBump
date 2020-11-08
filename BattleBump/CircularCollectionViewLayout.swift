@@ -23,7 +23,7 @@ class CircularCollectionViewLayout: UICollectionViewLayout {
         
         center = CGPoint(x: collectionView.bounds.midX, y: collectionView.bounds.midY)
         let shortestAxisLength = min(collectionView.bounds.width, collectionView.bounds.height)
-        itemSize = CGSize(width: shortestAxisLength * 0.1, height: shortestAxisLength * 0.1)
+        itemSize = CGSize(width: shortestAxisLength * 0.15, height: shortestAxisLength * 0.15)
         radius = shortestAxisLength * 0.4
         numberOfItems = collectionView.numberOfItems(inSection: 0)
     }
