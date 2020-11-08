@@ -19,6 +19,7 @@ class MovesetViewController: UIViewController, UICollectionViewDelegate, UIColle
     @IBOutlet weak var moveNameTextField: UITextField!
     @IBOutlet weak var moveEmojiTextField: UITextField!
     var currentNumberOfMoves: Int?
+    var moveArrayCountHalved: Int?
     let minimumNumberOfMoves = 3
     let maximumNumberOfMoves = 9
     // TODO: allow user to pick from 'sample' movesets like "Weapon triangle": ["Sword", "Spear", "Axe"] or "Pokemon": ["Grass", "Fire", "Rock", "Psychic", "Fighting", "Flying", "Water"] or "RPSLS 🖖"
@@ -38,6 +39,8 @@ class MovesetViewController: UIViewController, UICollectionViewDelegate, UIColle
         moveEmojiLabel.text = "Move Emoji:"
         
         currentNumberOfMoves = movesetInProgress.moveArray.count
+        moveArrayCountHalved = Int(round(Double(movesetInProgress.moveArray.count/2)))
+        
         if currentNumberOfMoves == minimumNumberOfMoves {
             disableInteractionWith(button: minusMovesButton)
         }
@@ -71,6 +74,7 @@ class MovesetViewController: UIViewController, UICollectionViewDelegate, UIColle
 //        movesetInProgress.moveEmojis?.removeValue(forKey: last2Moves[0])
 //        movesetInProgress.moveEmojis?.removeValue(forKey: last2Moves[1])
         
+        moveArrayCountHalved = Int(round(Double(movesetInProgress.moveArray.count/2)))
         redrawViews()
     }
     
@@ -91,6 +95,7 @@ class MovesetViewController: UIViewController, UICollectionViewDelegate, UIColle
 //        movesetInProgress.moveArray.append(defaultMove)
         movesetInProgress.moveArray.append(contentsOf: repeatElement(defaultMove, count: 2))
         
+        moveArrayCountHalved = Int(round(Double(movesetInProgress.moveArray.count/2)))
         redrawViews()
     }
     
@@ -199,17 +204,52 @@ class MovesetViewController: UIViewController, UICollectionViewDelegate, UIColle
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if let selectedIndexes = self.collectionView.indexPathsForSelectedItems {
-            print("didSelectItem. New index paths currently selected: \(selectedIndexes)")
+        print("didSelectItem: \(indexPath.item)")
+        guard let selectedCell = collectionView.cellForItem(at: indexPath) else {
+            return
         }
-        //        let selectedMove = movesetInProgress.moveArray[indexPath.item]
-        //        if let emoji = movesetInProgress.moveEmojis![selectedMove] {
+        selectedCell.layer.borderColor = UIColor.systemBlue.cgColor
+        selectedCell.layer.borderWidth = 4
         let selectedMove = movesetInProgress.moveArray[indexPath.item]
         moveNameTextField.text = selectedMove.moveName
         moveEmojiTextField.text = selectedMove.moveEmoji
         moveNameTextField.isUserInteractionEnabled = true
         moveEmojiTextField.isUserInteractionEnabled = true
         
+        let indexes = Array(0..<movesetInProgress.moveArray.count) // [0, 1, 2, 3, 4, 5, 6]
+        
+        var winsAgainstIndexes = [Int]()
+        var losesAgainstIndexes = [Int]()
+        for i in 1...moveArrayCountHalved! {
+            winsAgainstIndexes.append(indexes[wrapping: indexPath.item - i])
+            losesAgainstIndexes.append(indexes[wrapping: indexPath.item + i])
+        }
+        print("losesAgainstIndexes: \(losesAgainstIndexes)") // [4, 5, 6]
+        print("winsAgainstIndexes: \(winsAgainstIndexes)") // [2, 1, 0]
+        
+        var losesAgainstCells = [UICollectionViewCell]()
+        losesAgainstIndexes.forEach { index in
+            let indexpath = IndexPath(indexes: [0,index])
+            let cell = collectionView.cellForItem(at: indexpath)
+            losesAgainstCells.append(cell!)
+        }
+        losesAgainstCells.forEach { cell in
+            cell.layer.borderColor = UIColor.systemRed.cgColor
+            cell.layer.borderWidth = 4
+            // TODO: draw arrows or other UI element TO selected cell FROM other cells that BEAT selected cell
+        }
+        
+        var winsAgainstCells = [UICollectionViewCell]()
+        winsAgainstIndexes.forEach { index in
+            let indexpath = IndexPath(indexes: [0,index])
+            let cell = collectionView.cellForItem(at: indexpath)
+            winsAgainstCells.append(cell!)
+        }
+        winsAgainstCells.forEach { cell in
+            cell.layer.borderColor = UIColor.systemGreen.cgColor
+            cell.layer.borderWidth = 4
+            // draw arrows or other UI element FROM selected cell TO other cells that are BEATEN by selected cell
+        }
     }
     
 //    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
@@ -224,5 +264,12 @@ class MovesetViewController: UIViewController, UICollectionViewDelegate, UIColle
         moveNameTextField.resignFirstResponder()
         moveEmojiTextField.resignFirstResponder()
         return true
+    }
+}
+
+//https://stackoverflow.com/questions/45397603/cleanest-way-to-wrap-array-index
+extension Array {
+    subscript (wrapping index: Int) -> Element {
+        return self[(index % self.count + self.count) % self.count]
     }
 }
