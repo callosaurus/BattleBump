@@ -13,10 +13,6 @@ class MovesetCell: UICollectionViewCell {
     @IBOutlet weak var movesetCellImageView: UIImageView!
     @IBOutlet weak var movesetCellLabel: UILabel!
     
-    var moveset: Moveset! {
-        didSet {
-            movesetCellImageView.image = UIImage(named: "2-simplex")
-        }
-    }
+    var moveset: Moveset!
     
 }

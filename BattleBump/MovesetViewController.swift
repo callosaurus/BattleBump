@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol MovesetEditingProtocol: class {
+    func movesetEditingEndedWith(moveset: Moveset, screenshot: UIImage)
+}
+
 class MovesetViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UITextFieldDelegate {
     
     @IBOutlet weak var collectionView: UICollectionView!
@@ -18,16 +22,16 @@ class MovesetViewController: UIViewController, UICollectionViewDelegate, UIColle
     @IBOutlet weak var moveEmojiLabel: UILabel!
     @IBOutlet weak var moveNameTextField: UITextField!
     @IBOutlet weak var moveEmojiTextField: UITextField!
+    weak var editingDelegate: MovesetEditingProtocol?
+    
     var currentNumberOfMoves: Int?
     var moveArrayCountHalved: Int?
     let minimumNumberOfMoves = 3
     let maximumNumberOfMoves = 9
-    // TODO: allow user to pick from 'sample' movesets like "Weapon triangle": ["Sword", "Spear", "Axe"] or "Pokemon": ["Grass", "Fire", "Rock", "Psychic", "Fighting", "Flying", "Water"] or "RPSLS 🖖"
-    // TODO: emoji skin-color picker?
-    
+    var initialMoveset: Moveset?
     var movesetInProgress: Moveset! {
         didSet {
-            // make a copy for 'Undo All Changes'?
+            initialMoveset = Moveset(moves: movesetInProgress.moveArray)
         }
     }
     
@@ -94,11 +98,23 @@ class MovesetViewController: UIViewController, UICollectionViewDelegate, UIColle
     
     @IBAction func cancelButtonPressed(_ sender: UIBarButtonItem) {
         // TODO: Ask the user if they're sure they want to exit
-        self.dismiss(animated: true, completion: nil)
+        let alertController = UIAlertController(title: "Are you sure?", message: nil, preferredStyle: .alert)
+        let alertAction = UIAlertAction(title: "OK", style: .default, handler: {_ in
+            self.movesetInProgress = self.initialMoveset
+            self.redrawViews()
+            self.editingDelegate?.movesetEditingEndedWith(moveset: self.initialMoveset!, screenshot: self.collectionView.screenshot())
+            self.dismiss(animated: true, completion: nil)
+        })
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
+            alertController.dismiss(animated: false, completion: nil)
+        }))
+        alertController.addAction(alertAction)
+        self.present(alertController, animated: true)
     }
     
     @IBAction func doneButtonPressed(_ sender: UIBarButtonItem) {
-        // save
+        redrawViews()
+        editingDelegate?.movesetEditingEndedWith(moveset: movesetInProgress!, screenshot: collectionView.screenshot())
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -255,6 +271,7 @@ class MovesetViewController: UIViewController, UICollectionViewDelegate, UIColle
     }
 }
 
+    // MARK: - Extensions -
 //https://stackoverflow.com/questions/45397603/cleanest-way-to-wrap-array-index
 extension Array {
     subscript (wrapping index: Int) -> Element {
@@ -291,5 +308,24 @@ extension UICollectionView {
         layer.zPosition = -500
         layer.lineDashPattern = [15, 5]
         self.layer.addSublayer(layer)
+    }
+}
+
+public extension UIView {
+    /// Takes a screenshot of the `UIView`, or a part of it if defined by the `region` parameter.
+    ///
+    /// - Parameter region: The region rect of the `UIView` to screenshot.
+    /// - Returns: Screenshot image of the region, or of the entire `UIView` if `region` is nil.
+    func screenshot(for region: CGRect? = nil) -> UIImage {
+        UIGraphicsBeginImageContextWithOptions(region?.size ?? bounds.size, false, contentScaleFactor)
+        if let region = region {
+            drawHierarchy(in: CGRect(x: -region.origin.x, y: -region.origin.y, width: bounds.size.width, height: bounds.size.height),
+                          afterScreenUpdates: true)
+        } else {
+            drawHierarchy(in: bounds, afterScreenUpdates: true)
+        }
+        let image = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return image
     }
 }
