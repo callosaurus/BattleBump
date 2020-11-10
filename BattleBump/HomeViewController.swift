@@ -32,6 +32,7 @@ class HomeViewController: UIViewController,
     var playerName: String?
     var playerMovesets = [Moveset]()
     var movesetImages = [UIImage]()
+//    var movesetImageNames = ["movesetImage1","movesetImage2","movesetImage3"]
     var me: Player!
     var foundPeersArray = [MCPeerID]()
     var connectedPlayersArray = [Player]()
@@ -119,22 +120,25 @@ class HomeViewController: UIViewController,
                 playerMovesets = movesets
             }
             print("Movesets loaded from defaults")
-            let imageData = UserDefaults.standard.object(forKey: "image") as! Data
-            print(imageData)
-//            movesetImages = imageData.map({ UIImage(data: $0)})
             
+            movesetImages = ["movesetImage1","movesetImage2","movesetImage3"].map({ getSavedImage(named:$0)! })
         } else {
-//        if defaults.dictionaryRepresentation().keys.contains("playerMovesets") {
-//            playerMovesets = defaults.object(forKey: "playerMovesets") as! [Moveset]
-//            movesetImages = defaults.object(forKey: "movesetImages") as! [UIImage]
-//        } else {
             let rock = Move(moveName: "Rock", moveEmoji: "👊", moveVerbs: ["vsScissors": "crushes"])
             let paper = Move(moveName: "Paper", moveEmoji: "✋", moveVerbs: ["vsRock": "wraps around"])
             let scissors = Move(moveName: "Scissors", moveEmoji: "✌️", moveVerbs: ["vsPaper": "cuts"])
             let standardRPSMoveset = Moveset(moves: [rock, paper, scissors])
-            
             playerMovesets.append(contentsOf: repeatElement(standardRPSMoveset, count: 3))
-            movesetImages.append(contentsOf: repeatElement(UIImage(named: "2-simplex")!, count: 3))
+            
+            if let img1 = UIImage(named: "Circled 1"),
+               let img2 = UIImage(named: "Circled 2"),
+               let img3 = UIImage(named: "Circled 3") {
+                movesetImages.append(img1)
+                saveImage(image: img1, filename: "movesetImage1")
+                movesetImages.append(img2)
+                saveImage(image: img2, filename: "movesetImage2")
+                movesetImages.append(img3)
+                saveImage(image: img3, filename: "movesetImage3")
+            }
             print("Movesets NOT loaded from defaults")
         }
         
@@ -217,10 +221,8 @@ class HomeViewController: UIViewController,
         if let encodedMovesets = try? encoder.encode(playerMovesets) {
             let defaults = UserDefaults.standard
             defaults.set(encodedMovesets, forKey: "playerMovesets")
-            //        defaults.set(movesetImages, forKey: "movesetImages")
         }
-        let imagePNGs = movesetImages.map({ $0.pngData() })
-        UserDefaults.standard.set(imagePNGs, forKey: "movesetImages")
+        saveImage(image: screenshot, filename: "movesetImage\(Int(selectedIndex.item+1))")
         
         movesetCollectionView.deselectItem(at: selectedIndex, animated: false)
         disableInteractionWith(button: editButton)
@@ -314,4 +316,27 @@ class HomeViewController: UIViewController,
         }
     }
     
+    func saveImage(image: UIImage, filename: String) {
+        guard let data = image.pngData() else {
+            return
+        }
+        guard let directory = try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false) as URL else {
+            return
+        }
+        do {
+            try data.write(to: directory.appendingPathComponent(filename))
+            print("Saved Image to \(directory.appendingPathComponent(filename))")
+            return
+        } catch {
+            print(error.localizedDescription)
+            return
+        }
+    }
+    
+    func getSavedImage(named: String) -> UIImage? {
+        if let dir = try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false) {
+            return UIImage(contentsOfFile: URL(fileURLWithPath: dir.absoluteString).appendingPathComponent(named).path)
+        }
+        return nil
+    }
 }
