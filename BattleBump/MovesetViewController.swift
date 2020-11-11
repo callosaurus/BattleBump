@@ -97,7 +97,6 @@ class MovesetViewController: UIViewController, UICollectionViewDelegate, UIColle
     }
     
     @IBAction func cancelButtonPressed(_ sender: UIBarButtonItem) {
-        // TODO: Ask the user if they're sure they want to exit
         let alertController = UIAlertController(title: "Are you sure?", message: nil, preferredStyle: .alert)
         let alertAction = UIAlertAction(title: "OK", style: .default, handler: {_ in
             self.movesetInProgress = self.initialMoveset
@@ -156,6 +155,25 @@ class MovesetViewController: UIViewController, UICollectionViewDelegate, UIColle
     
     // MARK: - Helper -
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "pickVerbs", let editVerbsVC = segue.destination as? EditVerbsViewController {
+            
+            if movesetInProgress.moveArray.contains(where:{ $0.moveName.contains("Default") }) {
+                // prompt the user to update default moves before segue
+                return
+            }
+            //            let destinationNavigationController = segue.destination as! UINavigationController
+            //            let editVerbsController = destinationNavigationController.topViewController as! EditVerbsViewController
+            editVerbsVC.movesetInProgress = movesetInProgress
+            editVerbsVC.onFinishEditingVerbs = { [weak self] movesetInProgress in
+                guard let self = self else {
+                    return
+                }
+                self.movesetInProgress = movesetInProgress
+            }
+        }
+    }
+    
     func redrawViews() {
         self.collectionView.indexPathsForSelectedItems?.forEach({ self.collectionView.deselectItem(at: $0, animated: false) })
         collectionView.layer.sublayers?.forEach { layer in
@@ -168,13 +186,13 @@ class MovesetViewController: UIViewController, UICollectionViewDelegate, UIColle
         self.numberOfOutcomesLabel.text = "\(Int(outcomesNum)) possible outcomes"
     }
     
-//    func randomEmoji() -> String {
-//        let range = 0x1F300...0x1F3F0
-//        let index = Int(arc4random_uniform(UInt32(range.count)))
-//        let ord = range.lowerBound + index
-//        guard let scalar = UnicodeScalar(ord) else { return "❓" }
-//        return String(scalar)
-//    }
+    //    func randomEmoji() -> String {
+    //        let range = 0x1F300...0x1F3F0
+    //        let index = Int(arc4random_uniform(UInt32(range.count)))
+    //        let ord = range.lowerBound + index
+    //        guard let scalar = UnicodeScalar(ord) else { return "❓" }
+    //        return String(scalar)
+    //    }
     
     func enableInteractionWith(button: UIButton) {
         button.isUserInteractionEnabled = true
@@ -271,7 +289,7 @@ class MovesetViewController: UIViewController, UICollectionViewDelegate, UIColle
     }
 }
 
-    // MARK: - Extensions -
+// MARK: - Extensions -
 //https://stackoverflow.com/questions/45397603/cleanest-way-to-wrap-array-index
 extension Array {
     subscript (wrapping index: Int) -> Element {

@@ -32,7 +32,6 @@ class HomeViewController: UIViewController,
     var playerName: String?
     var playerMovesets = [Moveset]()
     var movesetImages = [UIImage]()
-//    var movesetImageNames = ["movesetImage1","movesetImage2","movesetImage3"]
     var me: Player!
     var foundPeersArray = [MCPeerID]()
     var connectedPlayersArray = [Player]()

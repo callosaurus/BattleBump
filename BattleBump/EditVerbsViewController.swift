@@ -9,35 +9,40 @@
 import UIKit
 
 class EditVerbsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-
-  @IBOutlet weak var verbsTableView: UITableView!
-  
-  
-  //MARK: - IBActions -
-  
-  @IBAction func doneButtonPressed(_ sender: UIBarButtonItem) {
     
-  }
-  
-  override func viewDidLoad() {
-    super.viewDidLoad()
+    @IBOutlet weak var verbsTableView: UITableView!
     
-    // Do any additional setup after loading the view.
-  }
-
-  //MARK: - Tableview methods -
-  
-  func numberOfSections(in tableView: UITableView) -> Int {
-    return 0
-  }
-  
-  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return 0
-  }
-  
-  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = UITableViewCell()
-    return cell
-  }
-  
+    var movesetInProgress: Moveset!
+    var onFinishEditingVerbs: ((Moveset) -> Void)?
+    
+    //MARK: - IBActions -
+    
+    @IBAction func doneButtonPressed(_ sender: UIBarButtonItem) {
+        self.onFinishEditingVerbs?(self.movesetInProgress)
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+    
+    //MARK: - Tableview methods -
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return movesetInProgress.moveArray.count
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return Int(round(Double(movesetInProgress.moveArray.count/2)))
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return "[\(movesetInProgress.moveArray[section].moveName)/\(movesetInProgress.moveArray[section].moveEmoji)]"
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell()
+        return cell
+    }
+    
 }
