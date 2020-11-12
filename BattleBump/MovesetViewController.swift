@@ -156,14 +156,14 @@ class MovesetViewController: UIViewController, UICollectionViewDelegate, UIColle
     // MARK: - Helper -
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "pickVerbs", let editVerbsVC = segue.destination as? EditVerbsViewController {
+        if segue.identifier == "pickVerbs" {
             
             if movesetInProgress.moveArray.contains(where:{ $0.moveName.contains("Default") }) {
                 // prompt the user to update default moves before segue
                 return
             }
-            //            let destinationNavigationController = segue.destination as! UINavigationController
-            //            let editVerbsController = destinationNavigationController.topViewController as! EditVerbsViewController
+            let destinationNavigationController = segue.destination as! UINavigationController
+            let editVerbsVC = destinationNavigationController.topViewController as! EditVerbsViewController
             editVerbsVC.movesetInProgress = movesetInProgress
             editVerbsVC.onFinishEditingVerbs = { [weak self] movesetInProgress in
                 guard let self = self else {

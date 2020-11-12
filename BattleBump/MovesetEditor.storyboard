@@ -2,7 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="dDE-ye-sp9">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -178,7 +178,7 @@
             </objects>
             <point key="canvasLocation" x="1288.8" y="96.7016491754123"/>
         </scene>
-        <!--How does...-->
+        <!--Pick the winning verbs!-->
         <scene sceneID="8ZK-4E-zhy">
             <objects>
                 <viewController id="YgC-0v-uRA" customClass="EditVerbsViewController" customModule="BattleBump" customModuleProvider="target" sceneMemberID="viewController">
@@ -190,38 +190,49 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="77" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="gpX-Qb-9jn">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="52" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="gpX-Qb-9jn">
                                 <rect key="frame" x="16" y="44" width="343" height="623"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="verbCell" rowHeight="77" id="SNg-VZ-nX7">
-                                        <rect key="frame" x="0.0" y="28" width="343" height="77"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="verbCell" rowHeight="52" id="SNg-VZ-nX7" customClass="VerbEditCell" customModule="BattleBump" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="343" height="52"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="SNg-VZ-nX7" id="GRG-oA-62S">
-                                            <rect key="frame" x="0.0" y="0.0" width="343" height="77"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="343" height="52"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="beat" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tXz-qr-XDw">
-                                                    <rect key="frame" x="16" y="21.5" width="57" height="34"/>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="beats" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tXz-qr-XDw">
+                                                    <rect key="frame" x="16" y="9" width="137" height="34"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
+                                                    <connections>
+                                                        <action selector="beatsTextFieldDidEndEditing:" destination="YgC-0v-uRA" eventType="editingDidEnd" id="qm7-8P-kzc"/>
+                                                    </connections>
                                                 </textField>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H29-zq-Hp1">
-                                                    <rect key="frame" x="81" y="28" width="42" height="21"/>
+                                                    <rect key="frame" x="161" y="15.5" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="tXz-qr-XDw" firstAttribute="width" secondItem="GRG-oA-62S" secondAttribute="width" multiplier="0.4" id="Dwh-ux-LeE"/>
                                                 <constraint firstItem="tXz-qr-XDw" firstAttribute="leading" secondItem="GRG-oA-62S" secondAttribute="leadingMargin" id="IOa-su-3r2"/>
                                                 <constraint firstItem="H29-zq-Hp1" firstAttribute="centerY" secondItem="GRG-oA-62S" secondAttribute="centerY" id="IiO-ir-cRb"/>
                                                 <constraint firstItem="H29-zq-Hp1" firstAttribute="leading" secondItem="tXz-qr-XDw" secondAttribute="trailing" constant="8" id="Unh-wB-ra2"/>
                                                 <constraint firstItem="tXz-qr-XDw" firstAttribute="centerY" secondItem="GRG-oA-62S" secondAttribute="centerY" id="x0J-Wt-Ote"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="losingMoveLabel" destination="H29-zq-Hp1" id="K3W-iZ-bhK"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="YgC-0v-uRA" id="4p9-V2-qgU"/>
+                                    <outlet property="delegate" destination="YgC-0v-uRA" id="ZTN-ss-ZmE"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -232,7 +243,7 @@
                             <constraint firstItem="gpX-Qb-9jn" firstAttribute="leading" secondItem="UIL-9V-cx7" secondAttribute="leadingMargin" id="rCd-4U-YYP"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="How does..." id="sKk-nD-wyF">
+                    <navigationItem key="navigationItem" title="Pick the winning verbs!" id="sKk-nD-wyF">
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="go0-0M-J8o">
                             <connections>
                                 <action selector="doneButtonPressed:" destination="YgC-0v-uRA" id="3ms-zZ-8sN"/>
@@ -245,7 +256,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ND8-Qk-eUf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2686.875" y="96.126760563380287"/>
+            <point key="canvasLocation" x="2685.5999999999999" y="95.802098950524751"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="CLp-gA-XVf">

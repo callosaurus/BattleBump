@@ -26,6 +26,7 @@
 		3FB2EEC21EF04AA200C4044C /* MovesetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB2EEC11EF04AA200C4044C /* MovesetViewController.swift */; };
 		3FB2EEC41EF04B2B00C4044C /* MovesetEditor.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3FB2EEC31EF04B2B00C4044C /* MovesetEditor.storyboard */; };
 		3FE23B491EB57389007DB657 /* GameLogicManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE23B481EB57389007DB657 /* GameLogicManager.swift */; };
+		3FFB7C1A255CC54100B0AA9B /* VerbEditCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFB7C19255CC54100B0AA9B /* VerbEditCell.swift */; };
 		A25D7B191E6F60A50090BC65 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25D7B181E6F60A50090BC65 /* Player.swift */; };
 		A25D7B1B1E6F60B70090BC65 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25D7B1A1E6F60B70090BC65 /* Game.swift */; };
 		A260C3621E6DF1A600F5F84F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A260C3601E6DF1A600F5F84F /* Main.storyboard */; };
@@ -66,6 +67,7 @@
 		3FB2EEC11EF04AA200C4044C /* MovesetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovesetViewController.swift; sourceTree = "<group>"; };
 		3FB2EEC31EF04B2B00C4044C /* MovesetEditor.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MovesetEditor.storyboard; sourceTree = "<group>"; };
 		3FE23B481EB57389007DB657 /* GameLogicManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameLogicManager.swift; sourceTree = "<group>"; };
+		3FFB7C19255CC54100B0AA9B /* VerbEditCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerbEditCell.swift; sourceTree = "<group>"; };
 		A25D7B181E6F60A50090BC65 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		A25D7B1A1E6F60B70090BC65 /* Game.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		A260C3541E6DF1A600F5F84F /* BattleBump.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BattleBump.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -165,6 +167,7 @@
 				3F725A521F887A95005580D7 /* MovesetCell.swift */,
 				3FA723DA2534E8DB0035F696 /* CircularCollectionViewLayout.swift */,
 				3FA723DE2534EB450035F696 /* CircularCollectionViewCell.swift */,
+				3FFB7C19255CC54100B0AA9B /* VerbEditCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -324,6 +327,7 @@
 				3F8491FA1EE78AEA000AECF0 /* MPCManager.swift in Sources */,
 				3F3956561EE8C33E004F27D7 /* HostCell.swift in Sources */,
 				A2A76BAA1E732F450046268D /* BBCheckMark.swift in Sources */,
+				3FFB7C1A255CC54100B0AA9B /* VerbEditCell.swift in Sources */,
 				3F8491F81EE77D24000AECF0 /* HomeViewController.swift in Sources */,
 				3F725A531F887A95005580D7 /* MovesetCell.swift in Sources */,
 				3FB2EEC21EF04AA200C4044C /* MovesetViewController.swift in Sources */,

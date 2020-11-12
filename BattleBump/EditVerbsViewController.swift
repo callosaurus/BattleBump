@@ -8,7 +8,7 @@
 
 import UIKit
 
-class EditVerbsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class EditVerbsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
     
     @IBOutlet weak var verbsTableView: UITableView!
     
@@ -37,11 +37,15 @@ class EditVerbsViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "[\(movesetInProgress.moveArray[section].moveName)/\(movesetInProgress.moveArray[section].moveEmoji)]"
+        return "\(movesetInProgress.moveArray[section].moveEmoji) \(movesetInProgress.moveArray[section].moveName)"
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
+        let cell = tableView.dequeueReusableCell(withIdentifier: "verbCell", for: indexPath) as! VerbEditCell
+        let sectionMove = movesetInProgress.moveArray[indexPath.section]
+        print("Current section move: \(sectionMove)")
+        let sectionMoveIndex = movesetInProgress.moveArray.firstIndex(where: { $0.moveName == sectionMove.moveName })
+        cell.move = movesetInProgress.moveArray[wrapping: sectionMoveIndex! - (indexPath.row+1)]
         return cell
     }
     
