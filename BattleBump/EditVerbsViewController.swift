@@ -45,8 +45,31 @@ class EditVerbsViewController: UIViewController, UITableViewDataSource, UITableV
         let sectionMove = movesetInProgress.moveArray[indexPath.section]
         print("Current section move: \(sectionMove)")
         let sectionMoveIndex = movesetInProgress.moveArray.firstIndex(where: { $0.moveName == sectionMove.moveName })
-        cell.move = movesetInProgress.moveArray[wrapping: sectionMoveIndex! - (indexPath.row+1)]
+        let losingMove = movesetInProgress.moveArray[wrapping: sectionMoveIndex! - (indexPath.row+1)]
+        //        cell.move = losingMove
+        //        cell.verbTextField.text = sectionMove.moveVerbs[losingMove.moveName]
+        cell.verbTextField.delegate = self
+        
+        let winningVerb = sectionMove.moveVerbs[losingMove.moveName]
+        cell.configure(losingMoveName: losingMove.moveName, verb: winningVerb!)
         return cell
+    }
+    
+    @IBAction func verbTextFieldDidEndEditing(_ sender: UITextField) {
+        
+        guard let text = sender.text, !text.isEmpty else {
+            return
+        }
+        
+        if let cell = sender.superview as? VerbEditCell {
+            if let senderPath = verbsTableView.indexPath(for: cell) {
+                print("\(senderPath)")
+                movesetInProgress.moveArray[senderPath.section].moveVerbs[cell.losingMoveLabel.text!] = sender.text
+            }
+            
+        }
+        verbsTableView.reloadData()
+        sender.resignFirstResponder()
     }
     
 }

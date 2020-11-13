@@ -122,9 +122,9 @@ class HomeViewController: UIViewController,
             
             movesetImages = ["movesetImage1","movesetImage2","movesetImage3"].map({ getSavedImage(named:$0)! })
         } else {
-            let rock = Move(moveName: "Rock", moveEmoji: "👊", moveVerbs: ["vsScissors": "crushes"])
-            let paper = Move(moveName: "Paper", moveEmoji: "✋", moveVerbs: ["vsRock": "wraps around"])
-            let scissors = Move(moveName: "Scissors", moveEmoji: "✌️", moveVerbs: ["vsPaper": "cuts"])
+            let rock = Move(moveName: "Rock", moveEmoji: "👊", moveVerbs: ["Scissors": "crushes"])
+            let paper = Move(moveName: "Paper", moveEmoji: "✋", moveVerbs: ["Rock": "wraps around"])
+            let scissors = Move(moveName: "Scissors", moveEmoji: "✌️", moveVerbs: ["Paper": "cuts"])
             let standardRPSMoveset = Moveset(moves: [rock, paper, scissors])
             playerMovesets.append(contentsOf: repeatElement(standardRPSMoveset, count: 3))
             

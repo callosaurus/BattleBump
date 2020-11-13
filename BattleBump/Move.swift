@@ -11,11 +11,5 @@ import Foundation
 struct Move: Codable {
     var moveName: String            // "Rock"
     var moveEmoji: String           // "👊"
-    var moveVerbs: [String: String] // ["vsScissors": "crushes", "vsLizard": "crushes"]
-    
-//    init(name: String, emoji: String, verbs: [String: String] ) {
-//        moveName = name
-//        moveEmoji = emoji
-//        moveVerbs = verbs
-//    }
+    var moveVerbs: [String: String] // ["Scissors": "crushes", "Lizard": "crushes"]
 }

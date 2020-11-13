@@ -13,10 +13,9 @@ class VerbEditCell: UITableViewCell {
     @IBOutlet weak var verbTextField: UITextField!
     @IBOutlet weak var losingMoveLabel: UILabel!
     
-    var move: Move! {
-        didSet {
-            losingMoveLabel.text = move.moveName
-        }
+    public func configure(losingMoveName: String, verb: String) {
+        losingMoveLabel.text = losingMoveName
+        verbTextField.text = verb
     }
     
 }

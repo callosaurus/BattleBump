@@ -206,7 +206,7 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                     <connections>
-                                                        <action selector="beatsTextFieldDidEndEditing:" destination="YgC-0v-uRA" eventType="editingDidEnd" id="qm7-8P-kzc"/>
+                                                        <action selector="verbTextFieldDidEndEditing:" destination="YgC-0v-uRA" eventType="editingDidEnd" id="jr7-u8-kl6"/>
                                                     </connections>
                                                 </textField>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H29-zq-Hp1">
@@ -226,6 +226,7 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="losingMoveLabel" destination="H29-zq-Hp1" id="K3W-iZ-bhK"/>
+                                            <outlet property="verbTextField" destination="tXz-qr-XDw" id="r75-Kz-vhE"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
