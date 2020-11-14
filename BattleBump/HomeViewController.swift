@@ -65,8 +65,7 @@ class HomeViewController: UIViewController,
     @IBAction func editButtonPressed(_ sender: UIButton) {
         //take current moveset selection and pass to MovesetViewController
         guard movesetCollectionView.indexPathsForSelectedItems != nil, selectedMoveset != nil else {
-            print("Edit button was pressed without a selectedMoveset")
-            return
+            fatalError("Edit button was pressed without a selectedMoveset")
         }
         self.performSegue(withIdentifier: "edit", sender: self)
     }
@@ -125,7 +124,7 @@ class HomeViewController: UIViewController,
             let rock = Move(moveName: "Rock", moveEmoji: "👊", moveVerbs: ["Scissors": "crushes"])
             let paper = Move(moveName: "Paper", moveEmoji: "✋", moveVerbs: ["Rock": "wraps around"])
             let scissors = Move(moveName: "Scissors", moveEmoji: "✌️", moveVerbs: ["Paper": "cuts"])
-            let standardRPSMoveset = Moveset(moves: [rock, paper, scissors])
+            let standardRPSMoveset = Moveset(moves: [rock, paper, scissors], name: "Standard RPS")
             playerMovesets.append(contentsOf: repeatElement(standardRPSMoveset, count: 3))
             
             if let img1 = UIImage(named: "Circled 1"),
@@ -284,6 +283,7 @@ class HomeViewController: UIViewController,
         cell.moveset = playerMovesets[indexPath.item]
         cell.movesetCellImageView.image = movesetImages[indexPath.item]
         cell.movesetCellImageView.contentMode = UIView.ContentMode.scaleAspectFit
+        cell.movesetCellLabel.text = playerMovesets[indexPath.item].movesetName
         cell.layer.borderWidth = 1
         cell.layer.borderColor = UIColor.systemGray.cgColor
         return cell

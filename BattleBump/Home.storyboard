@@ -85,34 +85,44 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="N6P-Jw-WQF">
-                                <rect key="frame" x="16" y="118.5" width="343" height="150"/>
+                                <rect key="frame" x="16" y="102.5" width="343" height="166"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="1BV-RY-ual">
-                                    <size key="itemSize" width="100" height="100"/>
+                                    <size key="itemSize" width="100" height="138"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="moveset" id="nCd-VO-dg0" customClass="MovesetCell" customModule="BattleBump" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="25" width="100" height="100"/>
+                                        <rect key="frame" x="0.0" y="8" width="100" height="150"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="e0N-uR-d4U">
-                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="100" height="150"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="vgB-wf-OR9">
                                                     <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="vgB-wf-OR9" secondAttribute="height" multiplier="50:50" id="z7O-PW-dxZ"/>
+                                                    </constraints>
                                                 </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="nameLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EtF-ux-6rT">
+                                                    <rect key="frame" x="14.5" y="108" width="71" height="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="vgB-wf-OR9" firstAttribute="top" secondItem="e0N-uR-d4U" secondAttribute="top" id="3ar-hK-hPW"/>
+                                                <constraint firstItem="EtF-ux-6rT" firstAttribute="top" secondItem="vgB-wf-OR9" secondAttribute="bottom" constant="8" id="DDj-La-bWz"/>
                                                 <constraint firstItem="vgB-wf-OR9" firstAttribute="centerX" secondItem="e0N-uR-d4U" secondAttribute="centerX" id="OHW-lA-moU"/>
+                                                <constraint firstItem="EtF-ux-6rT" firstAttribute="centerX" secondItem="e0N-uR-d4U" secondAttribute="centerX" id="Pow-KH-eOX"/>
                                                 <constraint firstItem="vgB-wf-OR9" firstAttribute="width" secondItem="e0N-uR-d4U" secondAttribute="width" id="YXd-L1-1c3"/>
-                                                <constraint firstItem="vgB-wf-OR9" firstAttribute="height" secondItem="e0N-uR-d4U" secondAttribute="height" id="aN7-y0-Z8J"/>
-                                                <constraint firstItem="vgB-wf-OR9" firstAttribute="centerY" secondItem="e0N-uR-d4U" secondAttribute="centerY" id="pQb-tB-lXg"/>
                                             </constraints>
                                         </collectionViewCellContentView>
-                                        <size key="customSize" width="100" height="100"/>
+                                        <size key="customSize" width="100" height="150"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                                 <integer key="value" value="10"/>
@@ -121,6 +131,7 @@
                                         </userDefinedRuntimeAttributes>
                                         <connections>
                                             <outlet property="movesetCellImageView" destination="vgB-wf-OR9" id="PkN-1b-EO4"/>
+                                            <outlet property="movesetCellLabel" destination="EtF-ux-6rT" id="pxR-LA-XRY"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -169,7 +180,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select a Moveset:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qkB-Qg-cqk">
-                                <rect key="frame" x="120" y="82" width="135.5" height="20.5"/>
+                                <rect key="frame" x="120" y="66" width="135.5" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -187,7 +198,7 @@
                             <constraint firstItem="cnJ-fs-mxj" firstAttribute="centerY" secondItem="qfP-ZW-UOj" secondAttribute="centerY" id="Juk-vr-T9i"/>
                             <constraint firstAttribute="trailingMargin" secondItem="xE9-x3-0dj" secondAttribute="trailing" id="M1U-Zi-cSk"/>
                             <constraint firstAttribute="trailingMargin" secondItem="cnJ-fs-mxj" secondAttribute="trailing" id="O74-n9-Z50"/>
-                            <constraint firstItem="qkB-Qg-cqk" firstAttribute="top" secondItem="rO4-Mp-8i8" secondAttribute="bottom" constant="32" id="PLn-jf-zK3"/>
+                            <constraint firstItem="qkB-Qg-cqk" firstAttribute="top" secondItem="rO4-Mp-8i8" secondAttribute="bottom" constant="16" id="PLn-jf-zK3"/>
                             <constraint firstItem="cnJ-fs-mxj" firstAttribute="centerX" secondItem="qfP-ZW-UOj" secondAttribute="centerX" id="RhF-qJ-g1o"/>
                             <constraint firstItem="xE9-x3-0dj" firstAttribute="centerX" secondItem="qfP-ZW-UOj" secondAttribute="centerX" id="Sbd-d3-LlW"/>
                             <constraint firstItem="cnJ-fs-mxj" firstAttribute="leading" secondItem="qfP-ZW-UOj" secondAttribute="leadingMargin" id="cBI-5n-5Yn"/>

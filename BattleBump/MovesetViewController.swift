@@ -22,6 +22,8 @@ class MovesetViewController: UIViewController, UICollectionViewDelegate, UIColle
     @IBOutlet weak var moveEmojiLabel: UILabel!
     @IBOutlet weak var moveNameTextField: UITextField!
     @IBOutlet weak var moveEmojiTextField: UITextField!
+    @IBOutlet weak var movesetNameLabel: UILabel!
+    @IBOutlet weak var movesetNameTextField: UITextField!
     weak var editingDelegate: MovesetEditingProtocol?
     
     var currentNumberOfMoves: Int?
@@ -31,7 +33,7 @@ class MovesetViewController: UIViewController, UICollectionViewDelegate, UIColle
     var initialMoveset: Moveset?
     var movesetInProgress: Moveset! {
         didSet {
-            initialMoveset = Moveset(moves: movesetInProgress.moveArray)
+            initialMoveset = Moveset(moves: movesetInProgress.moveArray, name: movesetInProgress.movesetName!)
         }
     }
     
@@ -39,8 +41,11 @@ class MovesetViewController: UIViewController, UICollectionViewDelegate, UIColle
         super.viewDidLoad()
         moveNameTextField.delegate = self
         moveEmojiTextField.delegate = self
+        movesetNameTextField.delegate = self
         moveNameLabel.text = "Move Name:"
         moveEmojiLabel.text = "Move Emoji:"
+        movesetNameLabel.text = "Game Name:" // TODO: get user feedback on 'Game name' vs 'Moveset name'
+        movesetNameTextField.text = movesetInProgress.movesetName
         
         currentNumberOfMoves = movesetInProgress.moveArray.count
         moveArrayCountHalved = Int(round(Double(movesetInProgress.moveArray.count/2)))
@@ -86,7 +91,7 @@ class MovesetViewController: UIViewController, UICollectionViewDelegate, UIColle
         }
         enableInteractionWith(button: minusMovesButton)
         
-        let defaultMove = Move(moveName: "Default Move", moveEmoji: "❓", moveVerbs: ["vsDefault":"beats"])
+        let defaultMove = Move(moveName: "Default Move", moveEmoji: "❓", moveVerbs: ["placeholderKey":"placeholderValue"])
         movesetInProgress.moveArray.append(contentsOf: repeatElement(defaultMove, count: 2))
         moveArrayCountHalved = Int(round(Double(movesetInProgress.moveArray.count/2)))
         redrawViews()
@@ -117,40 +122,35 @@ class MovesetViewController: UIViewController, UICollectionViewDelegate, UIColle
         self.dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func moveNameTextFieldDidEndEditing(_ sender: UITextField) {
-        guard let text = sender.text, !text.isEmpty, let indexPath = collectionView.indexPathsForSelectedItems?.first else {
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        guard let text = textField.text, !text.isEmpty else {
             return
         }
         
-        movesetInProgress.moveArray[indexPath.item].moveName = text
-        
-        moveNameTextField.resignFirstResponder()
-        collectionView.reloadData()
-        collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .top)
-        
-        var newMoves = [String]()
-        movesetInProgress.moveArray.forEach { move in
-            newMoves.append(move.moveName)
+        if textField == self.moveNameTextField {
+            guard let indexPath = collectionView.indexPathsForSelectedItems?.first else {
+                return
+            }
+            movesetInProgress.moveArray[indexPath.item].moveName = text
+            collectionView.reloadData()
+            collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .top)
+            print("Name TextField DidEndEditing. The move names are now: \(movesetInProgress.moveArray.map({$0.moveName}))")
+            moveNameTextField.resignFirstResponder()
+        } else if textField == self.moveEmojiTextField {
+            guard let indexPath = collectionView.indexPathsForSelectedItems?.first else {
+                return
+            }
+            movesetInProgress.moveArray[indexPath.item].moveEmoji = text
+            collectionView.reloadData()
+            collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .top)
+            print("Emoji TextField DidEndEditing. The move emojis are now: \(movesetInProgress.moveArray.map({$0.moveEmoji}))")
+            moveEmojiTextField.resignFirstResponder()
+        } else if textField == self.movesetNameTextField {
+            movesetInProgress.movesetName = text
+        } else {
+            fatalError("Unknown TextField DidEndEditing")
         }
-        print("Name TextField DidEndEditing. The move names are now: \(newMoves)")
-    }
-    
-    @IBAction func moveEmojiTextFieldDidEndEditing(_ sender: UITextField) {
-        guard let text = sender.text, !text.isEmpty, let indexPath = collectionView.indexPathsForSelectedItems?.first else {
-            return
-        }
         
-        movesetInProgress.moveArray[indexPath.item].moveEmoji = text
-        
-        moveEmojiTextField.resignFirstResponder()
-        collectionView.reloadData()
-        collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .top)
-        
-        var newMoves = [String]()
-        movesetInProgress.moveArray.forEach { move in
-            newMoves.append(move.moveEmoji)
-        }
-        print("Emoji TextField DidEndEditing. The move emojis are now: \(newMoves)")
     }
     
     // MARK: - Helper -
@@ -159,9 +159,25 @@ class MovesetViewController: UIViewController, UICollectionViewDelegate, UIColle
         if segue.identifier == "pickVerbs" {
             
             if movesetInProgress.moveArray.contains(where:{ $0.moveName.contains("Default") }) {
-                // prompt the user to update default moves before segue
+                //TODO: Inform/Prevent editing verbs until the user has replaced all "DefaultMove"
                 return
             }
+            
+            // probably a cleaner way to do this (is a placeholder necessary when creating DefaultMove in the first place?)
+            movesetInProgress.moveArray.enumerated().forEach({ (index,item) in
+                if movesetInProgress.moveArray[index].moveVerbs["placeholderKey"] != nil {
+                    movesetInProgress.moveArray[index].moveVerbs.removeValue(forKey: "placeholderKey")                    
+                }
+                
+                for i in 1...moveArrayCountHalved! {
+                    let losingMoveName = movesetInProgress.moveArray[wrapping: index - i].moveName
+                    if movesetInProgress.moveArray[index].moveVerbs[losingMoveName] != nil {
+                        continue
+                    }
+                    movesetInProgress.moveArray[index].moveVerbs[losingMoveName] = "beats"
+                }
+            })
+            
             let destinationNavigationController = segue.destination as! UINavigationController
             let editVerbsVC = destinationNavigationController.topViewController as! EditVerbsViewController
             editVerbsVC.movesetInProgress = movesetInProgress
@@ -269,7 +285,6 @@ class MovesetViewController: UIViewController, UICollectionViewDelegate, UIColle
                 cell.layer.borderWidth = 3
                 // TODO: draw arrows or other UI element FROM selected cell TO other cells that are BEATEN by selected cell
                 collectionView.drawLineFrom(from: IndexPath(indexes: [0,index]), to: indexPath, color: UIColor.systemGreen)
-                
             }
         }
     }
@@ -283,10 +298,11 @@ class MovesetViewController: UIViewController, UICollectionViewDelegate, UIColle
     //MARK: - UITextFieldDelegate Methods -
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        moveNameTextField.resignFirstResponder()
-        moveEmojiTextField.resignFirstResponder()
-        return true
+        textField.resignFirstResponder()
+        self.view.endEditing(true)
+        return false
     }
+
 }
 
 // MARK: - Extensions -

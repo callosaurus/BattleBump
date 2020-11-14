@@ -11,9 +11,11 @@ import Foundation
 class Moveset: Codable {
     
     var moveArray: [Move]
+    var movesetName: String?
 
-    init(moves: [Move]) {
+    init(moves: [Move], name: String) {
         moveArray = moves
+        movesetName = name
     }
     
 }
