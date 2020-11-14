@@ -12,9 +12,11 @@ class VerbEditCell: UITableViewCell {
     
     @IBOutlet weak var verbTextField: UITextField!
     @IBOutlet weak var losingMoveLabel: UILabel!
+    var cellMove: Move?
     
-    public func configure(losingMoveName: String, verb: String) {
-        losingMoveLabel.text = losingMoveName
+    public func configure(losingMove: Move, verb: String) {
+        cellMove = losingMove
+        losingMoveLabel.text = "\(losingMove.moveEmoji) \(losingMove.moveName)"
         verbTextField.text = verb
     }
     

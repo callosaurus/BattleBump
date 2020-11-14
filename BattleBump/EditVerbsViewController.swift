@@ -46,30 +46,33 @@ class EditVerbsViewController: UIViewController, UITableViewDataSource, UITableV
         print("Current section move: \(sectionMove)")
         let sectionMoveIndex = movesetInProgress.moveArray.firstIndex(where: { $0.moveName == sectionMove.moveName })
         let losingMove = movesetInProgress.moveArray[wrapping: sectionMoveIndex! - (indexPath.row+1)]
-        //        cell.move = losingMove
-        //        cell.verbTextField.text = sectionMove.moveVerbs[losingMove.moveName]
         cell.verbTextField.delegate = self
         
         let winningVerb = sectionMove.moveVerbs[losingMove.moveName]
-        cell.configure(losingMoveName: losingMove.moveName, verb: winningVerb!)
+        cell.configure(losingMove: losingMove, verb: winningVerb!)
         return cell
     }
     
-    @IBAction func verbTextFieldDidEndEditing(_ sender: UITextField) {
-        
-        guard let text = sender.text, !text.isEmpty else {
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        guard let text = textField.text, !text.isEmpty else {
             return
         }
-        
-        if let cell = sender.superview as? VerbEditCell {
+
+        if let cell = textField.superview?.superview as? VerbEditCell {
             if let senderPath = verbsTableView.indexPath(for: cell) {
                 print("\(senderPath)")
-                movesetInProgress.moveArray[senderPath.section].moveVerbs[cell.losingMoveLabel.text!] = sender.text
+                movesetInProgress.moveArray[senderPath.section].moveVerbs[cell.cellMove!.moveName] = textField.text
             }
-            
         }
         verbsTableView.reloadData()
-        sender.resignFirstResponder()
+        textField.resignFirstResponder()
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+//        textField.resignFirstResponder()
+//        return true
+        self.view.endEditing(true)
+        return false
     }
     
 }

@@ -205,9 +205,6 @@
                                                     <rect key="frame" x="16" y="9" width="137" height="34"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
-                                                    <connections>
-                                                        <action selector="verbTextFieldDidEndEditing:" destination="YgC-0v-uRA" eventType="editingDidEnd" id="jr7-u8-kl6"/>
-                                                    </connections>
                                                 </textField>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H29-zq-Hp1">
                                                     <rect key="frame" x="161" y="15.5" width="42" height="21"/>
