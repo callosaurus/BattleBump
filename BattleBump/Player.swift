@@ -11,11 +11,10 @@ import UIKit
 class Player: Codable {
     
     var name: String
-    var selectedMove: String?
-    //var selectedMove: Move?
     var isReadyForNewRound: Bool
     var isHost: Bool
     var chosenMoveset: Moveset?
+    var selectedMove: Move?
     
     init(name: String) {
         self.name = name

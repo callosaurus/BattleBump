@@ -10,61 +10,44 @@ import UIKit
 
 class GameLogicManager {
     
-    // TODO: Update to arc4random the length of the Moveset movesArray and return appropriately
-    func pickRandomMove() -> String {
-        return ["Rock", "Paper", "Scissors"].randomElement() ?? ""
+    var movesetInUse: Moveset!
+    
+    init(moveset: Moveset) {
+        movesetInUse = moveset
     }
     
-    // TODO: Update this to use Moveset dict of dict comparisons
+    func pickRandomMove() -> Move {
+        return movesetInUse.moveArray.randomElement()!
+    }
+    
     func generateResults(game: Game) -> Game {        
+        guard let myMove = game.me.selectedMove, let opponentMove = game.opponent.selectedMove else {
+            fatalError("Tried to generateResults but there was an error with moves")
+        }
         let roundsPlayed = game.rounds.count
+        let myMoveName = myMove.moveName
+        let opponentMoveName = opponentMove.moveName
         
-        if let myMove = game.me.selectedMove, let opponentMove = game.opponent.selectedMove {
-            if myMove == opponentMove {
-                game.rounds["round\(roundsPlayed+1)"] = ["winner": "TIE", "sentence":"\(myMove) ties \(opponentMove)"]
-            }
-            else {
-                if myMove == "Rock" && opponentMove == "Paper" {
-                    opponentWins(round: roundsPlayed, game: game)
+        if myMoveName == opponentMoveName {
+            game.rounds["round\(roundsPlayed+1)"] = ["winner": "TIE", "sentence":"\(myMoveName) ties \(opponentMoveName)"]
+        } else {
+            if myMove.moveVerbs[opponentMoveName] != nil {
+                game.myRoundWins += 1
+                if let winningVerb = myMove.moveVerbs[opponentMoveName] {
+                    let winningSentence = myMoveName + " " + winningVerb + " " + opponentMoveName
+                    print("Winning sentence is \(winningSentence)")
+                    game.rounds["round\(roundsPlayed+1)"] = ["winner": "\(game.me.name)", "sentence":winningSentence]
                 }
-                if myMove == "Rock" && opponentMove == "Scissors" {
-                    iWin(round: roundsPlayed, game: game)
-                }
-                if myMove == "Scissors" && opponentMove == "Paper" {
-                    iWin(round: roundsPlayed, game: game)
-                }
-                if myMove == "Scissors" && opponentMove == "Rock" {
-                    opponentWins(round: roundsPlayed, game: game)
-                }
-                if myMove == "Paper" && opponentMove == "Scissors" {
-                    opponentWins(round: roundsPlayed, game: game)
-                }
-                if myMove == "Paper" && opponentMove == "Rock" {
-                    iWin(round: roundsPlayed, game: game)
+            } else {
+                game.opponentRoundWins += 1
+                if let winningVerb = opponentMove.moveVerbs[myMoveName] {
+                    let winningSentence = opponentMoveName + " " + winningVerb + " " + myMoveName
+                    print("Winning sentence is \(winningSentence)")
+                    game.rounds["round\(roundsPlayed+1)"] = ["winner": "\(game.opponent.name)", "sentence":winningSentence]
                 }
             }
-            
         }
         
         return game
     }
-    
-    func iWin(round:Int, game: Game) {
-        guard let move1 = game.me.selectedMove, let move2 = game.opponent.selectedMove else {
-            print("Couldn't add to game rounds because selectedMoves are invalid")
-            return
-        }
-        game.myRoundWins += 1
-        game.rounds["round\(round+1)"] = ["winner": "\(game.me.name)", "sentence":"\(move1) beats \(move2)"]
-    }
-    
-    func opponentWins(round: Int, game: Game) {
-        guard let move1 = game.opponent.selectedMove, let move2 = game.me.selectedMove else {
-            print("Couldn't add to game rounds because selectedMoves are invalid")
-            return
-        }
-        game.opponentRoundWins += 1
-        game.rounds["round\(round+1)"] = ["winner": "\(game.opponent.name)", "sentence":"\(move1) beats \(move2)"]
-    }
-    
 }

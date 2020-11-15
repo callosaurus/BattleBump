@@ -188,9 +188,7 @@ class HomeViewController: UIViewController,
             me.chosenMoveset = player.chosenMoveset
         }
         mpcManager.stopAdvertisingToPeers()
-        guard me.chosenMoveset != nil,
-              player.chosenMoveset != nil,
-              me.chosenMoveset?.movesetName == player.chosenMoveset?.movesetName else {
+        guard me.chosenMoveset != nil else {
             fatalError("chosenMoveset is not in sync between me and player")
         }
         startNewGame(with: player)
@@ -209,7 +207,16 @@ class HomeViewController: UIViewController,
     
     func startNewGame(with player: Player) {
         playersForNewGame = [me, player]
-        self.performSegue(withIdentifier: "startGame", sender: self)
+        DispatchQueue.main.async {
+            self.performSegue(withIdentifier: "startGame", sender: self)
+        }
+    }
+    
+    func gameEnded() {
+        foundPeersArray = []
+        foundPeersMovesetNames.removeAll()
+        tableView.reloadData()
+        mpcManager.findPeers()
     }
     
     // MARK: - MovesetEditingProtocol -
@@ -246,6 +253,7 @@ class HomeViewController: UIViewController,
                 }
                 self.mpcManager = mpcManager
                 self.mpcManager.managerDelegate = self
+                self.gameEnded()
             }
             gameVC.playersForNewGame = playersForNewGame
         } else if segue.identifier == "edit" {
