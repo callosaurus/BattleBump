@@ -34,6 +34,7 @@ class HomeViewController: UIViewController,
     var movesetImages = [UIImage]()
     var me: Player!
     var foundPeersArray = [MCPeerID]()
+    var foundPeersMovesetNames = [MCPeerID: String]()
     var connectedPlayersArray = [Player]()
     lazy var refreshControl = UIRefreshControl()
     var selectedMoveset: Moveset?
@@ -63,18 +64,22 @@ class HomeViewController: UIViewController,
     //MARK: - IBActions -
     
     @IBAction func editButtonPressed(_ sender: UIButton) {
-        //take current moveset selection and pass to MovesetViewController
-        guard movesetCollectionView.indexPathsForSelectedItems != nil, selectedMoveset != nil else {
+        guard movesetCollectionView.indexPathsForSelectedItems != nil,
+              selectedMoveset != nil else {
             fatalError("Edit button was pressed without a selectedMoveset")
         }
         self.performSegue(withIdentifier: "edit", sender: self)
     }
     
     @IBAction func hostButtonPressed(_ sender: UIButton) {
-        guard movesetCollectionView.indexPathsForSelectedItems != nil, selectedMoveset != nil else {
+        guard movesetCollectionView.indexPathsForSelectedItems != nil,
+              selectedMoveset != nil,
+              let movesetName = selectedMoveset?.movesetName else {
             return
         }
-        mpcManager.advertiseToPeers()
+        me.isHost = true
+        me.chosenMoveset = selectedMoveset
+        mpcManager.advertiseToPeers(movesetName: movesetName)
     }
     
     @IBAction func playerNameTextFieldDidEndEditing(_ sender: UITextField) {
@@ -179,32 +184,32 @@ class HomeViewController: UIViewController,
     }
     
     func receivedPlayerDataFromPeer(_ player: Player) {
+        if me.isHost == false {
+            me.chosenMoveset = player.chosenMoveset
+        }
+        mpcManager.stopAdvertisingToPeers()
+        guard me.chosenMoveset != nil,
+              player.chosenMoveset != nil,
+              me.chosenMoveset?.movesetName == player.chosenMoveset?.movesetName else {
+            fatalError("chosenMoveset is not in sync between me and player")
+        }
         startNewGame(with: player)
-        //TODO: include moveset reception from Host if necessary
     }
     
     func session(session: MCSession, wasInterruptedByState state: MCSessionState) {
-        
         return
     }
     
     func didChangeFoundPeers() {
         foundPeersArray = mpcManager.foundPeersArray
+        foundPeersMovesetNames = mpcManager.foundPeersMovesetNames
         refreshControl.endRefreshing()
         tableView.reloadData()
     }
     
-    //    func didConnectSuccessfully() {
-    //        mpcManager.send(me)
-    //    }
-    
     func startNewGame(with player: Player) {
-        
         playersForNewGame = [me, player]
-        
-        DispatchQueue.main.async {
-            self.performSegue(withIdentifier: "startGame", sender: self)
-        }
+        self.performSegue(withIdentifier: "startGame", sender: self)
     }
     
     // MARK: - MovesetEditingProtocol -
@@ -261,10 +266,7 @@ class HomeViewController: UIViewController,
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "hostCell", for: indexPath) as! HostCell
         cell.playerNameLabel.text = foundPeersArray[indexPath.row].displayName
-        /*
-         after completing moveset picker, add movesetName label to HostCell
-         cell.movesetName.text = foundHostsArray[indexPath.row].moveset["name"]
-         */
+        cell.movesetNameLabel.text = foundPeersMovesetNames[foundPeersArray[indexPath.row]]
         return cell
     }
     

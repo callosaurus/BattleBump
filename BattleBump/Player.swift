@@ -11,11 +11,11 @@ import UIKit
 class Player: Codable {
     
     var name: String
-    var selectedMove: String? // TODO: change to use Moveset.swift and/or Move object etc
+    var selectedMove: String?
+    //var selectedMove: Move?
     var isReadyForNewRound: Bool
     var isHost: Bool
-//    var chosenMoveset: Moveset
-//    var playerImage
+    var chosenMoveset: Moveset?
     
     init(name: String) {
         self.name = name

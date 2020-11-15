@@ -57,18 +57,27 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="playerNameLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E6M-bN-uWk">
-                                                    <rect key="frame" x="199.5" y="22" width="127.5" height="20.5"/>
+                                                    <rect key="frame" x="8" y="22" width="127.5" height="20.5"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="movesetNameLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Phb-DU-BNt">
+                                                    <rect key="frame" x="184" y="22" width="151" height="20.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="trailingMargin" secondItem="E6M-bN-uWk" secondAttribute="trailing" id="BPC-gr-TkB"/>
+                                                <constraint firstItem="E6M-bN-uWk" firstAttribute="leading" secondItem="BHc-fN-oga" secondAttribute="leading" constant="8" id="63N-L9-2MB"/>
                                                 <constraint firstItem="E6M-bN-uWk" firstAttribute="centerY" secondItem="BHc-fN-oga" secondAttribute="centerY" id="BqD-cJ-veg"/>
+                                                <constraint firstItem="Phb-DU-BNt" firstAttribute="centerY" secondItem="BHc-fN-oga" secondAttribute="centerY" id="E8f-U1-v7d"/>
+                                                <constraint firstAttribute="trailing" secondItem="Phb-DU-BNt" secondAttribute="trailing" constant="8" id="sVa-1O-DBf"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="movesetNameLabel" destination="Phb-DU-BNt" id="XQs-VA-R0N"/>
                                             <outlet property="playerNameLabel" destination="E6M-bN-uWk" id="ofR-Kf-zyf"/>
                                         </connections>
                                     </tableViewCell>

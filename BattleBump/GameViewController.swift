@@ -92,29 +92,26 @@ class GameViewController: UIViewController, MPCManagerProtocol {
             currentGame.me.selectedMove = gameLogicManager.pickRandomMove()
         }
         
-        DispatchQueue.main.async {
-            self.rockLabel.isUserInteractionEnabled = false
-            self.paperLabel.isUserInteractionEnabled = false
-            self.scissorsLabel.isUserInteractionEnabled = false
-            
-            self.progressRing.alpha = 0.0
-            self.progressRing.setProgress(value: 5.0, animationDuration: 0.1, completion: nil)
-            
-            self.giantMoveLabel.alpha = 1.0
-            
-            switch (self.currentGame.me.selectedMove) {
-            case "Rock":
-                self.giantMoveLabel.text = "👊🏽"
-                break;
-            case "Paper":
-                self.giantMoveLabel.text = "✋🏽"
-                break;
-            case "Scissors":
-                self.giantMoveLabel.text = "✌🏽"
-                break;
-            default:
-                break;
-            }
+        self.rockLabel.isUserInteractionEnabled = false
+        self.paperLabel.isUserInteractionEnabled = false
+        self.scissorsLabel.isUserInteractionEnabled = false
+        
+        self.progressRing.alpha = 0.0
+        self.progressRing.setProgress(value: 5.0, animationDuration: 0.1, completion: nil)
+        self.giantMoveLabel.alpha = 1.0
+        
+        switch (self.currentGame.me.selectedMove) {
+        case "Rock":
+            self.giantMoveLabel.text = "👊🏽"
+            break;
+        case "Paper":
+            self.giantMoveLabel.text = "✋🏽"
+            break;
+        case "Scissors":
+            self.giantMoveLabel.text = "✌🏽"
+            break;
+        default:
+            break;
         }
         
         self.mpcManager.send(self.currentGame.me)
@@ -131,21 +128,19 @@ class GameViewController: UIViewController, MPCManagerProtocol {
             currentGame.opponent.isReadyForNewRound = false
             currentGame.currentState = .roundEnd
             
-            DispatchQueue.main.async {
-                self.readyButton.isUserInteractionEnabled = true
-                self.readyButton.setTitle("Ready?", for: .normal)
-                self.readyButton.alpha = 1.0
-                self.readyButton.setTitleColor(.blue, for: .normal)
-                
-                if let oppoMove = self.currentGame.opponent.selectedMove {
-                    self.theirLastMoveLabel.text = "\(self.currentGame.opponent.name) last played: \(oppoMove)"
-                }
-                
-                if let lastRound = self.currentGame.rounds.keys.sorted().last {
-                    self.resultLabel.text = self.currentGame.rounds[lastRound]!["sentence"]
-                }
-                self.winsAndRoundsLabel.text = "\(self.currentGame.myRoundWins) wins / \(self.currentGame.rounds.count) rounds"
+            self.readyButton.isUserInteractionEnabled = true
+            self.readyButton.setTitle("Ready?", for: .normal)
+            self.readyButton.alpha = 1.0
+            self.readyButton.setTitleColor(.blue, for: .normal)
+            
+            if let oppoMove = self.currentGame.opponent.selectedMove {
+                self.theirLastMoveLabel.text = "\(self.currentGame.opponent.name) last played: \(oppoMove)"
             }
+            
+            if let lastRound = self.currentGame.rounds.keys.sorted().last {
+                self.resultLabel.text = self.currentGame.rounds[lastRound]!["sentence"]
+            }
+            self.winsAndRoundsLabel.text = "\(self.currentGame.myRoundWins) wins / \(self.currentGame.rounds.count) rounds"
         }
         
     }
@@ -153,21 +148,19 @@ class GameViewController: UIViewController, MPCManagerProtocol {
     func gameOver() {
         let titleString = currentGame.myRoundWins == 3 ? "You Won!" : "\(currentGame.opponent.name) Won!"
         
-        DispatchQueue.main.async {
-            //TODO: "Play again? - OK or No" - Tear down game vars / await new game
-            let alertController = UIAlertController(title: titleString, message: nil, preferredStyle: .alert)
-            let alertAction = UIAlertAction(title: "OK", style: .default, handler: {_ in
-                self.mpcManager.mySession = nil
-                
-                // Pass mpcManager back to HomeVC with a completion func? (or delegate if wanted to do heavy-handed)
-                self.onGameFinished?(self.mpcManager)
-                
-                self.currentGame = nil
-                self.dismiss(animated: true, completion: nil)
-            })
-            alertController.addAction(alertAction)
-            self.present(alertController, animated: true)
-        }
+        //TODO: "Play again? - OK or No" - Tear down game vars / await new game
+        let alertController = UIAlertController(title: titleString, message: nil, preferredStyle: .alert)
+        let alertAction = UIAlertAction(title: "OK", style: .default, handler: {_ in
+            self.mpcManager.mySession = nil
+            
+            // Pass mpcManager back to HomeVC with a completion func? (or delegate if wanted to do heavy-handed)
+            self.onGameFinished?(self.mpcManager)
+            
+            self.currentGame = nil
+            self.dismiss(animated: true, completion: nil)
+        })
+        alertController.addAction(alertAction)
+        self.present(alertController, animated: true)
     }
     
     @IBAction func readyButtonPressed(_ sender: UIButton) {
@@ -256,13 +249,13 @@ class GameViewController: UIViewController, MPCManagerProtocol {
             if currentGame.me.isReadyForNewRound && currentGame.opponent.isReadyForNewRound {
                 roundBegin()
             }
-            /*
-            else if (currentGame.me.isReadyForNewRound == false && currentGame.opponent.isReadyForNewRound == true) {
-                print("Opponent is ready but I am not. Waiting...")
-            } else if (currentGame.me.isReadyForNewRound == true && currentGame.opponent.isReadyForNewRound == false) {
-                print("I am ready but opponent is not. Waiting...")
-            }
-            */
+        /*
+         else if (currentGame.me.isReadyForNewRound == false && currentGame.opponent.isReadyForNewRound == true) {
+         print("Opponent is ready but I am not. Waiting...")
+         } else if (currentGame.me.isReadyForNewRound == true && currentGame.opponent.isReadyForNewRound == false) {
+         print("I am ready but opponent is not. Waiting...")
+         }
+         */
         case .roundInProgress:
             if currentGame.opponent.selectedMove != nil {
                 roundEnded()
@@ -271,25 +264,23 @@ class GameViewController: UIViewController, MPCManagerProtocol {
             print("Game ended but received player data..")
         case .none:
             print("Unexpected reception of player/game state")
-//        default:
-//            print("Unexpected reception of player/game state")
+        //        default:
+        //            print("Unexpected reception of player/game state")
         }
     }
     
     func session(session: MCSession, wasInterruptedByState state: MCSessionState) {
         
         // tear down game vars / await new game / currentGame = nil etc.
-        DispatchQueue.main.async {
-            let alertController = UIAlertController(title: "Connection interrupted! ☹️", message: nil, preferredStyle: .alert)
-            let alertAction = UIAlertAction(title: "OK", style: .default, handler: {(alert: UIAlertAction!) in
-                self.onGameFinished?(self.mpcManager)
-                self.dismiss(animated: true, completion: nil)
-            })
-            
-            alertController.addAction(alertAction)
-            self.present(alertController, animated: true)
-            // popVC?
-        }
+        let alertController = UIAlertController(title: "Connection interrupted! ☹️", message: nil, preferredStyle: .alert)
+        let alertAction = UIAlertAction(title: "OK", style: .default, handler: {(alert: UIAlertAction!) in
+            self.onGameFinished?(self.mpcManager)
+            self.dismiss(animated: true, completion: nil)
+        })
+        
+        alertController.addAction(alertAction)
+        self.present(alertController, animated: true)
+        // popVC?
     }
     
 }
