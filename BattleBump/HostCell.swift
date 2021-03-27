@@ -11,6 +11,7 @@ import UIKit
 class HostCell: UITableViewCell {
 
     @IBOutlet weak var playerNameLabel: UILabel!
+    @IBOutlet weak var movesetNameLabel: UILabel!
     
     var host: Player! {
         didSet {

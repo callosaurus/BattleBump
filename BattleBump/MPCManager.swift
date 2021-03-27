@@ -28,6 +28,7 @@ class MPCManager: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegate, M
     var mySession : MCSession?
     
     var foundPeersArray = [MCPeerID]()
+    var foundPeersMovesetNames = [MCPeerID: String]()
     var connectedPlayersDictionary = [MCPeerID:Player]()
     
     // MARK: - MCSessionDelegate -
@@ -43,6 +44,7 @@ class MPCManager: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegate, M
             
         } else if (state == .notConnected) {
             foundPeersArray = []
+            foundPeersMovesetNames.removeAll()
             managerDelegate?.session(session: session, wasInterruptedByState: state)
         }
     }
@@ -65,11 +67,6 @@ class MPCManager: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegate, M
         // MCSession Delegate callback when receiving data from a peer in a given session
         print("Received data from \(peerID.displayName)")
         
-//        guard let player = NSKeyedUnarchiver.unarchiveObject(with: data) as? Player else {
-//            print("Could not decode invitee properly")
-//            return
-//        }
-        
         do {
             let player = try JSONDecoder().decode(Player.self, from: data)
             managerDelegate?.receivedPlayerDataFromPeer(player)
@@ -77,10 +74,6 @@ class MPCManager: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegate, M
             print(error.localizedDescription)
             print("Could not decode player properly")
         }
-        
-        //still have to unarchive data or .JSONdecode
-        
-        //receivedPlayerDataFromPeer() as above?
     }
     
     
@@ -115,13 +108,11 @@ class MPCManager: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegate, M
     
     func browser(_ browser: MCNearbyServiceBrowser, foundPeer peerID: MCPeerID, withDiscoveryInfo info: [String: String]?) {
         print("Found peer: \(peerID)")
-        
-        //        let newHostPlayerFound = Host(hostPeerID: peerID, emoji: (info?["emoji"])!)
-        
-        //        let playerName = peerID.displayName.components(separatedBy: ":")[0]
-        //        let newHostPlayerFound = Player(name: playerName, peerID: peerID)
         if (!foundPeersArray.contains(peerID)) {
             foundPeersArray.append(peerID)
+        }
+        if foundPeersMovesetNames[peerID] == nil {
+            foundPeersMovesetNames[peerID] = info?["movesetName"]
         }
         
         //eventually have moveset in discoveryInfo, decode
@@ -135,30 +126,28 @@ class MPCManager: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegate, M
         
         if let indexOfLostHost = foundPeersArray.firstIndex(of: peerID) {
             foundPeersArray.remove(at: indexOfLostHost)
+            foundPeersMovesetNames.removeValue(forKey: peerID)
         } else {
             print("Peer wasn't removed")
         }
         
-        //removes lost Host
-//        if let lostHost = foundPlayersDictionary.first(where: { $0.peerID == peerID }) {
-//            if let index = foundPlayersDictionary.firstIndex(of: lostHost) {
-//                foundPlayersDictionary.remove(at: index)
-//            }
-//        }
         managerDelegate?.didChangeFoundPeers()
     }
     
     //MARK: -  MPCManager Client Methods -
     
-    func advertiseToPeers() {
-        
+    func advertiseToPeers(movesetName: String) {
         // TODO: add chosen moveset name to discoveryInfo
-        let dict = ["testKey":"testValue"]
+        let dict = ["movesetName":movesetName]
         myAdvertiser = MCNearbyServiceAdvertiser(peer: myPeerID, discoveryInfo:dict, serviceType: "RPSgame")
-        print("Advertising with \(myPeerID.displayName)")
-        
+        print("Advertising with \(myPeerID.displayName), discoveryInfo: \(dict)")
         myAdvertiser?.delegate = self
         myAdvertiser?.startAdvertisingPeer()
+    }
+    
+    func stopAdvertisingToPeers() {
+        print("Stopping advertising")
+        myAdvertiser?.stopAdvertisingPeer()
     }
     
     
@@ -185,12 +174,6 @@ class MPCManager: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegate, M
     func send(_ player: Player) {
         
         print("Sending Player Update...")
-        //        let dictionary = ["invitee": invitee]
-        //        let data = NSKeyedArchiver.archivedData(withRootObject: dictionary)
-        
-        /// JSON encode instead of archive?
-//        let data = NSKeyedArchiver.archivedData(withRootObject: player)
-
         
         do {
             let data = try JSONEncoder().encode(player)
@@ -199,13 +182,6 @@ class MPCManager: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegate, M
             print(error.localizedDescription)
             print("Could not send player update properly")
         }
-        
-//        do {
-//            try mySession?.send(data, toPeers: (mySession?.connectedPeers)!, with: .reliable)
-//        } catch {
-//            print(error.localizedDescription)
-//            print("Could not send player update properly")
-//        }
         
     }
     

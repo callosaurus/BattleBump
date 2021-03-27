@@ -8,76 +8,93 @@
 
 import UIKit
 
-class MovesetViewController: UIViewController {
+protocol MovesetEditingProtocol: class {
+    func movesetEditingEndedWith(moveset: Moveset, screenshot: UIImage)
+}
+
+class MovesetViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UITextFieldDelegate {
     
-    @IBOutlet weak var movesetImageView: UIImageView!
+    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var minusMovesButton: UIButton!
+    @IBOutlet weak var plusMovesButton: UIButton!
     @IBOutlet weak var numberOfOutcomesLabel: UILabel!
+    @IBOutlet weak var moveNameLabel: UILabel!
+    @IBOutlet weak var moveEmojiLabel: UILabel!
+    @IBOutlet weak var moveNameTextField: UITextField!
+    @IBOutlet weak var moveEmojiTextField: UITextField!
+    @IBOutlet weak var movesetNameLabel: UILabel!
+    @IBOutlet weak var movesetNameTextField: UITextField!
+    weak var editingDelegate: MovesetEditingProtocol?
+    
     var currentNumberOfMoves: Int?
+    var moveArrayCountHalved: Int?
     let minimumNumberOfMoves = 3
     let maximumNumberOfMoves = 9
-    
+    var initialMoveset: Moveset?
     var movesetInProgress: Moveset! {
         didSet {
-//            configure()
+            initialMoveset = Moveset(moves: movesetInProgress.moveArray, name: movesetInProgress.movesetName!)
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                configure()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        //    configure()
-    }
-    
-    func configure() {
-        drawMovesetDiagram(number: movesetInProgress.numberOfMoves)
-        currentNumberOfMoves = movesetInProgress.numberOfMoves
-    }
-    
-    func drawMovesetDiagram(number: Int) {
+        moveNameTextField.delegate = self
+        moveEmojiTextField.delegate = self
+        movesetNameTextField.delegate = self
+        moveNameLabel.text = "Move Name:"
+        moveEmojiLabel.text = "Move Emoji:"
+        movesetNameLabel.text = "Game Name:" // TODO: get user feedback on 'Game name' vs 'Moveset name'
+        movesetNameTextField.text = movesetInProgress.movesetName
         
-        switch number {
-        case 3:
-            movesetImageView.image = UIImage(named: "2-simplex")
-            numberOfOutcomesLabel.text = "3 possible outcomes 🙂"
-        case 5:
-            movesetImageView.image = UIImage(named: "4-simplex")
-            numberOfOutcomesLabel.text = "10 possible outcomes 🤔"
-        case 7:
-            movesetImageView.image = UIImage(named: "6-simplex")
-            numberOfOutcomesLabel.text = "21 possible outcomes 😥"
-        case 9:
-            movesetImageView.image = UIImage(named: "8-simplex")
-            numberOfOutcomesLabel.text = "36 possible outcomes 😳"
-            
-        default:
-            movesetImageView.image = UIImage(named: "2-simplex")
+        currentNumberOfMoves = movesetInProgress.moveArray.count
+        moveArrayCountHalved = Int(round(Double(movesetInProgress.moveArray.count/2)))
+        
+        if currentNumberOfMoves == minimumNumberOfMoves {
+            disableInteractionWith(button: minusMovesButton)
+        }
+        if currentNumberOfMoves == maximumNumberOfMoves {
+            disableInteractionWith(button: plusMovesButton)
         }
         
+        moveNameTextField.isUserInteractionEnabled = false
+        moveEmojiTextField.isUserInteractionEnabled = false
+        let outcomesNum = (Float(self.movesetInProgress.moveArray.count) * 0.5).rounded(.down) * Float(self.movesetInProgress.moveArray.count)
+        numberOfOutcomesLabel.text = "\(Int(outcomesNum)) possible outcomes"
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        moveNameTextField.resignFirstResponder()
+        moveEmojiTextField.resignFirstResponder()
     }
     
     //MARK: - IBActions -
     
     @IBAction func minus2MovesButtonPressed(_ sender: UIButton) {
         
-        if currentNumberOfMoves == minimumNumberOfMoves {
-            print("min move threshold reached")
-            return
-        }
         currentNumberOfMoves = currentNumberOfMoves! - 2
-        drawMovesetDiagram(number: currentNumberOfMoves!)
+        if currentNumberOfMoves == minimumNumberOfMoves {
+            disableInteractionWith(button: minusMovesButton)
+        }
+        enableInteractionWith(button: plusMovesButton)
+        
+        movesetInProgress.moveArray.removeLast(2)
+        moveArrayCountHalved = Int(round(Double(movesetInProgress.moveArray.count/2)))
+        redrawViews()
     }
     
     @IBAction func plus2MovesButtonPressed(_ sender: UIButton) {
         
-        if currentNumberOfMoves == maximumNumberOfMoves {
-            print("max move threshold reached")
-            return
-        }
         currentNumberOfMoves = currentNumberOfMoves! + 2
-        drawMovesetDiagram(number: currentNumberOfMoves!)
+        if currentNumberOfMoves == maximumNumberOfMoves {
+            disableInteractionWith(button: plusMovesButton)
+        }
+        enableInteractionWith(button: minusMovesButton)
+        
+        let defaultMove = Move(moveName: "Default Move", moveEmoji: "❓", moveVerbs: ["placeholderKey":"placeholderValue"])
+        movesetInProgress.moveArray.append(contentsOf: repeatElement(defaultMove, count: 2))
+        moveArrayCountHalved = Int(round(Double(movesetInProgress.moveArray.count/2)))
+        redrawViews()
     }
     
     @IBAction func pickVerbsButtonPressed(_ sender: UIButton) {
@@ -85,20 +102,264 @@ class MovesetViewController: UIViewController {
     }
     
     @IBAction func cancelButtonPressed(_ sender: UIBarButtonItem) {
-        self.dismiss(animated: true, completion: nil)
+        let alertController = UIAlertController(title: "Are you sure?", message: nil, preferredStyle: .alert)
+        let alertAction = UIAlertAction(title: "OK", style: .default, handler: {_ in
+            self.movesetInProgress = self.initialMoveset
+            self.redrawViews()
+            self.editingDelegate?.movesetEditingEndedWith(moveset: self.initialMoveset!, screenshot: self.collectionView.screenshot())
+            self.dismiss(animated: true, completion: nil)
+        })
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
+            alertController.dismiss(animated: false, completion: nil)
+        }))
+        alertController.addAction(alertAction)
+        self.present(alertController, animated: true)
     }
     
     @IBAction func doneButtonPressed(_ sender: UIBarButtonItem) {
-        // save
+        redrawViews()
+        editingDelegate?.movesetEditingEndedWith(moveset: movesetInProgress!, screenshot: collectionView.screenshot())
         self.dismiss(animated: true, completion: nil)
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let touch = touches.first {
-            let position = touch.location(in: self.movesetImageView)
-            print(position.x)
-            print(position.y)
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        guard let text = textField.text, !text.isEmpty else {
+            return
+        }
+        
+        if textField == self.moveNameTextField {
+            guard let indexPath = collectionView.indexPathsForSelectedItems?.first else {
+                return
+            }
+            movesetInProgress.moveArray[indexPath.item].moveName = text
+            collectionView.reloadData()
+            collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .top)
+            print("Name TextField DidEndEditing. The move names are now: \(movesetInProgress.moveArray.map({$0.moveName}))")
+            moveNameTextField.resignFirstResponder()
+        } else if textField == self.moveEmojiTextField {
+            guard let indexPath = collectionView.indexPathsForSelectedItems?.first else {
+                return
+            }
+            movesetInProgress.moveArray[indexPath.item].moveEmoji = text
+            collectionView.reloadData()
+            collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .top)
+            print("Emoji TextField DidEndEditing. The move emojis are now: \(movesetInProgress.moveArray.map({$0.moveEmoji}))")
+            moveEmojiTextField.resignFirstResponder()
+        } else if textField == self.movesetNameTextField {
+            movesetInProgress.movesetName = text
+        } else {
+            fatalError("Unknown TextField DidEndEditing")
+        }
+        
+    }
+    
+    // MARK: - Helper -
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "pickVerbs" {
+            
+            if movesetInProgress.moveArray.contains(where:{ $0.moveName.contains("Default") }) {
+                //TODO: Inform/Prevent editing verbs until the user has replaced all "DefaultMove"
+                return
+            }
+            
+            // probably a cleaner way to do this (is a placeholder necessary when creating DefaultMove in the first place?)
+            movesetInProgress.moveArray.enumerated().forEach({ (index,item) in
+                if movesetInProgress.moveArray[index].moveVerbs["placeholderKey"] != nil {
+                    movesetInProgress.moveArray[index].moveVerbs.removeValue(forKey: "placeholderKey")                    
+                }
+                
+                for i in 1...moveArrayCountHalved! {
+                    let losingMoveName = movesetInProgress.moveArray[wrapping: index - i].moveName
+                    if movesetInProgress.moveArray[index].moveVerbs[losingMoveName] != nil {
+                        continue
+                    }
+                    movesetInProgress.moveArray[index].moveVerbs[losingMoveName] = "beats"
+                }
+            })
+            
+            let destinationNavigationController = segue.destination as! UINavigationController
+            let editVerbsVC = destinationNavigationController.topViewController as! EditVerbsViewController
+            editVerbsVC.movesetInProgress = movesetInProgress
+            editVerbsVC.onFinishEditingVerbs = { [weak self] movesetInProgress in
+                guard let self = self else {
+                    return
+                }
+                self.movesetInProgress = movesetInProgress
+            }
         }
     }
     
+    func redrawViews() {
+        self.collectionView.indexPathsForSelectedItems?.forEach({ self.collectionView.deselectItem(at: $0, animated: false) })
+        collectionView.layer.sublayers?.forEach { layer in
+            if layer.name == "line" {
+                layer.removeFromSuperlayer()
+            }
+        }
+        self.collectionView.reloadData()
+        let outcomesNum = (Float(self.movesetInProgress.moveArray.count) * 0.5).rounded(.down) * Float(self.movesetInProgress.moveArray.count)
+        self.numberOfOutcomesLabel.text = "\(Int(outcomesNum)) possible outcomes"
+    }
+    
+    //    func randomEmoji() -> String {
+    //        let range = 0x1F300...0x1F3F0
+    //        let index = Int(arc4random_uniform(UInt32(range.count)))
+    //        let ord = range.lowerBound + index
+    //        guard let scalar = UnicodeScalar(ord) else { return "❓" }
+    //        return String(scalar)
+    //    }
+    
+    func enableInteractionWith(button: UIButton) {
+        button.isUserInteractionEnabled = true
+        button.alpha = 1.0
+        button.setTitleColor(.systemBlue, for: .normal)
+    }
+    
+    func disableInteractionWith(button: UIButton) {
+        button.isUserInteractionEnabled = false
+        button.alpha = 0.5
+        button.setTitleColor(.gray, for: .normal)
+    }
+    
+    // MARK: - UICollectionView -
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return movesetInProgress.moveArray.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "circle", for: indexPath) as! CircularCollectionViewCell
+        let emoji = movesetInProgress.moveArray[indexPath.item].moveEmoji
+        cell.circleLabel.text = emoji
+        cell.layer.borderWidth = 1
+        cell.layer.borderColor = UIColor.systemBlue.cgColor
+        cell.layer.cornerRadius = 15.0
+        cell.layer.backgroundColor = UIColor.systemBackground.cgColor
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("didSelectItem: \(indexPath.item)")
+        guard let selectedCell = collectionView.cellForItem(at: indexPath) else {
+            return
+        }
+        
+        collectionView.layer.sublayers?.forEach { layer in
+            if layer.name == "line" {
+                layer.removeFromSuperlayer()
+            }
+        }
+        
+        selectedCell.layer.borderColor = UIColor.systemBlue.cgColor
+        selectedCell.layer.borderWidth = 6
+        let selectedMove = movesetInProgress.moveArray[indexPath.item]
+        moveNameTextField.text = selectedMove.moveName
+        moveEmojiTextField.text = selectedMove.moveEmoji
+        moveNameTextField.isUserInteractionEnabled = true
+        moveEmojiTextField.isUserInteractionEnabled = true
+        
+        let indexes = Array(0..<movesetInProgress.moveArray.count) // [0, 1, 2, 3, 4, 5, 6]
+        
+        var winsAgainstIndexes = [Int]()
+        var losesAgainstIndexes = [Int]()
+        for i in 1...moveArrayCountHalved! {
+            winsAgainstIndexes.append(indexes[wrapping: indexPath.item - i])
+            losesAgainstIndexes.append(indexes[wrapping: indexPath.item + i])
+        }
+        print("losesAgainstIndexes: \(losesAgainstIndexes)") // [4, 5, 6]
+        print("winsAgainstIndexes: \(winsAgainstIndexes)") // [2, 1, 0]
+        
+        losesAgainstIndexes.forEach { index in
+            if let cell = collectionView.cellForItem(at: IndexPath(indexes: [0,index])) {
+                cell.layer.borderColor = UIColor.systemRed.cgColor
+                cell.layer.borderWidth = 3
+                // TODO: draw arrows or other UI element TO selected cell FROM other cells that BEAT selected cell
+                collectionView.drawLineFrom(from: IndexPath(indexes: [0,index]), to: indexPath, color: UIColor.systemRed)
+            }
+        }
+        
+        winsAgainstIndexes.forEach { index in
+            if let cell = collectionView.cellForItem(at: IndexPath(indexes: [0,index])) {
+                cell.layer.borderColor = UIColor.systemGreen.cgColor
+                cell.layer.borderWidth = 3
+                // TODO: draw arrows or other UI element FROM selected cell TO other cells that are BEATEN by selected cell
+                collectionView.drawLineFrom(from: IndexPath(indexes: [0,index]), to: indexPath, color: UIColor.systemGreen)
+            }
+        }
+    }
+    
+    //    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+    //        if let selectedIndexes = self.collectionView.indexPathsForSelectedItems {
+    //            print("didDeselectItem. New index paths currently selected: \(selectedIndexes)")
+    //        }
+    //    }
+    
+    //MARK: - UITextFieldDelegate Methods -
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        self.view.endEditing(true)
+        return false
+    }
+
+}
+
+// MARK: - Extensions -
+//https://stackoverflow.com/questions/45397603/cleanest-way-to-wrap-array-index
+extension Array {
+    subscript (wrapping index: Int) -> Element {
+        return self[(index % self.count + self.count) % self.count]
+    }
+}
+
+//https://stackoverflow.com/questions/39396778/uicollectionview-draw-a-line-between-cells/39397325#39397325
+extension UICollectionView {
+    func drawLineFrom(
+        from: IndexPath,
+        to: IndexPath,
+        lineWidth: CGFloat = 2,
+        color: UIColor = UIColor.systemBlue
+    ) {
+        guard
+            let fromPoint = cellForItem(at: from)?.center,
+            let toPoint = cellForItem(at: to)?.center
+        else {
+            return
+        }
+        
+        let path = UIBezierPath()
+        
+        path.move(to: convert(fromPoint, to: self))
+        path.addLine(to: convert(toPoint, to: self))
+        
+        let layer = CAShapeLayer()
+        
+        layer.path = path.cgPath
+        layer.lineWidth = lineWidth
+        layer.strokeColor = color.cgColor
+        layer.name = "line"
+        layer.zPosition = -500
+        layer.lineDashPattern = [15, 5]
+        self.layer.addSublayer(layer)
+    }
+}
+
+public extension UIView {
+    /// Takes a screenshot of the `UIView`, or a part of it if defined by the `region` parameter.
+    ///
+    /// - Parameter region: The region rect of the `UIView` to screenshot.
+    /// - Returns: Screenshot image of the region, or of the entire `UIView` if `region` is nil.
+    func screenshot(for region: CGRect? = nil) -> UIImage {
+        UIGraphicsBeginImageContextWithOptions(region?.size ?? bounds.size, false, contentScaleFactor)
+        if let region = region {
+            drawHierarchy(in: CGRect(x: -region.origin.x, y: -region.origin.y, width: bounds.size.width, height: bounds.size.height),
+                          afterScreenUpdates: true)
+        } else {
+            drawHierarchy(in: bounds, afterScreenUpdates: true)
+        }
+        let image = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return image
+    }
 }
